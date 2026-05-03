@@ -1,91 +1,34 @@
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+Summer Hangout 🍔🌭
+Saturday · June 22 · 3–10 PM
+6629 Penfield Street · Wake Forest, NC 27587
 
-export default function SummerHangoutRSVP() {
-  const [open, setOpen] = useState(false);
-  const [step, setStep] = useState(1);
-  const [count, setCount] = useState(0);
-  const [selectedNumber, setSelectedNumber] = useState(null);
-  const [bringing, setBringing] = useState(null);
+https://www.google.com/maps/search/?api=1&query=6629+Penfield+Street+Wake+Forest+NC+27587 
+People coming so far:
+0
+🅿️ Parking
+Please do not park at the house.
+Park at the community pool parking area and walk up to the house. 
+The map below shows where to park and the short walk to the house:
+Tap map to open walking directions
 
-  useEffect(() => {
-    const stored = localStorage.getItem("totalComing");
-    if (stored) setCount(parseInt(stored));
-  }, []);
+Scan to RSVP:
+Your name (optional)
+How many people?
 
-  const confirmRSVP = () => {
-    const newTotal = count + selectedNumber;
-    setCount(newTotal);
-    localStorage.setItem("totalComing", newTotal.toString());
-    setOpen(false);
-    setStep(1);
-    setSelectedNumber(null);
-    setBringing(null);
-  };
+<div id="step2" class="hidden">
+  <h3>What are you bringing?</h3>
+  <div class="grid" style="grid-template-columns: repeat(2, 1fr);">
+    <button onclick="toggle('drink')">Drink</button>
+    <button onclick="toggle('side')">Side</button>
+    <button onclick="toggle('dessert')">Dessert</button>
+    <button onclick="toggle('other')">Other</button>
+  </div>
+  <button class="primary" onclick="confirm()">Confirm 🎉</button>
+</div>
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-sky-100 to-emerald-100 p-6">
-      <Card className="max-w-lg w-full shadow-xl rounded-2xl">
-        <CardContent className="p-6 space-y-6 text-center">
-          <h1 className="text-3xl font-bold">Summer Hangout 🍔🌞</h1>
-          <p className="text-lg">People coming so far:</p>
-          <div className="text-5xl font-extrabold text-emerald-600">{count}</div>
-          <Button size="lg" className="text-lg" onClick={() => setOpen(true)}>
-            I’m coming
-          </Button>
-        </CardContent>
-      </Card>
+<div id="step3" class="hidden">
+  <h3>You’re in! ✅</h3>
+  <p id="summary"></p>
+  <button onclick="closeModal()">Close</button>
+</div>
 
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="rounded-2xl">
-          {step === 1 && (
-            <>
-              <DialogHeader>
-                <DialogTitle>About how many people are coming?</DialogTitle>
-              </DialogHeader>
-              <div className="grid grid-cols-5 gap-3 py-4">
-                {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
-                  <Button
-                    key={num}
-                    variant={selectedNumber === num ? "default" : "outline"}
-                    className="h-12"
-                    onClick={() => setSelectedNumber(num)}
-                  >
-                    {num}
-                  </Button>
-                ))}
-              </div>
-              <Button disabled={!selectedNumber} onClick={() => setStep(2)}>
-                Next
-              </Button>
-            </>
-          )}
-
-          {step === 2 && (
-            <>
-              <DialogHeader>
-                <DialogTitle>What are you bringing?</DialogTitle>
-              </DialogHeader>
-              <div className="grid gap-3 py-4">
-                {["Drink", "Side", "Dessert", "Other"].map((item) => (
-                  <Button
-                    key={item}
-                    variant={bringing === item ? "default" : "outline"}
-                    onClick={() => setBringing(item)}
-                  >
-                    I’m bringing a {item.toLowerCase()}
-                  </Button>
-                ))}
-              </div>
-              <Button disabled={!bringing} onClick={confirmRSVP}>
-                Confirm RSVP 🎉
-              </Button>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
-    </div>
-  );
-}
