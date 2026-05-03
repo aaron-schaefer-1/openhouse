@@ -1,34 +1,149 @@
-Summer Hangout 🍔🌭
-Saturday · June 22 · 3–10 PM
-6629 Penfield Street · Wake Forest, NC 27587
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Summer Hangout RSVP</title>
 
-https://www.google.com/maps/search/?api=1&query=6629+Penfield+Street+Wake+Forest+NC+27587 
-People coming so far:
-0
-🅿️ Parking
-Please do not park at the house.
-Park at the community pool parking area and walk up to the house. 
-The map below shows where to park and the short walk to the house:
-Tap map to open walking directions
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(to bottom, #bae6fd, #fef9c3, #bbf7d0);
+    }
 
-Scan to RSVP:
-Your name (optional)
-How many people?
+    .card {
+      background: white;
+      max-width: 480px;
+      width: 100%;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
 
-<div id="step2" class="hidden">
-  <h3>What are you bringing?</h3>
-  <div class="grid" style="grid-template-columns: repeat(2, 1fr);">
-    <button onclick="toggle('drink')">Drink</button>
-    <button onclick="toggle('side')">Side</button>
-    <button onclick="toggle('dessert')">Dessert</button>
-    <button onclick="toggle('other')">Other</button>
-  </div>
-  <button class="primary" onclick="confirm()">Confirm 🎉</button>
+    h1 {
+      margin: 0 0 6px;
+    }
+
+    .subtle {
+      color: #6b7280;
+      font-size: 14px;
+      margin: 2px 0;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin: 12px 0;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      background: white;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    button.primary {
+      background: #10b981;
+      color: white;
+      border: none;
+      font-weight: 600;
+    }
+
+    .counter {
+      font-size: 44px;
+      font-weight: 800;
+      color: #059669;
+      margin: 6px 0;
+    }
+
+    .section {
+      margin-top: 24px;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    .callout {
+      margin-top: 8px;
+      padding: 10px;
+      border-left: 4px solid #f59e0b;
+      background: #fef3c7;
+      border-radius: 8px;
+    }
+
+    .map {
+      margin-top: 12px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .map img {
+      width: 100%;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1>Summer Hangout 🍔🌭</h1>
+
+  <!-- EVENT DETAILS: update date/time/location here -->
+  <p class="subtle">Saturday · June 22 · 3–10 PM</p>
+  <p class="subtle">6629 Penfield Street · Wake Forest, NC 27587</p>
+
+  <div class="row">
+    <a href="https://www.google.com/maps/search/?api=1&query=6629+Penfield+Street+Wake+Forest+NC+27587" target="_blank">
+      <button>📍 Directions</button>
+    </a>
+    <a href="https://weather.com/weather/today/l/Wake+Forest+NC" target="_blank">
+      <button>🌤️ Weather</button>
+    </a>
+  </div>
+
+  <p>People coming so far:</p>
+  <div class="counter" id="total">0</div>
+
+  <button class="primary">I’m coming</button>
+
+  <div class="section">
+    <h3>🅿️ Parking</h3>
+
+    <div class="callout">
+      <strong>Please do not park at the house.</strong><br>
+      Park at the community <strong>pool parking area</strong> and walk up to the house.
+    </div>
+
+    <p class="subtle" style="margin-top:8px;">
+      The map below shows where to park and the short walk to the house:
+    </p>
+
+    <div class="map">
+      <a href="https://maps.app.goo.gl/SZzfBScdbZ4D45WB8" target="_blank">
+        <img
+          src="https://maps.googleapis.com/maps/api/staticmap?size=600x300&markers=color:blue|label:P|35.9657,-78.5064&markers=color:red|label:H|35.9666,-78.5077&path=color:0x10b981ff|weight:5|35.9657,-78.5064|35.9666,-78.5077"
+          alt="Pool parking and walk to house"
+        />
+      </a>
+    </div>
+
+    <p class="subtle" style="text-align:center;">
+      Tap map to open walking directions
+    </p>
+  </div>
 </div>
 
-<div id="step3" class="hidden">
-  <h3>You’re in! ✅</h3>
-  <p id="summary"></p>
-  <button onclick="closeModal()">Close</button>
-</div>
-
+</body>
+</html>
+``
