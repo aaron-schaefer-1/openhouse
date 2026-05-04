@@ -33,22 +33,28 @@
         .container { max-width: 460px; width: 100%; animation: fadeIn 0.8s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* NEW PARKING SECTION */
+        /* PARKING SECTION */
         .parking-hero {
             background: linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, rgba(15, 23, 42, 0.9) 100%);
             border: 2px solid var(--primary); border-radius: 24px; padding: 25px;
             margin-bottom: 20px; text-align: center; position: relative; overflow: hidden;
         }
-        .parking-hero::before {
-            content: 'P'; position: absolute; right: -20px; top: -10px; font-size: 8rem;
-            font-weight: 900; color: rgba(56, 189, 248, 0.05); z-index: 0;
-        }
-        .parking-title { font-weight: 800; font-size: 1.2rem; color: var(--primary); margin-bottom: 8px; position: relative; }
-        .parking-text { font-size: 0.9rem; line-height: 1.5; color: var(--text-main); margin-bottom: 20px; position: relative; }
+        .parking-title { font-weight: 800; font-size: 1.2rem; color: var(--primary); margin-bottom: 8px; }
+        .parking-text { font-size: 0.9rem; line-height: 1.5; color: var(--text-main); margin-bottom: 20px; }
         .walk-tag { 
             display: inline-block; background: rgba(56, 189, 248, 0.2); color: var(--primary);
             padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
         }
+
+        /* HEADER ACTIONS */
+        .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; width: 100%; gap: 10px; }
+        .btn-round {
+            flex: 1; background: var(--card-bg); border: 1px solid var(--border); color: var(--text-dim);
+            padding: 10px; border-radius: 30px; font-size: 0.7rem; font-weight: 700;
+            cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
+            text-align: center;
+        }
+        .btn-round:hover { border-color: var(--primary); color: var(--primary); }
 
         .card { 
             background: var(--card-bg); border: 1px solid var(--border); border-radius: 28px; 
@@ -69,7 +75,7 @@
         .badge { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 6px 12px; border-radius: 8px; font-size: 0.7rem; font-weight: 600; color: var(--text-dim); }
         .badge span { color: var(--primary); }
 
-        .btn { width: 100%; border: none; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: var(--transition); margin-bottom: 10px; display: flex; justify-content: center; align-items: center; gap: 10px; text-decoration: none; }
+        .btn { width: 100%; border: none; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: var(--transition); margin-bottom: 10px; display: flex; justify-content: center; align-items: center; gap: 10px; text-decoration: none; text-align: center; }
         .btn-main { background: var(--text-main); color: var(--bg); }
         .btn-outline { background: transparent; color: var(--text-main); border: 1px solid var(--border); }
         .btn-park { background: var(--primary); color: var(--bg); margin-top: 10px; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); }
@@ -79,10 +85,12 @@
         /* Modals */
         .modal { display: none; position: fixed; inset: 0; background: rgba(2, 6, 23, 0.95); backdrop-filter: blur(10px); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
         .modal-content { background: #0f172a; border: 1px solid var(--border); border-radius: 24px; padding: 30px; max-width: 400px; width: 100%; position: relative; }
-        .section-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: var(--primary); letter-spacing: 2px; margin-bottom: 10px; display: block; }
+        .section-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: var(--primary); letter-spacing: 2px; margin-bottom: 15px; display: block; }
         .close-modal { position: absolute; top: 15px; right: 15px; background: transparent; border: none; color: var(--text-dim); cursor: pointer; font-size: 1.2rem; }
 
-        /* RSVP Grids */
+        .qr-container { background: white; padding: 10px; border-radius: 12px; display: inline-block; margin: 15px 0; }
+        .share-link-box { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 12px; border-radius: 10px; font-family: monospace; font-size: 0.75rem; word-break: break-all; cursor: pointer; }
+
         .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 20px 0; }
         .g-btn { aspect-ratio: 1; border-radius: 10px; border: 1px solid var(--border); background: rgba(255,255,255,0.03); color: var(--text-main); font-weight: 700; cursor: pointer; }
         .g-btn.active { background: var(--primary); border-color: var(--primary); color: var(--bg); }
@@ -98,7 +106,7 @@
 
     <div class="container">
         
-        <!-- COOL PARKING SECTION -->
+        <!-- PARKING HERO -->
         <div class="parking-hero">
             <div class="parking-title">PARKING & ARRIVAL</div>
             <div class="parking-text">
@@ -107,6 +115,11 @@
             </div>
             <div class="walk-tag">🚶 2 Minute Walk to 6629 Penfield</div>
             <a href="https://maps.app.goo.gl/4hbNhkQDsiBBpEqn9" target="_blank" class="btn btn-park">Navigate to Parking Lot</a>
+        </div>
+
+        <div class="header-actions">
+            <button class="btn-round" onclick="openModal('contactModal')">Contact Hosts</button>
+            <button class="btn-round" onclick="openShareModal()">Share Invite</button>
         </div>
 
         <div class="card">
@@ -136,32 +149,34 @@
     </div>
 
     <!-- Modals -->
+    <div id="contactModal" class="modal"><div class="modal-content">
+        <button class="close-modal" onclick="closeModal('contactModal')">✕</button>
+        <span class="section-label">Hosts</span>
+        <div style="margin-bottom:20px;">
+            <p style="margin: 0; font-weight: 700;">Aaron Schaefer</p>
+            <a href="tel:8658502173" style="color: var(--primary); text-decoration: none;">865-850-2173</a>
+        </div>
+        <div>
+            <p style="margin: 0; font-weight: 700;">Candice Schaefer</p>
+            <a href="tel:9195454378" style="color: var(--primary); text-decoration: none;">919-545-4378</a>
+        </div>
+    </div></div>
+
+    <div id="shareModal" class="modal"><div class="modal-content" style="text-align: center;">
+        <button class="close-modal" onclick="closeModal('shareModal')">✕</button>
+        <span class="section-label">Invite Others</span>
+        <div class="qr-container"><img id="qr-img" src="" style="display: block; width: 150px; height: 150px;"></div>
+        <div class="share-link-box" id="share-url-text" onclick="copyLink()">Tap to Copy Link</div>
+    </div></div>
+
     <div id="aboutModal" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('aboutModal')">✕</button>
         <span class="section-label">A Note From Us</span>
-        <p style="color: var(--text-dim); line-height: 1.6; font-size: 0.95rem;">
-            We just want to provide a low-pressure opportunity for everyone to hang out and get to know each other!
-        </p>
         <p style="color: var(--text-dim); line-height: 1.6; font-size: 0.95rem;">
             No set agenda—come and go as you desire. We’ll start right after the second service lets out (around <strong>12:15 p.m.</strong>) and we're open until 6:00 p.m.
         </p>
     </div></div>
 
-    <div id="kidsModal" class="modal"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('kidsModal')">✕</button>
-        <span class="section-label">Families</span>
-        <p style="color: var(--text-dim); line-height: 1.6;">The pool is open and the hot tub is kept at a kid-safe warm temp!</p>
-        <p style="color: var(--text-dim); line-height: 1.6;"><strong>Movie Room:</strong> We'll have kid-friendly movies playing on loop upstairs.</p>
-        <p style="font-size: 0.8rem; color: var(--primary); font-weight: 700;">Don't worry about breakage—everything is fixable!</p>
-    </div></div>
-
-    <div id="lunchModal" class="modal"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('lunchModal')">✕</button>
-        <span class="section-label">The Menu</span>
-        <p style="color: var(--text-dim); line-height: 1.6;">We're grilling <strong>burgers and hot dogs.</strong> You are more than welcome to contribute sides or desserts!</p>
-    </div></div>
-
-    <!-- RSVP Handling -->
     <div id="rsvpModal" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('rsvpModal')">✕</button>
         <span class="section-label">How many in your party?</span>
@@ -171,7 +186,6 @@
         <button class="btn btn-main" onclick="submitRSVP()">Confirm</button>
     </div></div>
 
-    <!-- Firebase Logic -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
@@ -189,6 +203,19 @@
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         
+        function openShareModal() {
+            const url = window.location.href;
+            document.getElementById('share-url-text').innerText = url;
+            document.getElementById('qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(url)}`;
+            openModal('shareModal');
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                showToast("Link Copied! ✓");
+            });
+        }
+
         function showToast(msg) {
             const t = document.getElementById("toast");
             t.innerText = msg; t.className = "show";
