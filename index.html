@@ -280,6 +280,64 @@
         }
 
         .item-tally { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; justify-content: center; }
+
+        .food-note {
+            text-align: center;
+            font-size: 0.88rem;
+            color: var(--text-main);
+            margin: 4px 0 14px 0;
+            line-height: 1.5;
+        }
+        .food-note strong {
+            color: var(--text-main);
+            font-weight: 700;
+        }
+        .food-note-sub {
+            display: block;
+            color: var(--text-dim);
+            font-size: 0.82rem;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        .btn-change {
+            background: rgba(248, 191, 84, 0.08);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.35);
+            backdrop-filter: blur(10px);
+            margin-top: 6px;
+        }
+        .btn-change:hover {
+            border-color: #fbbf24;
+            background: rgba(251, 191, 36, 0.12);
+            color: #fde68a;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px -8px rgba(251, 191, 36, 0.4);
+        }
+
+        .step-banner {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.12) 0%, rgba(167, 139, 250, 0.08) 100%);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin: 12px 0 18px 0;
+        }
+        .step-banner-title {
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .step-banner-prompt {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.4;
+            margin: 0;
+        }
         .badge {
             background: rgba(255,255,255,0.04);
             border: 1px solid var(--border);
@@ -630,7 +688,7 @@
             <div class="parking-text">
                 Please park at the neighborhood parking lot by the neighborhood pool. It is a very short walk to our home from there.
             </div>
-            <div class="walk-tag">🚶 Short Walk to 6629 Penfield</div>
+            <div class="walk-tag">🚶 Short walk to our home at 6629 Penfield Street</div>
             <a href="https://maps.app.goo.gl/4hbNhkQDsiBBpEqn9" target="_blank" class="btn btn-park">Navigate to Parking Lot</a>
         </div>
 
@@ -644,6 +702,11 @@
             <div class="stat-box">
                 <span class="section-label" style="margin:0">Attending</span>
                 <span class="count-big" id="live-count">0</span>
+            </div>
+
+            <div class="food-note">
+                <strong>We're providing burgers and hot dogs.</strong>
+                <span class="food-note-sub" id="food-note-sub">People are also bringing:</span>
             </div>
 
             <div class="item-tally" id="tally-container">
@@ -662,7 +725,7 @@
             <button class="btn btn-outline" onclick="openModal('friendsModal')">Can I bring friends?</button>
             <button class="btn btn-outline" onclick="openModal('kidsModal')">Kids & Pool Info</button>
 
-            <button class="btn-text" onclick="openCancelModal()">Change or Cancel RSVP</button>
+            <button class="btn btn-change" onclick="openCancelModal()">✏️ Change or Cancel My RSVP</button>
         </div>
     </div>
 
@@ -683,7 +746,7 @@
         <button class="close-modal" onclick="closeModal('shareModal')">✕</button>
         <span class="section-label">Invite Others</span>
         <div class="qr-container"><img id="qr-img" src="" alt="QR code" style="display: block; width: 150px; height: 150px;"></div>
-        <div class="share-link-box" id="share-url-text" onclick="copyLink()">Tap to Copy Link</div>
+        <div class="share-link-box" id="share-url-text" onclick="copyLink()">📋 Copy Invite Link</div>
     </div></div>
 
     <div id="aboutModal" class="modal"><div class="modal-content">
@@ -740,7 +803,7 @@
         <span class="section-label">Kids & Pool</span>
         <ul class="info-list">
             <li>Kids of all ages are <strong>extremely welcome</strong></li>
-            <li>The <strong>movie room</strong> will be open all afternoon</li>
+            <li>The <strong>movie room</strong> will be open all afternoon playing kid-friendly movies</li>
             <li>Pool is open - <strong>parents please supervise</strong> your own children at all times</li>
             <li>The <strong>hot tub will be warm (not hot!)</strong> so cold kids can keep enjoying the water</li>
             <li>Bring <strong>swimsuits, towels, and sunscreen</strong></li>
@@ -759,14 +822,20 @@
 
         <div id="cancel-step-1">
             <span class="section-label">Change or Cancel · Step 1 of 2</span>
-            <p class="modal-step-label">How many people did you originally RSVP for?</p>
+            <div class="step-banner">
+                <span class="step-banner-title">Step 1 of 2</span>
+                <p class="step-banner-prompt">How many people did you originally RSVP for?</p>
+            </div>
             <div class="grid" id="cancel-original-grid"></div>
-            <button class="btn btn-main" onclick="goToCancelStep2()">Next</button>
+            <button class="btn btn-main" onclick="goToCancelStep2()">Next →</button>
         </div>
 
         <div id="cancel-step-2" style="display: none;">
             <span class="section-label">Change or Cancel · Step 2 of 2</span>
-            <p class="modal-step-label">How many are coming now?</p>
+            <div class="step-banner">
+                <span class="step-banner-title">Step 2 of 2</span>
+                <p class="step-banner-prompt">How many are coming now? (Pick 0 to cancel)</p>
+            </div>
             <div class="grid" id="cancel-new-grid"></div>
             <button class="btn btn-main" onclick="submitChange()">Update RSVP</button>
         </div>
@@ -856,7 +925,6 @@
 
         function openShareModal() {
             const url = window.location.href;
-            document.getElementById('share-url-text').innerText = url;
             document.getElementById('qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(url)}`;
             openModal('shareModal');
         }
@@ -918,6 +986,16 @@
                 <div class="badge">Drinks <span>${items.drinks || 0}</span></div>
                 <div class="badge">Other <span>${items.other || 0}</span></div>
             `;
+
+            // Update the food note sub-text based on what's being brought
+            const totalItems = (items.chips || 0) + (items.sides || 0) + (items.snacks || 0)
+                + (items.desserts || 0) + (items.drinks || 0) + (items.other || 0);
+            const subEl = document.getElementById('food-note-sub');
+            if (totalItems === 0) {
+                subEl.innerText = "No one's signed up to bring anything yet.";
+            } else {
+                subEl.innerText = "People are also bringing:";
+            }
         });
 
         // Multi-select item picker - toggle, don't replace
