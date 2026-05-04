@@ -994,7 +994,7 @@
         }
 
         const eventDescription = "Come on over! No agenda, come and go as you please. Burgers and hot dogs provided. Pool, hot tub, and movie room are open. Park at the neighborhood pool lot - short walk to 6629 Penfield Street.";
-        const eventLocation = "6629 Penfield Street";
+        const eventLocation = "6629 Penfield Street, Wake Forest, NC 27587";
 
         function addToGoogleCal() {
             tap();
@@ -1033,9 +1033,9 @@
         }
 
         // ---------- Weather forecast (Open-Meteo, no API key needed) ----------
-        // Penfield Street, Cary NC area approx: 35.79, -78.78
-        const LAT = 35.79;
-        const LON = -78.78;
+        // Wake Forest, NC
+        const LAT = 35.98;
+        const LON = -78.51;
         function loadWeather() {
             const today = new Date();
             today.setHours(0, 0, 0, 0);
