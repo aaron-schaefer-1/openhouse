@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Summer Hangout | RSVP</title>
+    <title>Summer Hangout | The Details</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
@@ -13,204 +13,188 @@
             --accent: #00f2ff;
             --deep-blue: #0f172a;
             --slate: #475569;
-            --silver: #e2e8f0;
-            --glass: rgba(255, 255, 255, 0.08);
-            --card-bg: rgba(255, 255, 255, 0.95);
+            --silver: #cbd5e1;
+            --glass: rgba(255, 255, 255, 0.95);
         }
 
-        * {
-            box-sizing: border-box;
-            -webkit-font-smoothing: antialiased;
-        }
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
         body {
             margin: 0;
-            padding: 20px;
+            padding: 40px 20px;
             min-height: 100vh;
             font-family: 'Plus Jakarta Sans', sans-serif;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
             background: radial-gradient(circle at top right, #1e293b, #0f172a);
-            overflow-x: hidden;
+            color: white;
         }
 
-        /* Animated Tropical Background Elements */
+        /* Animated Tropical Background */
         .bg-decor {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
         }
-
         .floating {
-            position: absolute;
-            font-size: 3rem;
-            filter: drop-shadow(0 0 10px rgba(0,242,255,0.2));
-            animation: float 15s infinite ease-in-out;
-            opacity: 0.3;
+            position: absolute; font-size: 3rem;
+            animation: float 15s infinite ease-in-out; opacity: 0.2;
         }
-
         @keyframes float {
             0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(30px, -50px) rotate(10deg); }
-            66% { transform: translate(-20px, 20px) rotate(-10deg); }
+            50% { transform: translate(20px, -40px) rotate(10deg); }
         }
 
-        /* Modern RSVP Card */
+        .container { max-width: 500px; width: 100%; }
+
         .card {
-            background: var(--card-bg);
-            max-width: 450px;
-            width: 100%;
+            background: var(--glass);
             border-radius: 32px;
-            padding: 40px;
+            padding: 35px;
             box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Modern Accents */
-        .card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 8px;
-            background: linear-gradient(90deg, var(--accent), #0077be);
-        }
-
-        h1 {
             color: var(--deep-blue);
-            font-size: 2.2rem;
-            font-weight: 800;
-            margin: 0 0 10px 0;
-            letter-spacing: -1px;
+            margin-bottom: 24px;
         }
 
-        p {
-            color: var(--slate);
-            font-size: 1rem;
-            margin-bottom: 30px;
-            font-weight: 500;
+        /* Parking Section Styling */
+        .parking-box {
+            background: #f1f5f9;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 6px solid var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        .form-group {
-            text-align: left;
-            margin-bottom: 20px;
-        }
+        .parking-icon { font-size: 2rem; }
 
-        label {
-            display: block;
-            font-size: 0.75rem;
-            font-weight: 800;
-            color: var(--deep-blue);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 8px;
-            padding-left: 4px;
-        }
-
-        input, select {
+        /* Kids Section */
+        .kids-toggle {
             width: 100%;
-            padding: 16px 20px;
-            border-radius: 16px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             border: 2px solid var(--silver);
-            background: #f8fafc;
-            font-size: 1rem;
-            font-family: inherit;
-            color: var(--deep-blue);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .kids-toggle:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+        .kids-content {
+            display: none;
+            padding: 20px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 0 0 20px 20px;
+            margin-top: -10px;
+            border: 2px solid var(--silver);
+            border-top: none;
+            animation: slideDown 0.4s ease-out forwards;
         }
 
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--accent);
-            background: #ffffff;
-            box-shadow: 0 0 0 4px rgba(0, 242, 255, 0.15);
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        button {
+        /* Forms & Buttons */
+        h1 { font-weight: 800; letter-spacing: -1.5px; margin: 0; font-size: 2.2rem; }
+        h3 { margin: 0; font-size: 1.1rem; color: var(--deep-blue); }
+        .label-text { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--slate); letter-spacing: 1px; }
+
+        .btn-main {
             width: 100%;
             padding: 18px;
-            margin-top: 10px;
-            border: none;
-            border-radius: 18px;
             background: var(--deep-blue);
             color: white;
-            font-size: 1.1rem;
+            border: none;
+            border-radius: 18px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.2);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: 0.3s;
         }
+        .btn-main:hover { background: #1e293b; transform: scale(1.02); }
 
-        button:hover {
-            background: #1e293b;
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(0, 242, 255, 0.2);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        .tropical-footer {
-            margin-top: 30px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            font-size: 1.2rem;
-            filter: grayscale(0.2);
+        input {
+            width: 100%; padding: 14px; border-radius: 12px; border: 2px solid var(--silver); margin: 8px 0 20px;
         }
     </style>
 </head>
 <body>
 
     <div class="bg-decor">
-        <div class="floating" style="top: 15%; left: 10%; animation-delay: 0s;">🐬</div>
-        <div class="floating" style="top: 70%; left: 80%; animation-delay: -5s;">🌴</div>
-        <div class="floating" style="top: 20%; left: 75%; animation-delay: -2s;">🌊</div>
-        <div class="floating" style="top: 80%; left: 15%; animation-delay: -8s;">🥥</div>
+        <div class="floating" style="top: 10%; left: 5%;">🐬</div>
+        <div class="floating" style="top: 60%; left: 85%;">🌴</div>
+        <div class="floating" style="top: 20%; left: 80%;">🌊</div>
     </div>
 
-    <div class="card">
-        <h1>Summer RSVP</h1>
-        <p>Silver sands, modern beats, and great company. You coming?</p>
-        
-        <form action="#">
-            <div class="form-group">
-                <label>Guest Name</label>
-                <input type="text" placeholder="Your name" required>
+    <div class="container">
+        <!-- Main RSVP Card -->
+        <div class="card">
+            <h1>Summer RSVP</h1>
+            <p style="color: var(--slate); margin-bottom: 25px;">Modern vibes & backyard poolside hangs.</p>
+            
+            <!-- Parking Logic Block -->
+            <div class="parking-box">
+                <div class="parking-icon">🅿️</div>
+                <div>
+                    <h3 style="margin-bottom: 4px;">Parking Made Easy</h3>
+                    <p style="margin: 0; font-size: 0.9rem; color: var(--slate);">Please park at the <strong>community pool</strong>. It's a quick, scenic 2-minute walk to our front door!</p>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label>Status</label>
-                <select>
-                    <option>Definitely there</option>
-                    <option>On the fence</option>
-                    <option>Catch you next time</option>
-                </select>
+            <form>
+                <span class="label-text">Guest Name</span>
+                <input type="text" placeholder="Enter your name" required>
+                
+                <button class="btn-main" type="submit">Confirm Attendance</button>
+            </form>
+        </div>
+
+        <!-- Kids Activities Section -->
+        <div style="margin-bottom: 40px;">
+            <button class="kids-toggle" onclick="toggleKids()">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 1.5rem;">🧸</span>
+                    <span style="font-weight: 700; color: var(--deep-blue);">Kids Activities & Info</span>
+                </div>
+                <span id="arrow" style="transition: 0.3s;">▼</span>
+            </button>
+            <div id="kidsContent" class="kids-content">
+                <p style="color: var(--slate); font-size: 0.95rem; line-height: 1.6;">
+                    <strong>Parents, relax!</strong> All kids are welcome. We have two very active young kids of our own, so your little ones will be in great company.
+                </p>
+                <ul style="padding-left: 20px; color: var(--slate); font-size: 0.9rem;">
+                    <li>📺 <strong>Movie Room:</strong> Fully stocked for a cinema escape.</li>
+                    <li>🏊 <strong>Backyard Pool:</strong> Perfect for a splash (supervised).</li>
+                    <li>🌳 <strong>Nearby Park:</strong> Just steps away for running wild.</li>
+                </ul>
             </div>
-
-            <div class="form-group">
-                <label>Plus Ones</label>
-                <input type="number" min="0" value="0">
-            </div>
-
-            <button type="submit">Confirm Attendance</button>
-        </form>
-
-        <div class="tropical-footer">
-            <span>🌴</span>
-            <span>🐬</span>
-            <span>✨</span>
         </div>
     </div>
+
+    <script>
+        function toggleKids() {
+            const content = document.getElementById('kidsContent');
+            const arrow = document.getElementById('arrow');
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                content.style.display = 'block';
+                arrow.style.transform = 'rotate(180deg)';
+            }
+        }
+    </script>
 
 </body>
 </html>
