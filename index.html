@@ -6,154 +6,622 @@
     <title>Schaefer Open House</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --bg: #020617;
-            --card-bg: rgba(15, 23, 42, 0.85);
+            --bg-deep: #000308;
+            --card-bg: rgba(15, 23, 42, 0.7);
+            --card-bg-solid: #0f172a;
             --border: rgba(148, 163, 184, 0.15);
+            --border-bright: rgba(148, 163, 184, 0.3);
             --primary: #38bdf8;
-            --accent: #94a3b8;
+            --primary-glow: rgba(56, 189, 248, 0.5);
+            --secondary: #a78bfa;
+            --accent: #f472b6;
             --text-main: #f1f5f9;
             --text-dim: #94a3b8;
             --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+        html, body { overflow-x: hidden; }
 
         body {
             margin: 0; padding: 20px; min-height: 100vh;
             font-family: 'Plus Jakarta Sans', sans-serif;
             display: flex; flex-direction: column; align-items: center;
-            background: radial-gradient(circle at 0% 0%, #1e293b 0%, #020617 100%);
+            background: var(--bg-deep);
             color: var(--text-main);
+            position: relative;
         }
 
-        .container { max-width: 460px; width: 100%; animation: fadeIn 0.8s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Animated aurora background */
+        .aurora-bg {
+            position: fixed; inset: 0; z-index: -2;
+            background: var(--bg-deep);
+            overflow: hidden;
+        }
+        .aurora-bg::before, .aurora-bg::after {
+            content: ''; position: absolute;
+            width: 80vw; height: 80vw;
+            border-radius: 50%;
+            filter: blur(100px); opacity: 0.4;
+        }
+        .aurora-bg::before {
+            background: radial-gradient(circle, var(--primary) 0%, transparent 60%);
+            top: -30%; left: -20%;
+            animation: drift1 22s ease-in-out infinite;
+        }
+        .aurora-bg::after {
+            background: radial-gradient(circle, var(--secondary) 0%, transparent 60%);
+            bottom: -30%; right: -20%;
+            animation: drift2 28s ease-in-out infinite;
+        }
+        .aurora-accent {
+            position: fixed; z-index: -1;
+            width: 50vw; height: 50vw;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            border-radius: 50%; filter: blur(120px); opacity: 0.15;
+            top: 30%; left: 25%;
+            animation: drift3 35s ease-in-out infinite;
+        }
+        @keyframes drift1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(15vw, 10vh) scale(1.1); }
+        }
+        @keyframes drift2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-15vw, -10vh) scale(1.15); }
+        }
+        @keyframes drift3 {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(10vw, -10vh); }
+            66% { transform: translate(-10vw, 5vh); }
+        }
+
+        /* Subtle grain overlay */
+        body::after {
+            content: ''; position: fixed; inset: 0;
+            pointer-events: none; z-index: 100;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+            opacity: 0.04;
+            mix-blend-mode: overlay;
+        }
+
+        .container {
+            max-width: 460px; width: 100%;
+            animation: heroEnter 1s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative; z-index: 1;
+        }
+        @keyframes heroEnter {
+            from { opacity: 0; transform: translateY(30px); filter: blur(8px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
 
         .hero-title-block {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+            position: relative;
         }
         .hero-title-block h1 {
-            font-weight: 800; letter-spacing: -1.5px; margin: 0;
-            font-size: 2.6rem; line-height: 1.05;
+            font-family: 'Fraunces', serif;
+            font-weight: 600; letter-spacing: -2px; margin: 0;
+            font-size: 2.8rem; line-height: 1.0;
+            background: linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 50%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
         }
+        .hero-title-block h1::after {
+            content: '';
+            position: absolute;
+            left: 50%; bottom: -8px; transform: translateX(-50%);
+            width: 60px; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        }
+
         .next-date-box {
             display: inline-block;
-            margin-top: 14px;
-            background: rgba(56, 189, 248, 0.08);
+            margin-top: 22px;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.12) 0%, rgba(167, 139, 250, 0.08) 100%);
             border: 1px solid rgba(56, 189, 248, 0.3);
-            border-radius: 14px;
-            padding: 12px 20px;
+            border-radius: 18px;
+            padding: 14px 24px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+        }
+        .next-date-box::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%);
+            transform: translateX(-100%);
+            animation: shimmer 4s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
         }
         .next-date-label {
             font-size: 0.65rem; font-weight: 800; text-transform: uppercase;
-            color: var(--primary); letter-spacing: 2px; display: block; margin-bottom: 4px;
+            color: var(--primary); letter-spacing: 2.5px; display: block; margin-bottom: 4px;
+            position: relative;
         }
         .next-date-value {
             font-weight: 700; font-size: 1.05rem; color: var(--text-main);
+            position: relative;
+        }
+        .next-date-time {
+            font-weight: 500; font-size: 0.85rem; color: var(--text-dim);
+            display: block; margin-top: 4px;
+            position: relative;
+        }
+
+        /* Glass morphism cards */
+        .glass {
+            background: var(--card-bg);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
         }
 
         .parking-hero {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, rgba(15, 23, 42, 0.9) 100%);
-            border: 2px solid var(--primary); border-radius: 24px; padding: 25px;
-            margin-bottom: 20px; text-align: center; position: relative; overflow: hidden;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.12) 0%, rgba(15, 23, 42, 0.6) 100%);
+            backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            border-radius: 24px; padding: 26px;
+            margin-bottom: 20px; text-align: center;
+            position: relative; overflow: hidden;
+            box-shadow: 0 20px 60px -20px rgba(56, 189, 248, 0.3);
         }
-        .parking-title { font-weight: 800; font-size: 1.2rem; color: var(--primary); margin-bottom: 8px; }
-        .parking-text { font-size: 0.9rem; line-height: 1.5; color: var(--text-main); margin-bottom: 20px; }
+        .parking-hero::before {
+            content: '';
+            position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(135deg, transparent, var(--primary), transparent);
+            opacity: 0; border-radius: 24px;
+            transition: opacity 0.4s;
+            z-index: -1;
+        }
+        .parking-title {
+            font-weight: 800; font-size: 1.15rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+        .parking-text { font-size: 0.92rem; line-height: 1.55; color: var(--text-main); margin-bottom: 20px; }
         .walk-tag {
-            display: inline-block; background: rgba(56, 189, 248, 0.2); color: var(--primary);
-            padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: var(--primary);
+            padding: 5px 14px; border-radius: 20px;
+            font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; width: 100%; gap: 10px; }
+        .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; width: 100%; gap: 10px; }
         .btn-round {
-            flex: 1; background: var(--card-bg); border: 1px solid var(--border); color: var(--text-dim);
-            padding: 10px; border-radius: 30px; font-size: 0.7rem; font-weight: 700;
-            cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
+            flex: 1;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border); color: var(--text-dim);
+            padding: 11px; border-radius: 30px; font-size: 0.7rem; font-weight: 700;
+            cursor: pointer; transition: var(--transition);
+            text-transform: uppercase; letter-spacing: 1.2px;
             text-align: center;
+            font-family: inherit;
+            position: relative; overflow: hidden;
         }
-        .btn-round:hover { border-color: var(--primary); color: var(--primary); }
+        .btn-round::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .btn-round:hover {
+            border-color: var(--primary);
+            color: var(--text-main);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -8px var(--primary-glow);
+        }
+        .btn-round:hover::before { opacity: 0.15; }
+        .btn-round span { position: relative; z-index: 1; }
 
         .card {
-            background: var(--card-bg); border: 1px solid var(--border); border-radius: 28px;
-            padding: 35px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+            background: var(--card-bg);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 32px;
+            box-shadow:
+                0 25px 50px -12px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            position: relative;
         }
 
         .stat-box {
-            background: rgba(255,255,255,0.03); border: 1px solid var(--border);
-            border-radius: 16px; padding: 15px 20px; margin-bottom: 12px;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.06) 0%, rgba(167, 139, 250, 0.04) 100%);
+            border: 1px solid var(--border);
+            border-radius: 18px; padding: 18px 22px; margin-bottom: 14px;
             display: flex; justify-content: space-between; align-items: center;
+            position: relative; overflow: hidden;
         }
-        .count-big { font-size: 2rem; font-weight: 800; color: var(--primary); }
+        .stat-box::before {
+            content: '';
+            position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+        }
+        .count-big {
+            font-family: 'Fraunces', serif;
+            font-size: 2.4rem; font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+            transition: transform 0.5s var(--bounce);
+        }
+        .count-big.pulse {
+            animation: countPulse 0.6s var(--bounce);
+        }
+        @keyframes countPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.25); }
+            100% { transform: scale(1); }
+        }
 
-        .item-tally { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 25px; justify-content: center; }
-        .badge { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 6px 12px; border-radius: 8px; font-size: 0.7rem; font-weight: 600; color: var(--text-dim); }
-        .badge span { color: var(--primary); }
+        .item-tally { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; justify-content: center; }
+        .badge {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            padding: 7px 13px; border-radius: 10px;
+            font-size: 0.72rem; font-weight: 600; color: var(--text-dim);
+            transition: all 0.3s;
+        }
+        .badge:hover {
+            border-color: var(--primary);
+            color: var(--text-main);
+            transform: translateY(-1px);
+        }
+        .badge span {
+            color: var(--primary);
+            font-weight: 800;
+            margin-left: 3px;
+        }
 
-        .btn { width: 100%; border: none; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: var(--transition); margin-bottom: 10px; display: flex; justify-content: center; align-items: center; gap: 10px; text-decoration: none; text-align: center; font-family: inherit; }
-        .btn-main { background: var(--text-main); color: var(--bg); }
-        .btn-outline { background: transparent; color: var(--text-main); border: 1px solid var(--border); }
-        .btn-outline:hover { border-color: var(--primary); }
-        .btn-park { background: var(--primary); color: var(--bg); margin-top: 10px; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); }
-        .btn-danger { background: transparent; color: #f87171; border: 1px solid rgba(248, 113, 113, 0.3); }
-        .btn-danger:hover { background: rgba(248, 113, 113, 0.1); border-color: #f87171; }
+        .btn {
+            width: 100%; border: none; padding: 16px;
+            border-radius: 14px; font-weight: 700; font-size: 0.95rem;
+            cursor: pointer; transition: var(--transition);
+            margin-bottom: 10px;
+            display: flex; justify-content: center; align-items: center;
+            gap: 10px; text-decoration: none; text-align: center;
+            font-family: inherit;
+            position: relative; overflow: hidden;
+        }
+        .btn-main {
+            background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+            color: var(--bg);
+            box-shadow: 0 8px 24px -8px rgba(255, 255, 255, 0.3);
+        }
+        .btn-main:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 32px -10px rgba(255, 255, 255, 0.4);
+        }
+        .btn-outline {
+            background: rgba(255,255,255,0.02);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+        }
+        .btn-outline:hover {
+            border-color: var(--primary);
+            background: rgba(56, 189, 248, 0.06);
+            transform: translateY(-1px);
+        }
+        .btn-park {
+            background: linear-gradient(135deg, var(--primary) 0%, #0ea5e9 100%);
+            color: var(--bg);
+            margin-top: 10px;
+            box-shadow: 0 8px 24px -6px var(--primary-glow);
+        }
+        .btn-park:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 32px -8px var(--primary-glow);
+        }
+        .btn::after {
+            content: '';
+            position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s;
+        }
+        .btn:hover::after { left: 100%; }
 
-        .btn-text { background: transparent; color: var(--text-dim); border: none; font-size: 0.8rem; font-weight: 600; cursor: pointer; padding: 15px; width: 100%; }
+        .btn-text {
+            background: transparent;
+            color: var(--text-dim);
+            border: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 15px;
+            width: 100%;
+            font-family: inherit;
+            transition: color 0.3s;
+        }
+        .btn-text:hover { color: var(--primary); }
 
-        .modal { display: none; position: fixed; inset: 0; background: rgba(2, 6, 23, 0.95); backdrop-filter: blur(10px); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
-        .modal-content { background: #0f172a; border: 1px solid var(--border); border-radius: 24px; padding: 30px; max-width: 400px; width: 100%; position: relative; max-height: 90vh; overflow-y: auto; }
-        .section-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: var(--primary); letter-spacing: 2px; margin-bottom: 15px; display: block; }
+        /* Modals with smooth entrance */
+        .modal {
+            display: none;
+            position: fixed; inset: 0;
+            background: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            z-index: 100;
+            align-items: center; justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .modal.show {
+            display: flex;
+            animation: modalFade 0.3s forwards;
+        }
+        @keyframes modalFade {
+            to { opacity: 1; }
+        }
+        .modal-content {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(2, 6, 23, 0.95) 100%);
+            backdrop-filter: blur(40px) saturate(180%);
+            border: 1px solid var(--border-bright);
+            border-radius: 24px;
+            padding: 32px; max-width: 420px; width: 100%;
+            position: relative; max-height: 90vh; overflow-y: auto;
+            box-shadow:
+                0 40px 80px -20px rgba(0, 0, 0, 0.8),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transform: scale(0.92) translateY(20px);
+            opacity: 0;
+            animation: modalIn 0.4s var(--bounce) forwards;
+        }
+        @keyframes modalIn {
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        .section-label {
+            font-size: 0.7rem; font-weight: 800;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+            margin-bottom: 16px; display: block;
+        }
         .modal-step-label { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 4px; }
-        .close-modal { position: absolute; top: 15px; right: 15px; background: transparent; border: none; color: var(--text-dim); cursor: pointer; font-size: 1.2rem; }
-
-        .qr-container { background: white; padding: 10px; border-radius: 12px; display: inline-block; margin: 15px 0; }
-        .share-link-box { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 12px; border-radius: 10px; font-family: monospace; font-size: 0.75rem; word-break: break-all; cursor: pointer; }
-
-        .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 20px 0; }
-        .g-btn { aspect-ratio: 1; border-radius: 10px; border: 1px solid var(--border); background: rgba(255,255,255,0.03); color: var(--text-main); font-weight: 700; cursor: pointer; transition: 0.2s; font-family: inherit; font-size: 0.95rem; }
-        .g-btn:hover { border-color: var(--primary); }
-        .g-btn.active { background: var(--primary); border-color: var(--primary); color: var(--bg); }
-
-        .item-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
-        .item-btn {
-            padding: 16px; border-radius: 12px; border: 1px solid var(--border);
-            background: rgba(255,255,255,0.03); color: var(--text-main); font-weight: 600;
-            cursor: pointer; transition: 0.2s; font-family: inherit; font-size: 0.9rem;
+        .close-modal {
+            position: absolute; top: 14px; right: 14px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            cursor: pointer; font-size: 1rem;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s;
         }
-        .item-btn:hover { border-color: var(--primary); }
-        .item-btn.active { background: var(--primary); border-color: var(--primary); color: var(--bg); }
+        .close-modal:hover {
+            background: rgba(255,255,255,0.1);
+            color: var(--text-main);
+            transform: rotate(90deg);
+        }
 
-        .info-list { list-style: none; padding: 0; margin: 15px 0; color: var(--text-dim); line-height: 1.7; font-size: 0.95rem; }
-        .info-list li { padding: 8px 0; border-bottom: 1px solid var(--border); }
+        .qr-container {
+            background: white;
+            padding: 12px;
+            border-radius: 14px;
+            display: inline-block;
+            margin: 15px 0;
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 12px 30px -8px rgba(56, 189, 248, 0.4);
+        }
+        .share-link-box {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            padding: 13px;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 0.75rem;
+            word-break: break-all;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .share-link-box:hover {
+            border-color: var(--primary);
+            background: rgba(56, 189, 248, 0.05);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin: 20px 0;
+        }
+        .g-btn {
+            aspect-ratio: 1;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.03);
+            color: var(--text-main);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s var(--bounce);
+            font-family: inherit;
+            font-size: 0.95rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .g-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px) scale(1.05);
+            background: rgba(56, 189, 248, 0.08);
+        }
+        .g-btn.active {
+            background: linear-gradient(135deg, var(--primary), #0ea5e9);
+            border-color: var(--primary);
+            color: var(--bg);
+            transform: scale(1.08);
+            box-shadow: 0 8px 20px -6px var(--primary-glow);
+        }
+
+        .item-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .item-btn {
+            padding: 16px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.03);
+            color: var(--text-main);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s var(--bounce);
+            font-family: inherit;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .item-btn::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .item-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        .item-btn.active {
+            background: linear-gradient(135deg, var(--primary), #0ea5e9);
+            border-color: var(--primary);
+            color: var(--bg);
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px -6px var(--primary-glow);
+        }
+        .item-btn span { position: relative; z-index: 1; }
+        .item-btn .check {
+            position: absolute;
+            top: 8px; right: 8px;
+            width: 16px; height: 16px;
+            border-radius: 50%;
+            background: rgba(2, 6, 23, 0.4);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 10px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .item-btn.active .check { opacity: 1; }
+
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+            color: var(--text-dim);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+        .info-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            padding-left: 18px;
+        }
+        .info-list li::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 18px;
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
         .info-list li:last-child { border-bottom: none; }
         .info-list strong { color: var(--text-main); }
 
-        .modal-prose { color: var(--text-dim); line-height: 1.6; font-size: 0.95rem; }
+        .modal-prose {
+            color: var(--text-dim);
+            line-height: 1.65;
+            font-size: 0.95rem;
+        }
         .modal-prose strong { color: var(--text-main); }
-        .modal-prose p { margin: 0 0 12px 0; }
+        .modal-prose p { margin: 0 0 14px 0; }
         .modal-prose p:last-child { margin-bottom: 0; }
 
-        #toast { visibility: hidden; min-width: 200px; background: var(--primary); color: var(--bg); text-align: center; border-radius: 50px; padding: 12px; position: fixed; z-index: 1000; left: 50%; bottom: 30px; transform: translateX(-50%); font-weight: 800; }
-        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
-        @keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 30px; opacity: 1; } }
-        @keyframes fadeout { from { bottom: 30px; opacity: 1; } to { bottom: 0; opacity: 0; } }
+        #toast {
+            visibility: hidden;
+            min-width: 220px;
+            background: linear-gradient(135deg, var(--primary), #0ea5e9);
+            color: var(--bg);
+            text-align: center;
+            border-radius: 50px;
+            padding: 14px 22px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-weight: 800;
+            box-shadow: 0 20px 40px -10px var(--primary-glow);
+        }
+        #toast.show {
+            visibility: visible;
+            animation: toastIn 0.5s var(--bounce), toastOut 0.5s ease 2.5s forwards;
+        }
+        @keyframes toastIn {
+            from { bottom: -50px; opacity: 0; }
+            to { bottom: 30px; opacity: 1; }
+        }
+        @keyframes toastOut {
+            from { bottom: 30px; opacity: 1; }
+            to { bottom: -50px; opacity: 0; }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.2);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.4); }
     </style>
 </head>
 <body>
+
+    <div class="aurora-bg"></div>
+    <div class="aurora-accent"></div>
 
     <div id="toast">Response Received! ✓</div>
 
     <div class="container">
 
         <div class="hero-title-block">
-            <h1>Schaefer Open House</h1>
+            <h1>Schaefer<br>Open House</h1>
             <div class="next-date-box">
                 <span class="next-date-label">Next Open House</span>
                 <span class="next-date-value" id="next-date">Loading...</span>
+                <span class="next-date-time">12:15 - 6 p.m. · Come and go as you please</span>
             </div>
         </div>
 
@@ -167,8 +635,8 @@
         </div>
 
         <div class="header-actions">
-            <button class="btn-round" onclick="openModal('contactModal')">Contact Hosts</button>
-            <button class="btn-round" onclick="openShareModal()">Share Invite</button>
+            <button class="btn-round" onclick="openModal('contactModal')"><span>Contact Hosts</span></button>
+            <button class="btn-round" onclick="openShareModal()"><span>Share Invite</span></button>
         </div>
 
         <div class="card">
@@ -191,6 +659,7 @@
             <button class="btn btn-outline" onclick="openModal('aboutModal')">What is this all about?</button>
             <button class="btn btn-outline" onclick="openModal('lunchModal')">What's for Lunch?</button>
             <button class="btn btn-outline" onclick="openModal('bringModal')">I'm Bringing Food to Share</button>
+            <button class="btn btn-outline" onclick="openModal('friendsModal')">Can I bring friends?</button>
             <button class="btn btn-outline" onclick="openModal('kidsModal')">Kids & Pool Info</button>
 
             <button class="btn-text" onclick="openCancelModal()">Change or Cancel RSVP</button>
@@ -221,7 +690,7 @@
         <button class="close-modal" onclick="closeModal('aboutModal')">✕</button>
         <span class="section-label">What This Is About</span>
         <div class="modal-prose">
-            <p>We are excited to open our home to friends. <strong>Anyone is welcome</strong>, and we'd love to see you.</p>
+            <p>We are excited to open our home to friends. <strong>Anyone is welcome - feel free to bring a friend.</strong></p>
             <p>There is <strong>no agenda</strong>. Come and go as you please.</p>
             <p>Kids are <strong>extremely welcome</strong>. The <strong>pool, hot tub, and movie room</strong> are all open and ready.</p>
         </div>
@@ -231,7 +700,7 @@
         <button class="close-modal" onclick="closeModal('lunchModal')">✕</button>
         <span class="section-label">On the Menu</span>
         <div class="modal-prose">
-            <p>We'll be providing <strong>burgers and hot dogs</strong>.</p>
+            <p><strong>Lunch can be any time</strong> - we'll have <strong>burgers and hot dogs</strong> available all afternoon.</p>
             <p>You're welcome to bring a <strong>side, chips, snack, dessert, or drinks</strong> if you'd like to contribute.</p>
             <p>Feel free to use our <strong>kitchen</strong> to prepare your own food if you need to.</p>
             <p>Have something you'd like grilled? Bring it over - <strong>I'm happy to throw anything you want on the grill.</strong></p>
@@ -242,17 +711,28 @@
         <button class="close-modal" onclick="closeModal('bringModal')">✕</button>
         <span class="section-label">I'm Bringing Food to Share</span>
         <p style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 5px;">
-            Pick what you're planning to bring:
+            Pick anything you're planning to bring (you can choose multiple):
         </p>
         <div class="item-grid" id="item-grid">
-            <button class="item-btn" data-item="chips">🥨 Chips</button>
-            <button class="item-btn" data-item="sides">🥗 Sides</button>
-            <button class="item-btn" data-item="snacks">🍿 Snacks</button>
-            <button class="item-btn" data-item="desserts">🍰 Desserts</button>
-            <button class="item-btn" data-item="drinks">🥤 Drinks</button>
-            <button class="item-btn" data-item="other">✨ Other</button>
+            <button class="item-btn" data-item="chips"><span class="check">✓</span><span>🥨 Chips</span></button>
+            <button class="item-btn" data-item="sides"><span class="check">✓</span><span>🥗 Sides</span></button>
+            <button class="item-btn" data-item="snacks"><span class="check">✓</span><span>🍿 Snacks</span></button>
+            <button class="item-btn" data-item="desserts"><span class="check">✓</span><span>🍰 Desserts</span></button>
+            <button class="item-btn" data-item="drinks"><span class="check">✓</span><span>🥤 Drinks</span></button>
+            <button class="item-btn" data-item="other"><span class="check">✓</span><span>✨ Other</span></button>
         </div>
         <button class="btn btn-main" onclick="submitItem()">Confirm</button>
+    </div></div>
+
+    <div id="friendsModal" class="modal"><div class="modal-content">
+        <button class="close-modal" onclick="closeModal('friendsModal')">✕</button>
+        <span class="section-label">Bringing Friends</span>
+        <div class="modal-prose">
+            <p><strong>Absolutely - the more the merrier!</strong></p>
+            <p>The easiest way to share is with the <strong>"Share Invite"</strong> link or QR code at the top of the page. Just tap it and send it along.</p>
+            <p>The only thing we ask is that they <strong>RSVP</strong> so we have a rough head count for food.</p>
+        </div>
+        <button class="btn btn-main" onclick="closeModal('friendsModal'); openShareModal();" style="margin-top: 20px;">Open Share Invite</button>
     </div></div>
 
     <div id="kidsModal" class="modal"><div class="modal-content">
@@ -308,7 +788,7 @@
         // Compute the next open house Sunday.
         // Series starts Sunday, May 24, 2026 and repeats every other Sunday.
         function getNextOpenHouseDate() {
-            const start = new Date(2026, 4, 24); // May 24, 2026 (month is 0-indexed)
+            const start = new Date(2026, 4, 24);
             const today = new Date();
             today.setHours(0, 0, 0, 0);
 
@@ -320,7 +800,6 @@
             const next = new Date(start);
             next.setDate(start.getDate() + cyclesPassed * 14);
 
-            // If that lands on today or in the past, jump forward one cycle
             if (next < today) {
                 next.setDate(next.getDate() + 14);
             }
@@ -340,19 +819,39 @@
         }
 
         const nextDate = getNextOpenHouseDate();
-        document.getElementById('next-date').innerText = formatDate(nextDate) + ' · 12:15 PM';
+        document.getElementById('next-date').innerText = formatDate(nextDate);
 
-        // Each event date gets its own slot in the database so counts roll over automatically
         const eventKey = getEventKey(nextDate);
         const eventRef = db.ref('open-house/' + eventKey);
 
-        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            modal.style.display = 'flex';
+            // Force reflow so animation triggers
+            void modal.offsetWidth;
+            modal.classList.add('show');
+            const content = modal.querySelector('.modal-content');
+            content.style.animation = 'none';
+            void content.offsetWidth;
+            content.style.animation = '';
+        }
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.remove('show');
+            modal.style.display = 'none';
+        }
 
         document.querySelectorAll('.modal').forEach(modal => {
             modal.addEventListener('click', (e) => {
-                if (e.target === modal) modal.style.display = 'none';
+                if (e.target === modal) closeModal(modal.id);
             });
+        });
+
+        // ESC closes any open modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal.show').forEach(m => closeModal(m.id));
+            }
         });
 
         function openShareModal() {
@@ -375,7 +874,6 @@
             setTimeout(() => { t.className = ""; }, 3000);
         }
 
-        // Build number grids (1-15 for original RSVPs, 0-15 for "now coming")
         function buildGrid(containerId, min, max) {
             const container = document.getElementById(containerId);
             container.innerHTML = '';
@@ -396,10 +894,21 @@
         buildGrid('cancel-original-grid', 1, 15);
         buildGrid('cancel-new-grid', 0, 15);
 
-        // Live data feed
+        let prevTotal = 0;
         eventRef.on('value', (snap) => {
             const data = snap.val() || { total: 0, items: {} };
-            document.getElementById('live-count').innerText = data.total || 0;
+            const newTotal = data.total || 0;
+            const countEl = document.getElementById('live-count');
+
+            // Trigger pulse animation if count increased
+            if (newTotal !== prevTotal && prevTotal !== 0) {
+                countEl.classList.remove('pulse');
+                void countEl.offsetWidth;
+                countEl.classList.add('pulse');
+            }
+            countEl.innerText = newTotal;
+            prevTotal = newTotal;
+
             const items = data.items || {};
             document.getElementById('tally-container').innerHTML = `
                 <div class="badge">Chips <span>${items.chips || 0}</span></div>
@@ -411,11 +920,10 @@
             `;
         });
 
-        // Item picker selection logic
+        // Multi-select item picker - toggle, don't replace
         document.querySelectorAll('#item-grid .item-btn').forEach(btn => {
             btn.onclick = function() {
-                this.parentElement.querySelectorAll('.item-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
+                this.classList.toggle('active');
             };
         });
 
@@ -433,19 +941,24 @@
         }
 
         function submitItem() {
-            const active = document.querySelector('#item-grid .item-btn.active');
-            if (!active) {
-                showToast("Pick an item first");
+            const activeButtons = document.querySelectorAll('#item-grid .item-btn.active');
+            if (activeButtons.length === 0) {
+                showToast("Pick at least one item");
                 return;
             }
-            const item = active.dataset.item;
-            eventRef.child('items/' + item).transaction(c => (c || 0) + 1);
-            active.classList.remove('active');
+            // Increment each selected item
+            activeButtons.forEach(btn => {
+                const item = btn.dataset.item;
+                eventRef.child('items/' + item).transaction(c => (c || 0) + 1);
+                btn.classList.remove('active');
+            });
             closeModal('bringModal');
-            showToast("Thanks for bringing it! ✓");
+            const msg = activeButtons.length === 1
+                ? "Thanks for bringing it! ✓"
+                : `Thanks for bringing ${activeButtons.length} things! ✓`;
+            showToast(msg);
         }
 
-        // Change / Cancel flow
         function openCancelModal() {
             document.getElementById('cancel-step-1').style.display = 'block';
             document.getElementById('cancel-step-2').style.display = 'none';
