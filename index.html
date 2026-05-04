@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Open House | Premium Dashboard</title>
+    <title>Schaefer Open House | Premium Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -11,13 +11,13 @@
     <style>
         :root {
             --bg: #020617;
-            --card-bg: rgba(15, 23, 42, 0.8);
-            --border: rgba(148, 163, 184, 0.1);
-            --primary: #38bdf8; /* Electric Blue */
-            --accent: #94a3b8;  /* Dark Silver */
+            --card-bg: rgba(15, 23, 42, 0.85);
+            --border: rgba(148, 163, 184, 0.15);
+            --primary: #38bdf8; 
+            --accent: #94a3b8;  
             --text-main: #f1f5f9;
             --text-dim: #94a3b8;
-            --nav-green: #10b981;
+            --btn-dark: #1e293b;
             --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -36,86 +36,71 @@
             overflow-x: hidden;
         }
 
-        .container { max-width: 460px; width: 100%; margin-top: 40px; animation: fadeIn 0.8s ease-out; }
-
+        .container { max-width: 460px; width: 100%; margin-top: 20px; animation: fadeIn 0.8s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Address Bar */
+        /* Contact Header */
+        .contact-header {
+            display: flex; justify-content: center; margin-bottom: 15px;
+        }
+        .btn-contact {
+            background: var(--card-bg); border: 1px solid var(--border); color: var(--text-dim);
+            padding: 10px 20px; border-radius: 30px; font-size: 0.8rem; font-weight: 700;
+            cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-contact:hover { border-color: var(--primary); color: var(--primary); }
+
         .address-header {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 14px;
-            text-align: center;
-            margin-bottom: 30px;
-            letter-spacing: 0.5px;
+            background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid var(--border);
+            border-radius: 12px; padding: 14px; text-align: center; margin-bottom: 25px;
         }
         .address-link { color: var(--accent); text-decoration: none; font-weight: 500; font-size: 0.9rem; }
 
-        /* Main Card */
         .card { 
-            background: var(--card-bg); 
-            border: 1px solid var(--border);
-            border-radius: 24px; 
-            padding: 40px; 
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            position: relative;
+            background: var(--card-bg); border: 1px solid var(--border); border-radius: 28px; 
+            padding: 40px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6); position: relative;
         }
 
         h1 { 
-            font-weight: 800; 
-            letter-spacing: -1px; 
-            margin: 0; 
-            font-size: 2.4rem; 
+            font-weight: 800; letter-spacing: -1px; margin: 0; font-size: 2.2rem; 
             background: linear-gradient(to bottom right, #fff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
         
         .subtitle { color: var(--text-dim); margin: 8px 0 30px 0; font-weight: 500; font-size: 1rem; }
 
-        /* Parking Section - Blueprint Style */
+        /* Parking Section */
         .parking-section { 
-            background: rgba(0, 0, 0, 0.2); 
-            border: 1px solid var(--border); 
-            border-radius: 20px; 
-            padding: 24px; 
-            margin-bottom: 30px; 
+            background: rgba(0, 0, 0, 0.25); border: 1px solid var(--border); 
+            border-radius: 20px; padding: 24px; margin-bottom: 30px; 
         }
         .section-label { 
-            font-size: 0.75rem; 
-            font-weight: 800; 
-            text-transform: uppercase; 
-            color: var(--primary); 
-            letter-spacing: 2px; 
-            margin-bottom: 12px; 
-            display: block; 
+            font-size: 0.7rem; font-weight: 800; text-transform: uppercase; 
+            color: var(--primary); letter-spacing: 2px; margin-bottom: 12px; display: block; 
         }
 
-        .btn-nav { 
-            display: flex; width: 100%; background: var(--nav-green); color: white; text-decoration: none; 
+        .btn-gps { 
+            display: flex; width: 100%; background: var(--btn-dark); color: var(--text-main); text-decoration: none; 
             padding: 16px; border-radius: 12px; font-weight: 700; font-size: 1rem; 
             justify-content: center; align-items: center; gap: 10px; transition: var(--transition);
+            border: 1px solid var(--border);
         }
-        .btn-nav:hover { filter: brightness(1.1); transform: translateY(-2px); }
+        .btn-gps:hover { background: #2d3a4f; border-color: var(--primary); }
         
         .map-visual { display: flex; align-items: center; justify-content: space-between; margin-top: 25px; padding: 0 10px; }
-        .map-node { font-size: 0.7rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; }
+        .map-node { font-size: 0.65rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; }
         .map-line { flex-grow: 1; height: 1px; background: linear-gradient(to right, var(--primary), transparent); margin: 0 15px; position: relative; }
         .map-line::after { content: ''; position: absolute; width: 6px; height: 6px; background: var(--primary); border-radius: 50%; top: -3px; left: 0; box-shadow: 0 0 10px var(--primary); }
 
-        /* Dashboard Stats */
-        .stats-row { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 30px; }
+        /* Stats */
         .stat-box { 
-            background: rgba(255,255,255,0.03); 
-            border: 1px solid var(--border); 
-            border-radius: 16px; padding: 20px; 
+            background: rgba(255,255,255,0.03); border: 1px solid var(--border); 
+            border-radius: 16px; padding: 20px; margin-bottom: 12px;
             display: flex; justify-content: space-between; align-items: center;
         }
-        .count-big { font-size: 2rem; font-weight: 800; color: var(--primary); }
+        .count-big { font-size: 2.2rem; font-weight: 800; color: var(--primary); }
 
-        .item-tally { display: flex; flex-wrap: wrap; gap: 8px; }
+        .item-tally { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 30px; }
         .badge { 
             background: rgba(255,255,255,0.05); border: 1px solid var(--border); 
             padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 600; color: var(--text-dim); 
@@ -128,49 +113,48 @@
             cursor: pointer; transition: var(--transition); margin-bottom: 12px; display: flex; justify-content: center; align-items: center; gap: 10px;
         }
         .btn-main { background: var(--text-main); color: var(--bg); }
-        .btn-main:hover { transform: scale(1.02); }
         .btn-outline { background: transparent; color: var(--text-main); border: 1px solid var(--border); }
-        .btn-outline:hover { background: rgba(255,255,255,0.05); border-color: var(--accent); }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
         
-        .btn-text { background: transparent; color: var(--text-dim); border: none; font-size: 0.85rem; font-weight: 600; cursor: pointer; padding: 10px; width: 100%; transition: 0.3s; }
-        .btn-text:hover { color: var(--primary); }
+        .btn-text { background: transparent; color: var(--text-dim); border: none; font-size: 0.8rem; font-weight: 600; cursor: pointer; padding: 15px; width: 100%; }
 
-        /* Modals */
+        /* Modal Styles */
         .modal { 
-            display: none; position: fixed; inset: 0; background: rgba(2, 6, 23, 0.85); 
+            display: none; position: fixed; inset: 0; background: rgba(2, 6, 23, 0.9); 
             backdrop-filter: blur(12px); z-index: 100; align-items: center; justify-content: center; padding: 20px;
-            animation: modalFade 0.3s ease-out;
         }
-        @keyframes modalFade { from { opacity: 0; } to { opacity: 1; } }
-        
         .modal-content { 
             background: #0f172a; border: 1px solid var(--border); border-radius: 24px; 
-            padding: 40px; max-width: 400px; width: 100%; position: relative; 
+            padding: 35px; max-width: 400px; width: 100%; position: relative; 
         }
-        .close-modal { position: absolute; top: 20px; right: 20px; background: transparent; border: none; color: var(--text-dim); cursor: pointer; font-size: 1.2rem; }
+        .close-modal { position: absolute; top: 20px; right: 20px; background: transparent; border: none; color: var(--text-dim); cursor: pointer; font-size: 1.5rem; }
         
-        /* Grid Buttons */
         .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 20px 0; }
         .g-btn { 
             aspect-ratio: 1; border-radius: 10px; border: 1px solid var(--border); 
-            background: rgba(255,255,255,0.03); color: var(--text-main); font-weight: 700; cursor: pointer; transition: 0.2s; 
+            background: rgba(255,255,255,0.03); color: var(--text-main); font-weight: 700; cursor: pointer; 
         }
-        .g-btn.active { background: var(--primary); border-color: var(--primary); color: var(--bg); box-shadow: 0 0 20px rgba(56, 189, 248, 0.4); }
+        .g-btn.active { background: var(--primary); border-color: var(--primary); color: var(--bg); }
 
         .list-btn { 
             width: 100%; padding: 14px; border-radius: 10px; border: 1px solid var(--border); 
             background: rgba(255,255,255,0.03); color: var(--text-main); text-align: left; 
-            margin-bottom: 8px; cursor: pointer; font-weight: 600; transition: 0.2s;
+            margin-bottom: 8px; cursor: pointer; font-weight: 600;
         }
-        .list-btn.active { border-color: var(--primary); background: rgba(56, 189, 248, 0.05); color: var(--primary); }
+        .list-btn.active { border-color: var(--primary); color: var(--primary); }
 
         #admin-panel { display: none; margin-top: 40px; }
-        .btn-danger { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 700; }
+        .btn-danger { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 10px 20px; border-radius: 8px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div class="container">
+        <!-- Contact Button -->
+        <div class="contact-header">
+            <button class="btn-contact" onclick="openModal('contactModal')">Contact Hosts</button>
+        </div>
+
         <div class="address-header">
             <a href="https://www.google.com/maps/dir/?api=1&destination=6629+Penfield+Street+Wake+Forest+NC+27587" target="_blank" class="address-link">
                 6629 Penfield St, Wake Forest
@@ -179,50 +163,63 @@
 
         <div class="card">
             <h1>After Church Open House</h1>
-            <p class="subtitle">Lunch • Swim • Movie • Play</p>
+            <p class="subtitle">Lunch, Pool, & Movie</p>
 
             <div class="parking-section">
-                <span class="section-label">Parking & Arrival</span>
+                <span class="section-label">Arrival & Parking</span>
                 <p style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 20px; line-height: 1.6;">
-                    Street parking is restricted. Please use the pool lot for a clear arrival.
+                    Please park in the <strong>neighborhood parking beside the neighborhood pool.</strong> It is a very short, easy walk up to our house from there!
                 </p>
-                <a href="https://maps.app.goo.gl/b5K9w6pkcUY5DGb49" target="_blank" class="btn-nav">
-                    Open Navigation to Pool
+                <a href="https://maps.app.goo.gl/b5K9w6pkcUY5DGb49" target="_blank" class="btn-gps">
+                    Open GPS
                 </a>
                 <div class="map-visual">
                     <span class="map-node">Pool Lot</span>
                     <div class="map-line"></div>
-                    <span class="map-node">Residence</span>
+                    <span class="map-node">Our House</span>
                 </div>
             </div>
 
-            <div class="stats-row">
-                <div class="stat-box">
-                    <span class="section-label" style="margin:0">Total Attending</span>
-                    <span class="count-big" id="live-count">0</span>
-                </div>
-                <div class="item-tally" id="tally-container">
-                    <div class="badge">Chips <span>0</span></div>
-                    <div class="badge">Sides <span>0</span></div>
-                    <div class="badge">Drinks <span>0</span></div>
-                    <div class="badge">Dessert <span>0</span></div>
-                    <div class="badge">Other <span>0</span></div>
-                </div>
+            <div class="stat-box">
+                <span class="section-label" style="margin:0">Total Attending</span>
+                <span class="count-big" id="live-count">0</span>
+            </div>
+            
+            <div class="item-tally" id="tally-container">
+                <div class="badge">Chips <span>0</span></div>
+                <div class="badge">Sides <span>0</span></div>
+                <div class="badge">Drinks <span>0</span></div>
+                <div class="badge">Dessert <span>0</span></div>
+                <div class="badge">Other <span>0</span></div>
             </div>
 
             <button class="btn btn-main" onclick="openModal('rsvpModal')">I'm Attending</button>
             <button class="btn btn-outline" onclick="openModal('bringModal')">Bring an Item</button>
-            <button class="btn btn-outline" onclick="openModal('kidsModal')">Kids Info</button>
+            <button class="btn btn-outline" onclick="openModal('kidsModal')">Kids & Pool Info</button>
             
             <button class="btn-text" onclick="openModal('changeStep1')">Change or Cancel RSVP</button>
         </div>
 
         <div id="admin-panel">
-            <button class="btn-danger" onclick="resetAllData()">Reset Global Event Data</button>
+            <button class="btn-danger" onclick="resetAllData()">Reset Database</button>
         </div>
     </div>
 
-    <!-- RSVP Modal -->
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal"><div class="modal-content">
+        <button class="close-modal" onclick="closeModal('contactModal')">✕</button>
+        <span class="section-label">Get in Touch</span>
+        <div style="margin-top:20px">
+            <p style="margin: 0; font-weight: 700;">Aaron Schaefer</p>
+            <a href="tel:8658502173" style="color: var(--primary); text-decoration: none; font-size: 1.1rem;">865-850-2173</a>
+        </div>
+        <div style="margin-top:25px">
+            <p style="margin: 0; font-weight: 700;">Candice Schaefer</p>
+            <a href="tel:9195454378" style="color: var(--primary); text-decoration: none; font-size: 1.1rem;">919-545-4378</a>
+        </div>
+    </div></div>
+
+    <!-- RSVP Modals -->
     <div id="rsvpModal" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('rsvpModal')">✕</button>
         <span class="section-label">Confirm Attendance</span>
@@ -233,32 +230,29 @@
         <button class="btn btn-main" onclick="submitRSVP()">Confirm</button>
     </div></div>
 
-    <!-- Change RSVP Step 1 -->
     <div id="changeStep1" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('changeStep1')">✕</button>
         <span class="section-label">Modify RSVP</span>
-        <p style="color: var(--text-main); font-weight: 600;">How many did you previously RSVP for?</p>
+        <p style="font-weight: 600;">How many did you previously RSVP for?</p>
         <div class="grid" id="old-num-grid">
             <button class="g-btn" data-val="1">1</button><button class="g-btn" data-val="2">2</button><button class="g-btn" data-val="3">3</button><button class="g-btn" data-val="4">4</button><button class="g-btn" data-val="5">5</button><button class="g-btn" data-val="6">6</button><button class="g-btn" data-val="7">7</button><button class="g-btn" data-val="8">8</button><button class="g-btn" data-val="9">9</button><button class="g-btn" data-val="10">10</button>
         </div>
     </div></div>
 
-    <!-- Change RSVP Step 2 -->
     <div id="changeStep2" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('changeStep2')">✕</button>
         <span class="section-label">Update Total</span>
-        <p style="color: var(--text-main); font-weight: 600;">How many are coming now?</p>
+        <p style="font-weight: 600;">How many are coming now?</p>
         <div class="grid" id="new-num-grid">
             <button class="g-btn" data-val="0">0</button><button class="g-btn" data-val="1">1</button><button class="g-btn" data-val="2">2</button><button class="g-btn" data-val="3">3</button><button class="g-btn" data-val="4">4</button><button class="g-btn" data-val="5">5</button><button class="g-btn" data-val="6">6</button><button class="g-btn" data-val="7">7</button><button class="g-btn" data-val="8">8</button><button class="g-btn" data-val="9">9</button><button class="g-btn" data-val="10">10</button>
         </div>
-        <p style="font-size: 0.75rem; color: var(--text-dim); text-align: center;">Selecting 0 will remove your previous RSVP.</p>
     </div></div>
 
     <!-- Bring Modal -->
     <div id="bringModal" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('bringModal')">✕</button>
         <span class="section-label">Potluck</span>
-        <p style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 15px;">Select items you're bringing:</p>
+        <p style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 15px;">Select what you're bringing:</p>
         <div id="item-selector">
             <button class="list-btn" data-val="chips">Chips / Snacks</button>
             <button class="list-btn" data-val="sides">Side Dish</button>
@@ -269,24 +263,25 @@
         <button class="btn btn-main" style="margin-top:15px" onclick="submitItem()">Update List</button>
     </div></div>
 
-    <!-- Kids Modal -->
+    <!-- Kids/Pool Modal -->
     <div id="kidsModal" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('kidsModal')">✕</button>
-        <span class="section-label">For the Families</span>
-        <p style="color: var(--text-dim); font-size: 0.95rem; line-height: 1.6;">We have dynamic kids of our own—your children are more than welcome.</p>
-        <ul style="color: var(--text-main); font-size: 0.9rem; padding-left: 20px;">
-            <li>Movie room equipped</li><li>Pool access (bring suits)</li><li>Local park adjacent</li>
+        <span class="section-label">Families & Fun</span>
+        <p style="color: var(--text-dim); line-height: 1.6;">We’re so excited to host your crew! Our <strong>backyard pool</strong> will be open and ready for action. If the kids get a little chilly, our <strong>hot tub will be warm</strong> (perfectly cozy, but not hot!) so they can keep playing.</p>
+        <p style="color: var(--text-main); font-weight: 700; margin-top: 15px;">Activities:</p>
+        <ul style="color: var(--text-dim); font-size: 0.9rem; padding-left: 20px;">
+            <li>🎬 Movie room for downtime</li><li>🏊 Swimming & Hot Tub</li><li>🌳 Park for running around</li>
         </ul>
-        <button class="btn btn-main" style="margin-top:20px" onclick="openModal('worriedModal')">Concerns about breakage?</button>
+        <button class="btn btn-main" style="margin-top:20px" onclick="openModal('worriedModal')">Worried about breakage?</button>
     </div></div>
 
     <div id="worriedModal" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('worriedModal')">✕</button>
-        <span class="section-label">Peace of Mind</span>
+        <span class="section-label">Zero Worries</span>
         <p style="color: var(--text-dim); line-height: 1.7;">
-            Everything in this home is fixable. Nothing here hasn't already survived our own active children. <strong>Please bring your kids.</strong>
+            Please don't give "breaking things" a second thought! Everything in our home is fixable, and honestly, it’s already survived our own very active kids. <strong>We just want you and your children here with us.</strong>
         </p>
-        <button class="btn btn-main" style="margin-top:20px" onclick="closeModal('worriedModal')">Got it</button>
+        <button class="btn btn-main" style="margin-top:20px" onclick="closeModal('worriedModal')">I feel better now!</button>
     </div></div>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -309,7 +304,6 @@
 
         let tempOld = 0;
 
-        // UI Listeners
         eventRef.on('value', (snapshot) => {
             const data = snapshot.val() || { total: 0, items: {} };
             document.getElementById('live-count').innerText = data.total || 0;
@@ -324,7 +318,6 @@
             document.getElementById('tally-container').innerHTML = tallyHtml;
         });
 
-        // RSVP Selection
         document.querySelectorAll('#num-grid .g-btn').forEach(btn => {
             btn.onclick = function() {
                 document.querySelectorAll('#num-grid .g-btn').forEach(b => b.classList.remove('active'));
@@ -332,7 +325,6 @@
             };
         });
 
-        // Change Selection Step 1
         document.querySelectorAll('#old-num-grid .g-btn').forEach(btn => {
             btn.onclick = function() {
                 tempOld = parseInt(this.dataset.val);
@@ -341,12 +333,10 @@
             };
         });
 
-        // Change Selection Step 2
         document.querySelectorAll('#new-num-grid .g-btn').forEach(btn => {
             btn.onclick = function() {
                 const newVal = parseInt(this.dataset.val);
-                const diff = newVal - tempOld;
-                eventRef.child('total').transaction(c => (c || 0) + diff);
+                eventRef.child('total').transaction(c => (c || 0) + (newVal - tempOld));
                 closeModal('changeStep2');
             };
         });
@@ -358,14 +348,12 @@
         function submitRSVP() {
             const active = document.querySelector('#num-grid .g-btn.active');
             if(!active) return;
-            const val = parseInt(active.dataset.val);
-            eventRef.child('total').transaction(c => (c || 0) + val);
+            eventRef.child('total').transaction(c => (c || 0) + parseInt(active.dataset.val));
             closeModal('rsvpModal');
         }
 
         function submitItem() {
-            const selected = document.querySelectorAll('.list-btn.active');
-            selected.forEach(btn => {
+            document.querySelectorAll('.list-btn.active').forEach(btn => {
                 eventRef.child('items').child(btn.dataset.val).transaction(c => (c || 0) + 1);
             });
             closeModal('bringModal');
@@ -382,7 +370,7 @@
         }
 
         function resetAllData() {
-            if(confirm("Wipe global database?")) {
+            if(confirm("Wipe all global data?")) {
                 eventRef.set({ total: 0, items: { chips: 0, sides: 0, drinks: 0, dessert: 0, other: 0 } });
             }
         }
