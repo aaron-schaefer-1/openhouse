@@ -162,6 +162,58 @@
             position: relative;
         }
 
+        .hero-extras {
+            margin-top: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+        .weather-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(251, 191, 36, 0.08);
+            border: 1px solid rgba(251, 191, 36, 0.25);
+            color: #fde68a;
+            padding: 7px 16px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+        .weather-pill span:first-child { font-size: 1rem; }
+
+        .calendar-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .cal-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 9px 16px;
+            border-radius: 22px;
+            font-family: inherit;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s var(--bounce);
+            backdrop-filter: blur(10px);
+        }
+        .cal-btn:hover {
+            border-color: var(--primary);
+            background: rgba(56, 189, 248, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px -6px var(--primary-glow);
+        }
+        .cal-btn span { font-size: 0.95rem; }
+
         /* Glass morphism cards */
         .glass {
             background: var(--card-bg);
@@ -337,6 +389,18 @@
             color: var(--text-main);
             line-height: 1.4;
             margin: 0;
+        }
+
+        .rsvp-hint {
+            background: rgba(52, 211, 153, 0.08);
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            color: #6ee7b7;
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 14px;
+            text-align: center;
         }
         .badge {
             background: rgba(255,255,255,0.04);
@@ -681,6 +745,20 @@
                 <span class="next-date-value" id="next-date">Loading...</span>
                 <span class="next-date-time">12:15 - 6 p.m. · Come and go as you please</span>
             </div>
+            <div class="hero-extras">
+                <div class="weather-pill" id="weather-pill" style="display: none;">
+                    <span id="weather-icon">☀️</span>
+                    <span id="weather-text">Loading forecast...</span>
+                </div>
+                <div class="calendar-buttons">
+                    <button class="cal-btn" onclick="addToGoogleCal()">
+                        <span>📅</span> Add to Calendar
+                    </button>
+                    <button class="cal-btn" onclick="downloadICS()">
+                        <span>⬇️</span> .ics File
+                    </button>
+                </div>
+            </div>
         </div>
 
         <div class="parking-hero">
@@ -826,6 +904,7 @@
                 <span class="step-banner-title">Step 1 of 2</span>
                 <p class="step-banner-prompt">How many people did you originally RSVP for?</p>
             </div>
+            <div id="rsvp-known-hint" class="rsvp-hint" style="display: none;"></div>
             <div class="grid" id="cancel-original-grid"></div>
             <button class="btn btn-main" onclick="goToCancelStep2()">Next →</button>
         </div>
@@ -893,6 +972,158 @@
         const eventKey = getEventKey(nextDate);
         const eventRef = db.ref('open-house/' + eventKey);
 
+        // ---------- Haptic feedback (mobile only, silently no-ops elsewhere) ----------
+        function tap(strength) {
+            if (navigator.vibrate) navigator.vibrate(strength || 8);
+        }
+
+        // ---------- Calendar integration ----------
+        function getEventTimes() {
+            // Event runs 12:15 PM to 6:00 PM local time on nextDate
+            const start = new Date(nextDate);
+            start.setHours(12, 15, 0, 0);
+            const end = new Date(nextDate);
+            end.setHours(18, 0, 0, 0);
+            return { start, end };
+        }
+
+        function formatCalDate(d) {
+            // YYYYMMDDTHHMMSS for local time (no Z)
+            const pad = n => String(n).padStart(2, '0');
+            return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
+        }
+
+        const eventDescription = "Come on over! No agenda, come and go as you please. Burgers and hot dogs provided. Pool, hot tub, and movie room are open. Park at the neighborhood pool lot - short walk to 6629 Penfield Street.";
+        const eventLocation = "6629 Penfield Street, Wake Forest, NC 27587";
+
+        function addToGoogleCal() {
+            tap();
+            const { start, end } = getEventTimes();
+            // Google Calendar wants UTC, but using floating local works on most clients
+            const dates = `${formatCalDate(start)}/${formatCalDate(end)}`;
+            const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Schaefer Open House')}&dates=${dates}&details=${encodeURIComponent(eventDescription)}&location=${encodeURIComponent(eventLocation)}`;
+            window.open(url, '_blank');
+        }
+
+        function downloadICS() {
+            tap();
+            const { start, end } = getEventTimes();
+            const ics = [
+                'BEGIN:VCALENDAR',
+                'VERSION:2.0',
+                'PRODID:-//Schaefer Open House//EN',
+                'BEGIN:VEVENT',
+                `UID:open-house-${eventKey}@schaefer`,
+                `DTSTAMP:${formatCalDate(new Date())}`,
+                `DTSTART:${formatCalDate(start)}`,
+                `DTEND:${formatCalDate(end)}`,
+                'SUMMARY:Schaefer Open House',
+                `DESCRIPTION:${eventDescription.replace(/\n/g, '\\n')}`,
+                `LOCATION:${eventLocation}`,
+                'END:VEVENT',
+                'END:VCALENDAR'
+            ].join('\r\n');
+            const blob = new Blob([ics], { type: 'text/calendar' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `schaefer-open-house-${eventKey}.ics`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // ---------- Weather forecast (Open-Meteo, no API key needed) ----------
+        // Wake Forest, NC
+        const LAT = 35.98;
+        const LON = -78.51;
+        function loadWeather() {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const daysAway = Math.round((nextDate - today) / (1000 * 60 * 60 * 24));
+            // Open-Meteo gives 7-day forecasts reliably; only show if event is within range
+            if (daysAway < 0 || daysAway > 14) return;
+
+            const dateStr = getEventKey(nextDate);
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&temperature_unit=fahrenheit&timezone=auto&start_date=${dateStr}&end_date=${dateStr}`;
+
+            fetch(url)
+                .then(r => r.json())
+                .then(data => {
+                    if (!data.daily || !data.daily.temperature_2m_max) return;
+                    const high = Math.round(data.daily.temperature_2m_max[0]);
+                    const low = Math.round(data.daily.temperature_2m_min[0]);
+                    const code = data.daily.weather_code[0];
+                    const rain = data.daily.precipitation_probability_max[0] || 0;
+
+                    const { icon, label } = describeWeather(code);
+                    const pill = document.getElementById('weather-pill');
+                    document.getElementById('weather-icon').innerText = icon;
+                    let text = `${label} · ${high}° / ${low}°`;
+                    if (rain >= 30) text += ` · ${rain}% rain`;
+                    document.getElementById('weather-text').innerText = text;
+                    pill.style.display = 'inline-flex';
+                })
+                .catch(() => { /* silent fail */ });
+        }
+
+        function describeWeather(code) {
+            // WMO weather code mapping (simplified)
+            if (code === 0) return { icon: '☀️', label: 'Sunny' };
+            if (code <= 2) return { icon: '🌤️', label: 'Partly cloudy' };
+            if (code === 3) return { icon: '☁️', label: 'Overcast' };
+            if (code <= 48) return { icon: '🌫️', label: 'Foggy' };
+            if (code <= 57) return { icon: '🌦️', label: 'Drizzle' };
+            if (code <= 67) return { icon: '🌧️', label: 'Rain' };
+            if (code <= 77) return { icon: '🌨️', label: 'Snow' };
+            if (code <= 82) return { icon: '🌧️', label: 'Showers' };
+            if (code <= 86) return { icon: '🌨️', label: 'Snow showers' };
+            if (code >= 95) return { icon: '⛈️', label: 'Thunderstorm' };
+            return { icon: '🌤️', label: 'Mild' };
+        }
+        loadWeather();
+
+        // ---------- Confetti burst ----------
+        function fireConfetti() {
+            const colors = ['#38bdf8', '#a78bfa', '#f472b6', '#fbbf24', '#34d399'];
+            const count = 60;
+            const container = document.createElement('div');
+            container.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;';
+            document.body.appendChild(container);
+
+            for (let i = 0; i < count; i++) {
+                const piece = document.createElement('div');
+                const size = 6 + Math.random() * 6;
+                const startX = 40 + Math.random() * 20; // start near center bottom
+                const drift = (Math.random() - 0.5) * 60; // -30vw to +30vw drift
+                const rise = 60 + Math.random() * 30; // how high it goes
+                const rotate = Math.random() * 720 - 360;
+                const dur = 1400 + Math.random() * 800;
+                const delay = Math.random() * 150;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.cssText = `
+                    position:absolute;
+                    left:${startX}vw;
+                    bottom:10vh;
+                    width:${size}px;
+                    height:${size * 0.4}px;
+                    background:${color};
+                    border-radius:1px;
+                    opacity:0;
+                    transform:translate(0,0) rotate(0deg);
+                    transition:transform ${dur}ms cubic-bezier(0.2, 0.8, 0.4, 1), opacity ${dur}ms ease-out;
+                `;
+                container.appendChild(piece);
+                setTimeout(() => {
+                    piece.style.opacity = '1';
+                    piece.style.transform = `translate(${drift}vw, -${rise}vh) rotate(${rotate}deg)`;
+                }, delay);
+                setTimeout(() => {
+                    piece.style.opacity = '0';
+                }, delay + dur - 300);
+            }
+            setTimeout(() => container.remove(), 2500);
+        }
+
         function openModal(id) {
             const modal = document.getElementById(id);
             modal.style.display = 'flex';
@@ -951,6 +1182,7 @@
                 btn.dataset.val = i;
                 btn.innerText = i;
                 btn.onclick = function() {
+                    tap();
                     container.querySelectorAll('.g-btn').forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
                 };
@@ -1001,9 +1233,21 @@
         // Multi-select item picker - toggle, don't replace
         document.querySelectorAll('#item-grid .item-btn').forEach(btn => {
             btn.onclick = function() {
+                tap();
                 this.classList.toggle('active');
             };
         });
+
+        // ---------- Local RSVP tracking (per-event, persistent across visits) ----------
+        const myRsvpKey = 'myRsvp:' + eventKey;
+        function getMyRsvp() {
+            const raw = localStorage.getItem(myRsvpKey);
+            return raw ? parseInt(raw) : 0;
+        }
+        function setMyRsvp(n) {
+            if (n > 0) localStorage.setItem(myRsvpKey, n);
+            else localStorage.removeItem(myRsvpKey);
+        }
 
         function submitRSVP() {
             const active = document.querySelector('#num-grid .g-btn.active');
@@ -1013,8 +1257,12 @@
             }
             const count = parseInt(active.dataset.val);
             eventRef.child('total').transaction(c => (c || 0) + count);
+            // Add to whatever they may have already RSVP'd for in case they're updating
+            setMyRsvp(getMyRsvp() + count);
             active.classList.remove('active');
             closeModal('rsvpModal');
+            tap([10, 50, 20]);
+            fireConfetti();
             showToast("See you there! ✓");
         }
 
@@ -1024,6 +1272,7 @@
                 showToast("Pick at least one item");
                 return;
             }
+            tap([10, 30, 10]);
             // Increment each selected item
             activeButtons.forEach(btn => {
                 const item = btn.dataset.item;
@@ -1038,10 +1287,24 @@
         }
 
         function openCancelModal() {
+            const myCount = getMyRsvp();
             document.getElementById('cancel-step-1').style.display = 'block';
             document.getElementById('cancel-step-2').style.display = 'none';
             document.querySelectorAll('#cancel-original-grid .g-btn').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('#cancel-new-grid .g-btn').forEach(b => b.classList.remove('active'));
+
+            // Pre-select if we know what they RSVP'd for, and add a friendly note
+            const hint = document.getElementById('rsvp-known-hint');
+            if (myCount > 0 && myCount <= 15) {
+                const btn = document.querySelector(`#cancel-original-grid .g-btn[data-val="${myCount}"]`);
+                if (btn) btn.classList.add('active');
+                if (hint) {
+                    hint.style.display = 'block';
+                    hint.innerText = `We have you down for ${myCount}. Confirm or change below.`;
+                }
+            } else if (hint) {
+                hint.style.display = 'none';
+            }
             openModal('cancelModal');
         }
 
@@ -1051,6 +1314,7 @@
                 showToast("Pick a number first");
                 return;
             }
+            tap();
             document.getElementById('cancel-step-1').style.display = 'none';
             document.getElementById('cancel-step-2').style.display = 'block';
         }
@@ -1067,7 +1331,10 @@
             const diff = newCount - originalCount;
 
             eventRef.child('total').transaction(c => Math.max(0, (c || 0) + diff));
+            // Update the locally-tracked count
+            setMyRsvp(Math.max(0, getMyRsvp() + diff));
             closeModal('cancelModal');
+            tap([10, 30, 10]);
 
             if (newCount === 0) {
                 showToast("RSVP cancelled");
