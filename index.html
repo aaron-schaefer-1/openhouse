@@ -257,6 +257,17 @@
             font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
             letter-spacing: 0.5px;
         }
+        .walk-tag-link {
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s var(--bounce);
+        }
+        .walk-tag-link:hover {
+            background: rgba(56, 189, 248, 0.25);
+            border-color: var(--primary);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px -6px var(--primary-glow);
+        }
 
         .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; width: 100%; gap: 10px; }
         .btn-round {
@@ -845,7 +856,7 @@
             <div class="parking-text">
                 Please park at the neighborhood parking lot by the neighborhood pool. It is a very short walk to our home from there.
             </div>
-            <div class="walk-tag">🚶 Short walk to our home at 6629 Penfield Street</div>
+            <a href="https://www.google.com/maps/dir/?api=1&destination=6629+Penfield+Street+Wake+Forest+NC+27587&travelmode=walking" target="_blank" rel="noopener" class="walk-tag walk-tag-link">🚶 Walking Directions to 6629 Penfield Street</a>
             <a href="https://maps.app.goo.gl/4hbNhkQDsiBBpEqn9" target="_blank" class="btn btn-park">Navigate to Parking Lot</a>
         </div>
 
