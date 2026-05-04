@@ -6,9 +6,6 @@
 <title>Summer Hangout RSVP</title>
 
 <style>
-  /* =========
-     Background
-     ========= */
   body {
     margin: 0;
     min-height: 100vh;
@@ -16,15 +13,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
     background-color: #e2e8f0;
     background-image:
       url("data:image/svg+xml,%3Csvg width='260' height='260' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='40' y='80' font-size='36' opacity='0.06'%3E🐬%3C/text%3E%3Ctext x='140' y='150' font-size='36' opacity='0.06'%3E🍔%3C/text%3E%3Ctext x='60' y='220' font-size='36' opacity='0.06'%3E🌴%3C/text%3E%3C/svg%3E");
   }
 
-  /* =========
-     Card
-     ========= */
   .card {
     background: #ffffff;
     max-width: 480px;
@@ -35,173 +28,3 @@
     box-shadow: 0 20px 40px rgba(15, 23, 42, 0.15);
   }
 
-  h1 {
-    margin: 0 0 6px;
-    color: #0f172a;
-  }
-
-  h3 {
-    margin: 12px 0 8px;
-    color: #0f172a;
-  }
-
-  .subtle {
-    color: #475569;
-    font-size: 14px;
-    margin: 2px 0;
-  }
-
-  /* =========
-     Buttons
-     ========= */
-  .row {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: 14px 0;
-  }
-
-  button {
-    padding: 12px 16px;
-    border-radius: 12px;
-    border: 1px solid #cbd5f5;
-    background: #ffffff;
-    color: #0f172a;
-    font-size: 15px;
-    cursor: pointer;
-    transition: all 0.15s ease;
-  }
-
-  button:hover {
-    background: #f1f5f9;
-  }
-
-  button.primary {
-    background: #2563eb;
-    color: #ffffff;
-    border: none;
-    font-weight: 600;
-  }
-
-  button.selected {
-    background: #2563eb;
-    color: #ffffff;
-    border-color: #2563eb;
-    transform: scale(1.06);
-  }
-
-  /* =========
-     Stats
-     ========= */
-  .counter {
-    font-size: 42px;
-    font-weight: 800;
-    color: #2563eb;
-    margin: 6px 0;
-  }
-
-  .breakdown {
-    text-align: left;
-    font-size: 14px;
-    margin-top: 10px;
-    color: #334155;
-  }
-
-  /* =========
-     Parking
-     ========= */
-  .section {
-    margin-top: 26px;
-    text-align: left;
-    font-size: 14px;
-  }
-
-  .callout {
-    margin-top: 8px;
-    padding: 12px;
-    border-left: 4px solid #2563eb;
-    background: #f1f5f9;
-    border-radius: 10px;
-  }
-
-  .map {
-    margin-top: 14px;
-    border-radius: 14px;
-    overflow: hidden;
-  }
-
-  .map img {
-    width: 100%;
-    display: block;
-  }
-
-  /* =========
-     Modal
-     ========= */
-  #modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(15, 23, 42, 0.55);
-    backdrop-filter: blur(4px);
-  }
-
-  #modalCard {
-    background: #ffffff;
-    border-radius: 18px;
-    max-width: 380px;
-    width: 92%;
-    padding: 22px;
-    margin: auto;
-    margin-top: 12vh;
-    box-shadow: 0 30px 60px rgba(15, 23, 42, 0.35);
-    text-align: center;
-  }
-</style>
-</head>
-
-<body>
-
-<div class="card">
-  <h1>Summer Hangout</h1>
-
-  <!-- EVENT DETAILS -->
-  <p class="subtle">Saturday · June 22 · 3–10 PM</p>
-  <p class="subtle">6629 Penfield Street · Wake Forest, NC 27587</p>
-
-  <div class="row">
-    <a href="https://www.google.com/maps/search/?api=1&query=6629+Penfield+Street+Wake+Forest+NC+27587" target="_blank">
-      <button>Directions</button>
-    </a>
-    <a href="https://weather.com/weather/today/l/Wake+Forest+NC" target="_blank">
-      <button>Weather</button>
-    </a>
-  </div>
-
-  <p>People coming so far:</p>
-  <div id="total" class="counter">0</div>
-
-  <button class="primary" onclick="openRSVP()">I’m coming</button>
-
-  <div id="breakdown" class="breakdown"></div>
-
-  <div class="section">
-    <h3>Parking</h3>
-    <div class="callout">
-      <strong>Please do not park at the house.</strong><br />
-      Park at the community pool parking area and walk up.
-    </div>
-
-    <div class="map">
-      <a href="https://maps.app.goo.gl/SZzfBScdbZ4D45WB8" target="_blank">
-        <img
-          src="https://maps.googleapis.com/maps/api/staticmap?size=600x300&markers=color:blue|label:P|35.9657,-78.5064&markers=color:gray|label:H|35.9666,-78.5077&path=color:0x2563eb|weight:5|35.9657,-78.5064|35.9666,-78.5077"
-          alt="Parking and walk"
-        />
-      </a>
-    </div>
-  </div>
-</div>
-
-<!-- RSVP Modal -->
