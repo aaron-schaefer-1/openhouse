@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Summer Hangout | 6629 Penfield</title>
+    <title>Summer Hangout | RSVP Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -15,6 +15,7 @@
             --dark: #0f172a;
             --silver: #cbd5e1;
             --accent: #00f2ff;
+            --bg-glass: rgba(255, 255, 255, 0.95);
         }
 
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
@@ -40,108 +41,67 @@
 
         /* Address Header */
         .address-header {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            margin-bottom: 24px;
-            transition: 0.3s;
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px;
+            padding: 20px; text-align: center; margin-bottom: 24px; transition: 0.3s;
         }
         .address-header:hover { background: rgba(255, 255, 255, 0.15); }
-        .address-link {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
+        .address-link { color: var(--accent); text-decoration: none; font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; gap: 10px; }
 
-        .card {
-            background: #ffffff;
-            border-radius: 32px;
-            padding: 35px;
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
-            position: relative;
+        /* Main Card */
+        .card { background: var(--bg-glass); border-radius: 32px; padding: 35px; box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4); position: relative; }
+        h1 { font-weight: 800; letter-spacing: -1.5px; margin: 0 0 5px 0; font-size: 2.2rem; }
+        
+        /* Live Stats Dashboard */
+        .stats-dashboard { margin: 25px 0; display: flex; flex-direction: column; gap: 12px; }
+        .stat-pill {
+            background: #f8fafc; border: 1px solid var(--silver); border-radius: 16px;
+            padding: 16px 20px; display: flex; justify-content: space-between; align-items: center;
         }
+        .stat-title { font-weight: 800; font-size: 0.85rem; text-transform: uppercase; color: var(--secondary); letter-spacing: 1px; }
+        .stat-number { font-weight: 800; color: var(--primary); font-size: 1.8rem; }
+        
+        .item-tally-container {
+            background: white; border: 1px solid var(--silver); border-radius: 16px; padding: 15px;
+        }
+        .tally-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+        .tally-badge { background: #f1f5f9; border: 1px solid var(--silver); padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; color: var(--secondary); }
+        .tally-count { color: var(--primary); font-weight: 800; margin-left: 4px; }
 
         /* Parking Logic Block */
-        .parking-section {
-            background: #f8fafc;
-            border: 2px solid var(--silver);
-            border-radius: 24px;
-            padding: 24px;
-            margin: 25px 0;
-        }
-        .parking-map-visual {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 15px;
-            padding: 15px;
-            background: #fff;
-            border-radius: 16px;
-            border: 1px solid var(--silver);
-        }
+        .parking-section { background: #f8fafc; border: 2px solid var(--silver); border-radius: 24px; padding: 24px; margin: 25px 0; }
+        .parking-map-visual { display: flex; align-items: center; justify-content: space-between; margin-top: 15px; padding: 15px; background: #fff; border-radius: 16px; border: 1px solid var(--silver); }
         .path-line { flex-grow: 1; height: 2px; border-top: 2px dashed var(--silver); margin: 0 10px; position: relative; }
         .path-line::after { content: "🚶"; position: absolute; top: -15px; left: 40%; font-size: 1.2rem; }
-
-        /* Kids Button */
-        .btn-kids {
-            width: 100%;
-            background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
-            color: white;
-            border: none;
-            padding: 22px;
-            border-radius: 20px;
-            font-weight: 800;
-            font-size: 1.1rem;
-            cursor: pointer;
-            margin: 20px 0;
-            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.3);
-            transition: 0.3s;
-        }
-        .btn-kids:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(14, 165, 233, 0.4); }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(8px);
-            z-index: 100;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .modal-content {
-            background: white;
-            border-radius: 32px;
-            padding: 40px;
-            max-width: 450px;
-            width: 100%;
-            position: relative;
-            text-align: left;
-        }
-        .close-modal {
-            position: absolute; top: 20px; right: 20px;
-            background: #f1f5f9; border: none; border-radius: 50%;
-            width: 40px; height: 40px; cursor: pointer; font-weight: 800;
-        }
-
-        /* Typography & Forms */
-        h1 { font-weight: 800; letter-spacing: -1.5px; margin: 0; font-size: 2.2rem; }
-        h2 { font-size: 1.2rem; margin-top: 0; }
-        .label-text { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--secondary); letter-spacing: 1px; }
-        input { width: 100%; padding: 16px; border-radius: 12px; border: 2px solid var(--silver); margin: 8px 0 20px; }
-        .btn-submit { width: 100%; padding: 18px; background: var(--dark); color: white; border: none; border-radius: 18px; font-weight: 700; cursor: pointer; }
-
         .parking-link { color: var(--primary); font-weight: 700; text-decoration: none; }
+
+        /* Buttons */
+        .btn { width: 100%; border: none; padding: 20px; border-radius: 20px; font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: 0.3s; margin-bottom: 12px; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        .btn-primary { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; box-shadow: 0 10px 25px rgba(15, 23, 42, 0.2); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 15px 30px rgba(15, 23, 42, 0.3); }
+        .btn-secondary { background: white; color: var(--dark); border: 2px solid var(--silver); }
+        .btn-secondary:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); }
+        .btn-kids { background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%); color: white; margin-top: 8px; }
+        .btn-kids:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(14, 165, 233, 0.3); }
+
+        /* Modals */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(8px); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+        .modal-content { background: white; border-radius: 32px; padding: 40px; max-width: 450px; width: 100%; position: relative; text-align: left; }
+        .close-modal { position: absolute; top: 20px; right: 20px; background: #f1f5f9; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; font-weight: 800; color: var(--dark); }
+        
+        /* Grid Selections */
+        .selection-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 20px 0; }
+        .grid-btn { aspect-ratio: 1; border-radius: 14px; border: 2px solid var(--silver); background: white; font-weight: 800; font-size: 1.2rem; cursor: pointer; transition: 0.2s; color: var(--dark); }
+        .grid-btn.active { background: var(--primary); border-color: var(--primary); color: white; box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3); transform: scale(1.05); }
+
+        .item-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 20px 0; }
+        .item-btn { padding: 16px; border-radius: 14px; border: 2px solid var(--silver); background: white; font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.2s; text-align: left; color: var(--dark); }
+        .item-btn.active { background: rgba(14, 165, 233, 0.1); border-color: var(--primary); color: var(--primary); }
+
+        input.text-input { width: 100%; padding: 16px; border-radius: 14px; border: 2px solid var(--silver); font-size: 1rem; font-family: inherit; margin-top: 8px; }
+        input.text-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1); }
+        
+        .error-msg { color: #ef4444; font-size: 0.85rem; font-weight: 700; margin-top: -10px; margin-bottom: 15px; display: none; }
     </style>
 </head>
 <body>
@@ -162,15 +122,38 @@
 
         <div class="card">
             <h1>Summer Hangout</h1>
-            <p style="color: var(--secondary); margin-bottom: 30px;">Modern vibes, cold drinks, and poolside chill.</p>
+            <p style="color: var(--secondary); margin-bottom: 5px;">Modern vibes, cold drinks, poolside chill.</p>
+
+            <!-- Live Dashboard -->
+            <div class="stats-dashboard">
+                <div class="stat-pill">
+                    <span class="stat-title">Total Coming</span>
+                    <span class="stat-number" id="live-count">14</span>
+                </div>
+                
+                <div class="item-tally-container">
+                    <span class="stat-title">What's being brought</span>
+                    <div class="tally-grid">
+                        <div class="tally-badge">Chips/Snacks <span class="tally-count" id="count-chips">3</span></div>
+                        <div class="tally-badge">Sides <span class="tally-count" id="count-sides">2</span></div>
+                        <div class="tally-badge">Drinks <span class="tally-count" id="count-drinks">5</span></div>
+                        <div class="tally-badge">Dessert <span class="tally-count" id="count-dessert">1</span></div>
+                        <div class="tally-badge">Other <span class="tally-count" id="count-other">1</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <button class="btn btn-primary" onclick="openModal('rsvpModal')">👋 I'm Coming!</button>
+            <button class="btn btn-secondary" onclick="openModal('bringModal')">🍕 I want to bring something</button>
+            <button class="btn btn-kids" onclick="openModal('kidsModal')">🧸 Kids Activities & Info</button>
 
             <!-- Parking Section -->
             <div class="parking-section">
-                <span class="label-text">🅿️ Parking Instructions</span>
+                <span class="stat-title">🅿️ Parking Instructions</span>
                 <p style="font-size: 0.95rem; margin: 10px 0; line-height: 1.5;">
                     To keep the street clear for emergency vehicles, <strong>please do not park at the house or on the street.</strong>
                 </p>
-                
                 <div class="parking-map-visual">
                     <div style="text-align: center;">
                         <div style="font-size: 1.5rem;">🅿️</div>
@@ -184,54 +167,134 @@
                 </div>
                 <p style="font-size: 0.8rem; color: var(--secondary); text-align: center; margin-top: 10px;">A short 2-minute walk up the street!</p>
             </div>
+        </div>
+    </div>
 
-            <!-- RSVP Form -->
-            <form>
-                <span class="label-text">Who's Coming?</span>
-                <input type="text" placeholder="Full Name" required>
-                <button type="submit" class="btn-submit">Confirm RSVP</button>
-            </form>
-
-            <!-- Kids Activities Button -->
-            <button class="btn-kids" onclick="openModal()">🧸 Kids Activities & Info</button>
-
-            <div style="text-align: center; font-size: 1.2rem; opacity: 0.5; letter-spacing: 10px; margin-top: 10px;">
-                🐬🌊🌴
+    <!-- RSVP Modal -->
+    <div id="rsvpModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('rsvpModal')">✕</button>
+            <h2 style="font-size: 1.8rem; margin: 0 0 5px 0;">Awesome!</h2>
+            <p style="color: var(--secondary); margin-bottom: 25px;">Let us know who's coming.</p>
+            
+            <label class="stat-title">Name (Optional)</label>
+            <input type="text" class="text-input" placeholder="e.g. The Smith Family" style="margin-bottom: 20px;">
+            
+            <label class="stat-title">How many people in your group? *</label>
+            <div class="selection-grid" id="number-selector">
+                <button class="grid-btn" data-val="1">1</button>
+                <button class="grid-btn" data-val="2">2</button>
+                <button class="grid-btn" data-val="3">3</button>
+                <button class="grid-btn" data-val="4">4</button>
+                <button class="grid-btn" data-val="5">5</button>
+                <button class="grid-btn" data-val="6">6</button>
+                <button class="grid-btn" data-val="7">7</button>
+                <button class="grid-btn" data-val="8">8</button>
+                <button class="grid-btn" data-val="9">9</button>
+                <button class="grid-btn" data-val="10">10</button>
             </div>
+            <div id="rsvp-error" class="error-msg">Please select a number!</div>
+            
+            <button class="btn btn-primary" onclick="submitRSVP()">Confirm Attendance</button>
+        </div>
+    </div>
+
+    <!-- Bring Something Modal -->
+    <div id="bringModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('bringModal')">✕</button>
+            <h2 style="font-size: 1.8rem; margin: 0 0 5px 0;">You're the best.</h2>
+            <p style="color: var(--secondary); margin-bottom: 20px;">What are you thinking of bringing?</p>
+            
+            <div class="item-grid" id="item-selector">
+                <button class="item-btn" data-val="chips">Chips/Snack</button>
+                <button class="item-btn" data-val="sides">A Side Dish</button>
+                <button class="item-btn" data-val="drinks">Drinks</button>
+                <button class="item-btn" data-val="dessert">Dessert</button>
+                <button class="item-btn" data-val="other">Other</button>
+            </div>
+            <div id="item-error" class="error-msg">Please select an item!</div>
+
+            <button class="btn btn-primary" onclick="submitItem()">Add to the List</button>
         </div>
     </div>
 
     <!-- Kids Info Modal -->
     <div id="kidsModal" class="modal">
         <div class="modal-content">
-            <button class="close-modal" onclick="closeModal()">✕</button>
-            <h1 style="font-size: 1.8rem; margin-bottom: 15px;">Bring the Kids! 🧸</h1>
+            <button class="close-modal" onclick="closeModal('kidsModal')">✕</button>
+            <h2 style="font-size: 1.8rem; margin-bottom: 15px;">Bring the Kids! 🧸</h2>
             <p style="color: var(--secondary); line-height: 1.6;">
-                We have two very active young kids of our own, so your little ones are more than welcome. We've set the house up for total kid-fun:
+                We have two very active young kids of our own, so your little ones are more than welcome. We've set the house up for kid-fun:
             </p>
             <ul style="list-style: none; padding: 0; margin: 25px 0;">
                 <li style="margin-bottom: 15px; display: flex; gap: 15px;">
-                    <span style="font-size: 1.5rem;">🎬</span>
-                    <span><strong>Movie Room:</strong> A dedicated space for films and relaxing.</span>
+                    <span style="font-size: 1.5rem;">🎬</span><span><strong>Movie Room:</strong> A dedicated space for films.</span>
                 </li>
                 <li style="margin-bottom: 15px; display: flex; gap: 15px;">
-                    <span style="font-size: 1.5rem;">🏊</span>
-                    <span><strong>Backyard Pool:</strong> Perfect for a splash (bring swimsuits!).</span>
+                    <span style="font-size: 1.5rem;">🏊</span><span><strong>Backyard Pool:</strong> Perfect for a splash (bring swimsuits!).</span>
                 </li>
                 <li style="margin-bottom: 15px; display: flex; gap: 15px;">
-                    <span style="font-size: 1.5rem;">🌳</span>
-                    <span><strong>Nearby Park:</strong> Just steps away for when they need to run.</span>
+                    <span style="font-size: 1.5rem;">🌳</span><span><strong>Nearby Park:</strong> Steps away for when they need to run.</span>
                 </li>
             </ul>
-            <button class="btn-submit" onclick="closeModal()">Awesome, Thanks!</button>
+            <button class="btn btn-primary" onclick="closeModal('kidsModal')">Awesome, Thanks!</button>
         </div>
     </div>
 
     <script>
-        const modal = document.getElementById('kidsModal');
-        function openModal() { modal.style.display = 'flex'; }
-        function closeModal() { modal.style.display = 'none'; }
-        window.onclick = function(event) { if (event.target == modal) closeModal(); }
+        // State variables (Seed Data to make it look active)
+        let totalComing = 14;
+        let itemsTally = { chips: 3, sides: 2, drinks: 5, dessert: 1, other: 1 };
+        
+        let selectedPartySize = null;
+        let selectedItemType = null;
+
+        // Modal Logic
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; resetSelections(); }
+        window.onclick = function(event) { if (event.target.classList.contains('modal')) { event.target.style.display = 'none'; resetSelections(); } }
+
+        function resetSelections() {
+            selectedPartySize = null; selectedItemType = null;
+            document.querySelectorAll('.grid-btn, .item-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('rsvp-error').style.display = 'none';
+            document.getElementById('item-error').style.display = 'none';
+        }
+
+        // Selection Logic
+        document.querySelectorAll('#number-selector .grid-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('#number-selector .grid-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                selectedPartySize = parseInt(this.getAttribute('data-val'));
+                document.getElementById('rsvp-error').style.display = 'none';
+            });
+        });
+
+        document.querySelectorAll('#item-selector .item-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('#item-selector .item-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                selectedItemType = this.getAttribute('data-val');
+                document.getElementById('item-error').style.display = 'none';
+            });
+        });
+
+        // Submit Logic
+        function submitRSVP() {
+            if (!selectedPartySize) { document.getElementById('rsvp-error').style.display = 'block'; return; }
+            totalComing += selectedPartySize;
+            document.getElementById('live-count').innerText = totalComing;
+            closeModal('rsvpModal');
+        }
+
+        function submitItem() {
+            if (!selectedItemType) { document.getElementById('item-error').style.display = 'block'; return; }
+            itemsTally[selectedItemType]++;
+            document.getElementById('count-' + selectedItemType).innerText = itemsTally[selectedItemType];
+            closeModal('bringModal');
+        }
     </script>
 
 </body>
