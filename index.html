@@ -39,10 +39,7 @@
         .container { max-width: 460px; width: 100%; margin-top: 20px; animation: fadeIn 0.8s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Contact Header */
-        .contact-header {
-            display: flex; justify-content: center; margin-bottom: 15px;
-        }
+        .contact-header { display: flex; justify-content: center; margin-bottom: 15px; }
         .btn-contact {
             background: var(--card-bg); border: 1px solid var(--border); color: var(--text-dim);
             padding: 10px 20px; border-radius: 30px; font-size: 0.8rem; font-weight: 700;
@@ -69,7 +66,6 @@
         
         .subtitle { color: var(--text-dim); margin: 8px 0 30px 0; font-weight: 500; font-size: 1rem; }
 
-        /* Parking Section */
         .parking-section { 
             background: rgba(0, 0, 0, 0.25); border: 1px solid var(--border); 
             border-radius: 20px; padding: 24px; margin-bottom: 30px; 
@@ -85,14 +81,7 @@
             justify-content: center; align-items: center; gap: 10px; transition: var(--transition);
             border: 1px solid var(--border);
         }
-        .btn-gps:hover { background: #2d3a4f; border-color: var(--primary); }
         
-        .map-visual { display: flex; align-items: center; justify-content: space-between; margin-top: 25px; padding: 0 10px; }
-        .map-node { font-size: 0.65rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; }
-        .map-line { flex-grow: 1; height: 1px; background: linear-gradient(to right, var(--primary), transparent); margin: 0 15px; position: relative; }
-        .map-line::after { content: ''; position: absolute; width: 6px; height: 6px; background: var(--primary); border-radius: 50%; top: -3px; left: 0; box-shadow: 0 0 10px var(--primary); }
-
-        /* Stats */
         .stat-box { 
             background: rgba(255,255,255,0.03); border: 1px solid var(--border); 
             border-radius: 16px; padding: 20px; margin-bottom: 12px;
@@ -105,9 +94,8 @@
             background: rgba(255,255,255,0.05); border: 1px solid var(--border); 
             padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 600; color: var(--text-dim); 
         }
-        .badge span { color: var(--primary); margin-left: 4px; }
+        .badge span { color: var(--primary); }
 
-        /* Buttons */
         .btn { 
             width: 100%; border: none; padding: 18px; border-radius: 12px; font-weight: 700; font-size: 1rem; 
             cursor: pointer; transition: var(--transition); margin-bottom: 12px; display: flex; justify-content: center; align-items: center; gap: 10px;
@@ -118,7 +106,6 @@
         
         .btn-text { background: transparent; color: var(--text-dim); border: none; font-size: 0.8rem; font-weight: 600; cursor: pointer; padding: 15px; width: 100%; }
 
-        /* Modal Styles */
         .modal { 
             display: none; position: fixed; inset: 0; background: rgba(2, 6, 23, 0.9); 
             backdrop-filter: blur(12px); z-index: 100; align-items: center; justify-content: center; padding: 20px;
@@ -143,14 +130,13 @@
         }
         .list-btn.active { border-color: var(--primary); color: var(--primary); }
 
-        #admin-panel { display: none; margin-top: 40px; }
+        #admin-panel { display: none; margin-top: 40px; text-align: center; }
         .btn-danger { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 10px 20px; border-radius: 8px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- Contact Button -->
         <div class="contact-header">
             <button class="btn-contact" onclick="openModal('contactModal')">Contact Hosts</button>
         </div>
@@ -168,16 +154,9 @@
             <div class="parking-section">
                 <span class="section-label">Arrival & Parking</span>
                 <p style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 20px; line-height: 1.6;">
-                    Please park in the <strong>neighborhood parking beside the neighborhood pool.</strong> It is a very short, easy walk up to our house from there!
+                    Please park in the <strong>neighborhood parking beside the neighborhood pool.</strong> It is a very short, easy walk up to our house!
                 </p>
-                <a href="https://maps.app.goo.gl/b5K9w6pkcUY5DGb49" target="_blank" class="btn-gps">
-                    Open GPS
-                </a>
-                <div class="map-visual">
-                    <span class="map-node">Pool Lot</span>
-                    <div class="map-line"></div>
-                    <span class="map-node">Our House</span>
-                </div>
+                <a href="https://maps.app.goo.gl/b5K9w6pkcUY5DGb49" target="_blank" class="btn-gps">Open GPS</a>
             </div>
 
             <div class="stat-box">
@@ -194,7 +173,9 @@
             </div>
 
             <button class="btn btn-main" onclick="openModal('rsvpModal')">I'm Attending</button>
+            <button class="btn btn-outline" onclick="openModal('lunchModal')">What's for Lunch?</button>
             <button class="btn btn-outline" onclick="openModal('bringModal')">Bring an Item</button>
+            <button class="btn btn-outline" onclick="openModal('friendsModal')">Can I bring friends?</button>
             <button class="btn btn-outline" onclick="openModal('kidsModal')">Kids & Pool Info</button>
             
             <button class="btn-text" onclick="openModal('changeStep1')">Change or Cancel RSVP</button>
@@ -205,21 +186,41 @@
         </div>
     </div>
 
-    <!-- Contact Modal -->
+    <!-- Modals -->
     <div id="contactModal" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('contactModal')">✕</button>
         <span class="section-label">Get in Touch</span>
-        <div style="margin-top:20px">
-            <p style="margin: 0; font-weight: 700;">Aaron Schaefer</p>
-            <a href="tel:8658502173" style="color: var(--primary); text-decoration: none; font-size: 1.1rem;">865-850-2173</a>
-        </div>
-        <div style="margin-top:25px">
-            <p style="margin: 0; font-weight: 700;">Candice Schaefer</p>
-            <a href="tel:9195454378" style="color: var(--primary); text-decoration: none; font-size: 1.1rem;">919-545-4378</a>
-        </div>
+        <div style="margin-top:20px"><p style="margin: 0; font-weight: 700;">Aaron Schaefer</p><a href="tel:8658502173" style="color: var(--primary); text-decoration: none; font-size: 1.1rem;">865-850-2173</a></div>
+        <div style="margin-top:25px"><p style="margin: 0; font-weight: 700;">Candice Schaefer</p><a href="tel:9195454378" style="color: var(--primary); text-decoration: none; font-size: 1.1rem;">919-545-4378</a></div>
     </div></div>
 
-    <!-- RSVP Modals -->
+    <div id="lunchModal" class="modal"><div class="modal-content">
+        <button class="close-modal" onclick="closeModal('lunchModal')">✕</button>
+        <span class="section-label">On the Menu</span>
+        <p style="color: var(--text-dim); line-height: 1.6; margin-top: 20px;">
+            We’ll be firing up the grill! We are providing <strong>burgers, hot dogs, and the basics.</strong>
+        </p>
+        <p style="color: var(--text-dim); line-height: 1.6;">
+            You are more than welcome to contribute sides, desserts, drinks, or chips if you’d like—but please don't feel obligated! 
+        </p>
+        <p style="color: var(--text-dim); line-height: 1.6;">
+            <strong>Special Diet?</strong> You are also welcome to use our kitchen or bring your own specific food if you prefer.
+        </p>
+        <button class="btn btn-main" style="margin-top:20px" onclick="closeModal('lunchModal')">Sounds Great</button>
+    </div></div>
+
+    <div id="friendsModal" class="modal"><div class="modal-content">
+        <button class="close-modal" onclick="closeModal('friendsModal')">✕</button>
+        <span class="section-label">The More the Merrier</span>
+        <p style="color: var(--text-dim); line-height: 1.6; margin-top: 20px; font-size: 1.1rem;">
+            <strong>Of course you can bring friends!</strong> 
+        </p>
+        <p style="color: var(--text-dim); line-height: 1.6;">
+            We love meeting new people. Just please make sure to include them in your RSVP count so we have enough food for everyone!
+        </p>
+        <button class="btn btn-main" style="margin-top:20px" onclick="closeModal('friendsModal')">Awesome!</button>
+    </div></div>
+
     <div id="rsvpModal" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('rsvpModal')">✕</button>
         <span class="section-label">Confirm Attendance</span>
@@ -248,7 +249,6 @@
         </div>
     </div></div>
 
-    <!-- Bring Modal -->
     <div id="bringModal" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('bringModal')">✕</button>
         <span class="section-label">Potluck</span>
@@ -263,11 +263,10 @@
         <button class="btn btn-main" style="margin-top:15px" onclick="submitItem()">Update List</button>
     </div></div>
 
-    <!-- Kids/Pool Modal -->
     <div id="kidsModal" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('kidsModal')">✕</button>
         <span class="section-label">Families & Fun</span>
-        <p style="color: var(--text-dim); line-height: 1.6;">We’re so excited to host your crew! Our <strong>backyard pool</strong> will be open and ready for action. If the kids get a little chilly, our <strong>hot tub will be warm</strong> (perfectly cozy, but not hot!) so they can keep playing.</p>
+        <p style="color: var(--text-dim); line-height: 1.6;">Our <strong>backyard pool</strong> will be open! If the kids get chilly, our <strong>hot tub will be warm</strong> (not hot!) so they can keep playing.</p>
         <p style="color: var(--text-main); font-weight: 700; margin-top: 15px;">Activities:</p>
         <ul style="color: var(--text-dim); font-size: 0.9rem; padding-left: 20px;">
             <li>🎬 Movie room for downtime</li><li>🏊 Swimming & Hot Tub</li><li>🌳 Park for running around</li>
@@ -279,7 +278,7 @@
         <button class="close-modal" onclick="closeModal('worriedModal')">✕</button>
         <span class="section-label">Zero Worries</span>
         <p style="color: var(--text-dim); line-height: 1.7;">
-            Please don't give "breaking things" a second thought! Everything in our home is fixable, and honestly, it’s already survived our own very active kids. <strong>We just want you and your children here with us.</strong>
+            Everything in our home is fixable. It’s already survived our own very active kids. <strong>We just want you and your children here with us.</strong>
         </p>
         <button class="btn btn-main" style="margin-top:20px" onclick="closeModal('worriedModal')">I feel better now!</button>
     </div></div>
