@@ -75,7 +75,6 @@
         
         .btn-text { background: transparent; color: var(--text-dim); border: none; font-size: 0.8rem; font-weight: 600; cursor: pointer; padding: 15px; width: 100%; }
 
-        /* Toast Message */
         #toast {
             visibility: hidden; min-width: 200px; background-color: var(--primary); color: var(--bg);
             text-align: center; border-radius: 50px; padding: 14px; position: fixed;
@@ -86,16 +85,6 @@
         @keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 30px; opacity: 1; } }
         @keyframes fadeout { from { bottom: 30px; opacity: 1; } to { bottom: 0; opacity: 0; } }
 
-        /* QR Code Styling */
-        .qr-container { background: white; padding: 15px; border-radius: 15px; display: inline-block; margin: 20px 0; }
-        .share-link-box { 
-            background: rgba(255,255,255,0.05); border: 1px solid var(--border); 
-            padding: 12px; border-radius: 10px; font-family: monospace; font-size: 0.8rem;
-            word-break: break-all; margin-top: 15px; cursor: pointer; transition: 0.2s;
-        }
-        .share-link-box:hover { background: rgba(255,255,255,0.1); border-color: var(--primary); }
-
-        /* Modal Styles */
         .modal { display: none; position: fixed; inset: 0; background: rgba(2, 6, 23, 0.92); backdrop-filter: blur(12px); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
         .modal-content { background: #0f172a; border: 1px solid var(--border); border-radius: 24px; padding: 35px; max-width: 400px; width: 100%; position: relative; text-align: center; }
         .section-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: var(--primary); letter-spacing: 2px; margin-bottom: 12px; display: block; text-align: left; }
@@ -153,7 +142,7 @@
         </div>
     </div>
 
-    <!-- Share Modal -->
+    <!-- Modals -->
     <div id="shareModal" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('shareModal')">✕</button>
         <span class="section-label">Invite Others</span>
@@ -162,7 +151,6 @@
         <p style="font-size: 0.7rem; color: var(--primary); margin-top: 10px; font-weight: 700;">TAP LINK TO COPY</p>
     </div></div>
 
-    <!-- Standard Info Modals -->
     <div id="aboutModal" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('aboutModal')">✕</button>
         <span class="section-label">A Note From Us</span>
@@ -175,11 +163,13 @@
         <button class="btn btn-main" style="margin-top:20px" onclick="closeModal('aboutModal')">Sounds great!</button>
     </div></div>
 
+    <!-- RE-ADDED PARKING DETAILS HERE -->
     <div id="parkingModal" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('parkingModal')">✕</button>
         <span class="section-label">Parking</span>
-        <p style="color: var(--text-dim); line-height: 1.6; text-align: left;">You can park on <strong>either side of the street</strong>. If street parking is full, there is an overflow lot just a short walk away.</p>
-        <a href="https://www.google.com/maps/dir/?api=1&destination=35.992224,-78.504192" target="_blank" class="btn btn-outline" style="text-decoration: none;">Navigate to Overflow Lot</a>
+        <p style="color: var(--text-dim); line-height: 1.6; text-align: left;">You can park on <strong>either side of the street</strong>.</p>
+        <p style="color: var(--text-dim); line-height: 1.6; text-align: left;">If the street is full, there is an <strong>overflow lot by the neighborhood pool</strong> just a short walk away.</p>
+        <a href="https://www.google.com/maps/dir/?api=1&destination=35.992224,-78.504192" target="_blank" class="btn btn-outline" style="text-decoration: none;">Navigate to Pool Lot</a>
     </div></div>
 
     <div id="kidsModal" class="modal"><div class="modal-content">
@@ -231,7 +221,6 @@
     <div id="changeStep2" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('changeStep2')">✕</button>
         <span class="section-label">Update Count</span>
-        <p style="font-weight: 600; font-size: 0.9rem;">How many are coming now? (0 to cancel)</p>
         <div class="grid" id="new-num-grid">
             <button class="g-btn" data-val="0">0</button><button class="g-btn" data-val="1">1</button><button class="g-btn" data-val="2">2</button><button class="g-btn" data-val="3">3</button><button class="g-btn" data-val="4">4</button><button class="g-btn" data-val="5">5</button><button class="g-btn" data-val="6">6</button><button class="g-btn" data-val="7">7</button><button class="g-btn" data-val="8">8</button><button class="g-btn" data-val="9">9</button><button class="g-btn" data-val="10">10</button>
         </div>
