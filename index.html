@@ -6,35 +6,54 @@
 <title>Summer Hangout RSVP</title>
 
 <style>
+  /* =========
+     Background
+     ========= */
   body {
     margin: 0;
     min-height: 100vh;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(to bottom, #bae6fd, #fef9c3, #bbf7d0);
+
+    background-color: #e2e8f0;
+    background-image:
+      url("data:image/svg+xml,%3Csvg width='260' height='260' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='40' y='80' font-size='36' opacity='0.06'%3E🐬%3C/text%3E%3Ctext x='140' y='150' font-size='36' opacity='0.06'%3E🍔%3C/text%3E%3Ctext x='60' y='220' font-size='36' opacity='0.06'%3E🌴%3C/text%3E%3C/svg%3E");
   }
 
+  /* =========
+     Card
+     ========= */
   .card {
-    background: white;
+    background: #ffffff;
     max-width: 480px;
     width: 100%;
-    border-radius: 16px;
-    padding: 20px;
+    border-radius: 18px;
+    padding: 22px;
     text-align: center;
-    box-shadow: 0 10px 25px rgba(0,0,0,.15);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.15);
   }
 
-  h1 { margin: 0 0 6px; }
-  h3 { margin: 10px 0; }
+  h1 {
+    margin: 0 0 6px;
+    color: #0f172a;
+  }
+
+  h3 {
+    margin: 12px 0 8px;
+    color: #0f172a;
+  }
 
   .subtle {
-    color: #6b7280;
+    color: #475569;
     font-size: 14px;
     margin: 2px 0;
   }
 
+  /* =========
+     Buttons
+     ========= */
   .row {
     display: flex;
     gap: 10px;
@@ -46,35 +65,39 @@
   button {
     padding: 12px 16px;
     border-radius: 12px;
-    border: 1px solid #ccc;
-    background: #fff;
+    border: 1px solid #cbd5f5;
+    background: #ffffff;
+    color: #0f172a;
     font-size: 15px;
     cursor: pointer;
-    transition: all .15s ease;
+    transition: all 0.15s ease;
   }
 
   button:hover {
-    transform: translateY(-1px);
+    background: #f1f5f9;
   }
 
   button.primary {
-    background: #10b981;
-    color: #fff;
+    background: #2563eb;
+    color: #ffffff;
     border: none;
     font-weight: 600;
   }
 
   button.selected {
-    background: #10b981;
-    color: #fff;
-    border-color: #10b981;
-    transform: scale(1.05);
+    background: #2563eb;
+    color: #ffffff;
+    border-color: #2563eb;
+    transform: scale(1.06);
   }
 
+  /* =========
+     Stats
+     ========= */
   .counter {
     font-size: 42px;
     font-weight: 800;
-    color: #059669;
+    color: #2563eb;
     margin: 6px 0;
   }
 
@@ -82,25 +105,29 @@
     text-align: left;
     font-size: 14px;
     margin-top: 10px;
+    color: #334155;
   }
 
+  /* =========
+     Parking
+     ========= */
   .section {
-    margin-top: 24px;
+    margin-top: 26px;
     text-align: left;
     font-size: 14px;
   }
 
   .callout {
     margin-top: 8px;
-    padding: 10px;
-    border-left: 4px solid #f59e0b;
-    background: #fef3c7;
-    border-radius: 8px;
+    padding: 12px;
+    border-left: 4px solid #2563eb;
+    background: #f1f5f9;
+    border-radius: 10px;
   }
 
   .map {
-    margin-top: 12px;
-    border-radius: 12px;
+    margin-top: 14px;
+    border-radius: 14px;
     overflow: hidden;
   }
 
@@ -109,23 +136,26 @@
     display: block;
   }
 
-  /* MODAL */
+  /* =========
+     Modal
+     ========= */
   #modal {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,.45);
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(4px);
   }
 
   #modalCard {
-    background: #fff;
-    border-radius: 16px;
+    background: #ffffff;
+    border-radius: 18px;
     max-width: 380px;
     width: 92%;
-    padding: 20px;
+    padding: 22px;
     margin: auto;
     margin-top: 12vh;
-    box-shadow: 0 20px 40px rgba(0,0,0,.3);
+    box-shadow: 0 30px 60px rgba(15, 23, 42, 0.35);
     text-align: center;
   }
 </style>
@@ -134,7 +164,7 @@
 <body>
 
 <div class="card">
-  <h1>Summer Hangout 🍔🌭</h1>
+  <h1>Summer Hangout</h1>
 
   <!-- EVENT DETAILS -->
   <p class="subtle">Saturday · June 22 · 3–10 PM</p>
@@ -142,10 +172,10 @@
 
   <div class="row">
     <a href="https://www.google.com/maps/search/?api=1&query=6629+Penfield+Street+Wake+Forest+NC+27587" target="_blank">
-      <button>📍 Directions</button>
+      <button>Directions</button>
     </a>
     <a href="https://weather.com/weather/today/l/Wake+Forest+NC" target="_blank">
-      <button>🌤️ Weather</button>
+      <button>Weather</button>
     </a>
   </div>
 
@@ -157,131 +187,21 @@
   <div id="breakdown" class="breakdown"></div>
 
   <div class="section">
-    <h3>🅿️ Parking</h3>
+    <h3>Parking</h3>
     <div class="callout">
-      <strong>Please do not park at the house.</strong><br/>
-      Park at the community <strong>pool parking area</strong> and walk up.
+      <strong>Please do not park at the house.</strong><br />
+      Park at the community pool parking area and walk up.
     </div>
 
     <div class="map">
       <a href="https://maps.app.goo.gl/SZzfBScdbZ4D45WB8" target="_blank">
-        <img src="https://maps.googleapis.com/maps/api/staticmap?size=600x300&markers=color:blue|label:P|35.9657,-78.5064&markers=color:red|label:H|35.9666,-78.5077&path=color:0x10b981ff|weight:5|35.9657,-78.5064|35.9666,-78.5077" />
+        <img
+          src="https://maps.googleapis.com/maps/api/staticmap?size=600x300&markers=color:blue|label:P|35.9657,-78.5064&markers=color:gray|label:H|35.9666,-78.5077&path=color:0x2563eb|weight:5|35.9657,-78.5064|35.9666,-78.5077"
+          alt="Parking and walk"
+        />
       </a>
     </div>
   </div>
 </div>
 
-<!-- MODAL -->
-<div id="modal" onclick="closeRSVP(event)">
-  <div id="modalCard">
-    <h3>How many people?</h3>
-
-    <div class="row" id="countButtons">
-      <button onclick="selectCount(this,1)">1</button>
-      <button onclick="selectCount(this,2)">2</button>
-      <button onclick="selectCount(this,3)">3</button>
-      <button onclick="selectCount(this,4)">4</button>
-      <button onclick="selectCount(this,5)">5</button>
-      <button onclick="selectCount(this,6)">6</button>
-      <button onclick="selectCount(this,7)">7</button>
-      <button onclick="selectCount(this,8)">8</button>
-      <button onclick="selectCount(this,9)">9</button>
-      <button onclick="selectCount(this,10)">10</button>
-    </div>
-
-    <h3 id="bringHeader" style="margin-top:18px;">What are you bringing?</h3>
-
-    <div class="row">
-      <button onclick="toggleItem(this,'Drink')">Drink</button>
-      <button onclick="toggleItem(this,'Side')">Side</button>
-      <button onclick="toggleItem(this,'Dessert')">Dessert</button>
-      <button onclick="toggleItem(this,'Other')">Other</button>
-    </div>
-
-    <button class="primary" style="margin-top:18px" onclick="confirmRSVP()">Confirm 🎉</button>
-    <p id="thanks" class="subtle" style="display:none">You’re in! ✅</p>
-  </div>
-</div>
-
-<script>
-let selectedCount = 0;
-let selectedItems = [];
-
-const totals = { Drink:0, Side:0, Dessert:0, Other:0 };
-const totalEl = document.getElementById('total');
-const breakdownEl = document.getElementById('breakdown');
-const bringHeader = document.getElementById('bringHeader');
-
-let stored = JSON.parse(localStorage.getItem('rsvpData') || '{}');
-let totalPeople = stored.total || 0;
-Object.assign(totals, stored.items || {});
-totalEl.textContent = totalPeople;
-renderBreakdown();
-
-if (location.hash === '#reset') {
-  localStorage.removeItem('rsvpData');
-  location.hash = '';
-  location.reload();
-}
-
-function openRSVP() {
-  selectedCount = 0;
-  selectedItems = [];
-  document.querySelectorAll('#modal button').forEach(b => b.classList.remove('selected'));
-  document.getElementById('thanks').style.display = 'none';
-  document.getElementById('modal').style.display = 'block';
-}
-
-function closeRSVP(e) {
-  if (e.target.id === 'modal') {
-    document.getElementById('modal').style.display = 'none';
-  }
-}
-
-function selectCount(btn, n) {
-  selectedCount = n;
-  document.querySelectorAll('#countButtons button').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-
-  bringHeader.scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
-
-function toggleItem(btn, item) {
-  btn.classList.toggle('selected');
-  if (selectedItems.includes(item)) {
-    selectedItems = selectedItems.filter(i => i !== item);
-  } else {
-    selectedItems.push(item);
-  }
-}
-
-function confirmRSVP() {
-  if (!selectedCount) {
-    alert('Please select how many people.');
-    return;
-  }
-
-  totalPeople += selectedCount;
-  selectedItems.forEach(i => totals[i]++);
-
-  localStorage.setItem('rsvpData', JSON.stringify({ total: totalPeople, items: totals }));
-  totalEl.textContent = totalPeople;
-  renderBreakdown();
-
-  document.getElementById('thanks').style.display = 'block';
-  setTimeout(() => document.getElementById('modal').style.display = 'none', 1200);
-}
-
-function renderBreakdown() {
-  breakdownEl.innerHTML = `
-    <strong>What people are bringing:</strong><br>
-    Drinks: ${totals.Drink}<br>
-    Sides: ${totals.Side}<br>
-    Desserts: ${totals.Dessert}<br>
-    Other: ${totals.Other}
-  `;
-}
-</script>
-
-</body>
-</html>
+<!-- RSVP Modal -->
