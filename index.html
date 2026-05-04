@@ -75,15 +75,6 @@
         
         .btn-text { background: transparent; color: var(--text-dim); border: none; font-size: 0.8rem; font-weight: 600; cursor: pointer; padding: 15px; width: 100%; }
 
-        /* QR Code Styling */
-        .qr-container { background: white; padding: 15px; border-radius: 15px; display: inline-block; margin: 20px 0; }
-        .share-link-box { 
-            background: rgba(255,255,255,0.05); border: 1px solid var(--border); 
-            padding: 12px; border-radius: 10px; font-family: monospace; font-size: 0.8rem;
-            word-break: break-all; margin-top: 15px; cursor: pointer; transition: 0.2s;
-        }
-        .share-link-box:hover { background: rgba(255,255,255,0.1); border-color: var(--primary); }
-
         /* Toast Message */
         #toast {
             visibility: hidden; min-width: 200px; background-color: var(--primary); color: var(--bg);
@@ -94,6 +85,15 @@
         #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
         @keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 30px; opacity: 1; } }
         @keyframes fadeout { from { bottom: 30px; opacity: 1; } to { bottom: 0; opacity: 0; } }
+
+        /* QR Code Styling */
+        .qr-container { background: white; padding: 15px; border-radius: 15px; display: inline-block; margin: 20px 0; }
+        .share-link-box { 
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border); 
+            padding: 12px; border-radius: 10px; font-family: monospace; font-size: 0.8rem;
+            word-break: break-all; margin-top: 15px; cursor: pointer; transition: 0.2s;
+        }
+        .share-link-box:hover { background: rgba(255,255,255,0.1); border-color: var(--primary); }
 
         /* Modal Styles */
         .modal { display: none; position: fixed; inset: 0; background: rgba(2, 6, 23, 0.92); backdrop-filter: blur(12px); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
@@ -107,14 +107,11 @@
 
         .list-btn { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid var(--border); background: rgba(255,255,255,0.03); color: var(--text-main); text-align: left; margin-bottom: 8px; cursor: pointer; font-weight: 600; }
         .list-btn.active { border-color: var(--primary); color: var(--primary); }
-
-        #admin-panel { display: none; margin-top: 40px; text-align: center; }
-        .btn-danger { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 10px 20px; border-radius: 8px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div id="toast">Link Copied! ✓</div>
+    <div id="toast">Response Received! ✓</div>
 
     <div class="container">
         <div class="header-actions">
@@ -130,7 +127,7 @@
 
         <div class="card">
             <h1>Schaefer Open House</h1>
-            <p class="subtitle">Lunch, Pool, & Connection</p>
+            <p class="subtitle">Lunch, Pool, & Movie Room</p>
 
             <div class="stat-box">
                 <span class="section-label" style="margin:0">Total Attending</span>
@@ -149,13 +146,10 @@
             <button class="btn btn-outline" onclick="openModal('aboutModal')">What is this all about?</button>
             <button class="btn btn-outline" onclick="openModal('lunchModal')">What's for Lunch?</button>
             <button class="btn btn-outline" onclick="openModal('bringModal')">Bring an Item</button>
+            <button class="btn btn-outline" onclick="openModal('parkingModal')">Where do I park?</button>
             <button class="btn btn-outline" onclick="openModal('kidsModal')">Kids & Pool Info</button>
             
             <button class="btn-text" onclick="openModal('changeStep1')">Change or Cancel RSVP</button>
-        </div>
-
-        <div id="admin-panel">
-            <button class="btn-danger" onclick="resetAllData()">Reset Database</button>
         </div>
     </div>
 
@@ -163,22 +157,43 @@
     <div id="shareModal" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('shareModal')">✕</button>
         <span class="section-label">Invite Others</span>
-        <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 10px;">Friends can scan this QR code or use the link below to RSVP.</p>
-        <div class="qr-container">
-            <img id="qr-img" src="" alt="Invite QR Code" style="display: block; width: 180px; height: 180px;">
-        </div>
-        <div class="share-link-box" id="share-url-text" onclick="copyLink()">
-            Loading URL...
-        </div>
+        <div class="qr-container"><img id="qr-img" src="" style="display: block; width: 180px; height: 180px;"></div>
+        <div class="share-link-box" id="share-url-text" onclick="copyLink()">Loading URL...</div>
         <p style="font-size: 0.7rem; color: var(--primary); margin-top: 10px; font-weight: 700;">TAP LINK TO COPY</p>
     </div></div>
 
     <!-- Standard Info Modals -->
     <div id="aboutModal" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('aboutModal')">✕</button>
-        <span class="section-label">The Vision</span>
-        <p style="color: var(--text-dim); line-height: 1.6; margin-top: 20px; text-align: left;">We want to provide a friendly, low-pressure opportunity for people to hang out and get to know each other! <strong>No set agenda</strong>—come and go as you desire. We'll be open from after 2nd service until 6:00 p.m.</p>
-        <button class="btn btn-main" style="margin-top:20px" onclick="closeModal('aboutModal')">Cool!</button>
+        <span class="section-label">A Note From Us</span>
+        <p style="color: var(--text-dim); line-height: 1.6; text-align: left; margin-top: 20px;">
+            We just want to provide a friendly, low-pressure opportunity for everyone to hang out, get to know each other, and have some fun!
+        </p>
+        <p style="color: var(--text-dim); line-height: 1.6; text-align: left;">
+            There is <strong>no set agenda</strong>—feel free to come and go as you desire. We’ll get things started right after the second service lets out (around <strong>12:15 p.m.</strong>) and the house stays open until 6:00 p.m.
+        </p>
+        <button class="btn btn-main" style="margin-top:20px" onclick="closeModal('aboutModal')">Sounds great!</button>
+    </div></div>
+
+    <div id="parkingModal" class="modal"><div class="modal-content">
+        <button class="close-modal" onclick="closeModal('parkingModal')">✕</button>
+        <span class="section-label">Parking</span>
+        <p style="color: var(--text-dim); line-height: 1.6; text-align: left;">You can park on <strong>either side of the street</strong>. If street parking is full, there is an overflow lot just a short walk away.</p>
+        <a href="https://www.google.com/maps/dir/?api=1&destination=35.992224,-78.504192" target="_blank" class="btn btn-outline" style="text-decoration: none;">Navigate to Overflow Lot</a>
+    </div></div>
+
+    <div id="kidsModal" class="modal"><div class="modal-content">
+        <button class="close-modal" onclick="closeModal('kidsModal')">✕</button>
+        <span class="section-label">Families</span>
+        <p style="color: var(--text-dim); line-height: 1.6; text-align: left;">The pool is open and the hot tub is kept at a kid-safe warm temp!</p>
+        <p style="color: var(--text-dim); line-height: 1.6; text-align: left;"><strong>Movie Room:</strong> We'll have very kid-friendly movies playing on loop so the little ones have a fun place to chill out.</p>
+        <button class="btn btn-main" style="margin-top:20px" onclick="openModal('worriedModal')">Worried about breakage?</button>
+    </div></div>
+
+    <div id="worriedModal" class="modal"><div class="modal-content">
+        <button class="close-modal" onclick="closeModal('worriedModal')">✕</button>
+        <span class="section-label">Don't Worry!</span>
+        <p style="color: var(--text-dim); line-height: 1.6; text-align: left;">Everything in our home is fixable. It’s already survived our own active kids—we just want you here!</p>
     </div></div>
 
     <div id="contactModal" class="modal"><div class="modal-content">
@@ -190,35 +205,24 @@
 
     <div id="lunchModal" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('lunchModal')">✕</button>
-        <span class="section-label">Food</span>
-        <p style="color: var(--text-dim); line-height: 1.6; text-align: left;">We're grilling <strong>burgers and hot dogs.</strong> You are welcome to contribute sides or desserts, or bring your own specific food if you prefer. No pressure either way!</p>
+        <span class="section-label">The Menu</span>
+        <p style="color: var(--text-dim); line-height: 1.6; text-align: left;">We're grilling <strong>burgers and hot dogs.</strong> You are more than welcome to contribute sides or desserts, or bring your own specific food—whatever is easiest!</p>
     </div></div>
 
-    <div id="kidsModal" class="modal"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('kidsModal')">✕</button>
-        <span class="section-label">For Kids</span>
-        <p style="color: var(--text-dim); line-height: 1.6; text-align: left;">The pool is open! The hot tub is kid-safe warm. <strong>The Movie Room</strong> will be playing kid-friendly movies on loop all day.</p>
-        <button class="btn btn-main" style="margin-top:20px" onclick="openModal('worriedModal')">Breaking things?</button>
-    </div></div>
-
-    <div id="worriedModal" class="modal"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('worriedModal')">✕</button>
-        <span class="section-label">Peace of Mind</span>
-        <p style="color: var(--text-dim); line-height: 1.6; text-align: left;">Everything is fixable. Our kids are active too—we just want you and your children here with us!</p>
-    </div></div>
-
+    <!-- RSVP Logic Modals -->
     <div id="rsvpModal" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('rsvpModal')">✕</button>
         <span class="section-label">RSVP</span>
         <div class="grid" id="num-grid">
             <button class="g-btn" data-val="1">1</button><button class="g-btn" data-val="2">2</button><button class="g-btn" data-val="3">3</button><button class="g-btn" data-val="4">4</button><button class="g-btn" data-val="5">5</button><button class="g-btn" data-val="6">6</button><button class="g-btn" data-val="7">7</button><button class="g-btn" data-val="8">8</button><button class="g-btn" data-val="9">9</button><button class="g-btn" data-val="10">10</button>
         </div>
-        <button class="btn btn-main" onclick="submitRSVP()">Confirm Count</button>
+        <button class="btn btn-main" onclick="submitRSVP()">Confirm Attendance</button>
     </div></div>
 
     <div id="changeStep1" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('changeStep1')">✕</button>
-        <span class="section-label">Previous Count</span>
+        <span class="section-label">Current RSVP</span>
+        <p style="font-weight: 600; font-size: 0.9rem;">What was your previous count?</p>
         <div class="grid" id="old-num-grid">
             <button class="g-btn" data-val="1">1</button><button class="g-btn" data-val="2">2</button><button class="g-btn" data-val="3">3</button><button class="g-btn" data-val="4">4</button><button class="g-btn" data-val="5">5</button><button class="g-btn" data-val="6">6</button><button class="g-btn" data-val="7">7</button><button class="g-btn" data-val="8">8</button><button class="g-btn" data-val="9">9</button><button class="g-btn" data-val="10">10</button>
         </div>
@@ -226,7 +230,8 @@
 
     <div id="changeStep2" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('changeStep2')">✕</button>
-        <span class="section-label">New Count</span>
+        <span class="section-label">Update Count</span>
+        <p style="font-weight: 600; font-size: 0.9rem;">How many are coming now? (0 to cancel)</p>
         <div class="grid" id="new-num-grid">
             <button class="g-btn" data-val="0">0</button><button class="g-btn" data-val="1">1</button><button class="g-btn" data-val="2">2</button><button class="g-btn" data-val="3">3</button><button class="g-btn" data-val="4">4</button><button class="g-btn" data-val="5">5</button><button class="g-btn" data-val="6">6</button><button class="g-btn" data-val="7">7</button><button class="g-btn" data-val="8">8</button><button class="g-btn" data-val="9">9</button><button class="g-btn" data-val="10">10</button>
         </div>
@@ -242,7 +247,7 @@
             <button class="list-btn" data-val="dessert">Dessert</button>
             <button class="list-btn" data-val="other">Other</button>
         </div>
-        <button class="btn btn-main" style="margin-top:15px" onclick="submitItem()">Update List</button>
+        <button class="btn btn-main" style="margin-top:15px" onclick="submitItem()">Update Food List</button>
     </div></div>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -276,8 +281,7 @@
         }
 
         function copyLink() {
-            const url = window.location.href;
-            navigator.clipboard.writeText(url).then(() => {
+            navigator.clipboard.writeText(window.location.href).then(() => {
                 showToast("Link Copied! ✓");
             });
         }
@@ -329,7 +333,7 @@
                 eventRef.child('items').child(btn.dataset.val).transaction(c => (c || 0) + 1);
             });
             closeModal('bringModal');
-            showToast("Potluck List Updated! ✓");
+            showToast("Food List Updated! ✓");
         }
 
         function openModal(id) { 
@@ -339,16 +343,6 @@
         function closeModal(id) { 
             document.getElementById(id).style.display = 'none'; 
             if(id === 'worriedModal') document.getElementById('kidsModal').style.display = 'flex';
-        }
-
-        function resetAllData() {
-            if(confirm("Wipe all global data?")) {
-                eventRef.set({ total: 0, items: { chips: 0, sides: 0, drinks: 0, dessert: 0, other: 0 } });
-            }
-        }
-
-        if (new URLSearchParams(window.location.search).get('admin') === 'true') {
-            document.getElementById('admin-panel').style.display = 'block';
         }
     </script>
 </body>
