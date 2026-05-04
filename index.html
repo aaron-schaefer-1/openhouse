@@ -13,8 +13,8 @@
             --bg: #020617;
             --card-bg: rgba(15, 23, 42, 0.85);
             --border: rgba(148, 163, 184, 0.15);
-            --primary: #38bdf8; 
-            --accent: #94a3b8;  
+            --primary: #38bdf8;
+            --accent: #94a3b8;
             --text-main: #f1f5f9;
             --text-dim: #94a3b8;
             --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -33,7 +33,6 @@
         .container { max-width: 460px; width: 100%; animation: fadeIn 0.8s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* PARKING SECTION */
         .parking-hero {
             background: linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, rgba(15, 23, 42, 0.9) 100%);
             border: 2px solid var(--primary); border-radius: 24px; padding: 25px;
@@ -41,12 +40,11 @@
         }
         .parking-title { font-weight: 800; font-size: 1.2rem; color: var(--primary); margin-bottom: 8px; }
         .parking-text { font-size: 0.9rem; line-height: 1.5; color: var(--text-main); margin-bottom: 20px; }
-        .walk-tag { 
+        .walk-tag {
             display: inline-block; background: rgba(56, 189, 248, 0.2); color: var(--primary);
             padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
         }
 
-        /* HEADER ACTIONS */
         .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; width: 100%; gap: 10px; }
         .btn-round {
             flex: 1; background: var(--card-bg); border: 1px solid var(--border); color: var(--text-dim);
@@ -56,16 +54,16 @@
         }
         .btn-round:hover { border-color: var(--primary); color: var(--primary); }
 
-        .card { 
-            background: var(--card-bg); border: 1px solid var(--border); border-radius: 28px; 
+        .card {
+            background: var(--card-bg); border: 1px solid var(--border); border-radius: 28px;
             padding: 35px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
         }
 
         h1 { font-weight: 800; letter-spacing: -1px; margin: 0; font-size: 2rem; text-align: center; }
         .subtitle { color: var(--text-dim); text-align: center; margin: 8px 0 25px 0; font-size: 0.9rem; }
 
-        .stat-box { 
-            background: rgba(255,255,255,0.03); border: 1px solid var(--border); 
+        .stat-box {
+            background: rgba(255,255,255,0.03); border: 1px solid var(--border);
             border-radius: 16px; padding: 15px 20px; margin-bottom: 12px;
             display: flex; justify-content: space-between; align-items: center;
         }
@@ -78,13 +76,15 @@
         .btn { width: 100%; border: none; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: var(--transition); margin-bottom: 10px; display: flex; justify-content: center; align-items: center; gap: 10px; text-decoration: none; text-align: center; }
         .btn-main { background: var(--text-main); color: var(--bg); }
         .btn-outline { background: transparent; color: var(--text-main); border: 1px solid var(--border); }
+        .btn-outline:hover { border-color: var(--primary); }
         .btn-park { background: var(--primary); color: var(--bg); margin-top: 10px; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); }
-        
+        .btn-danger { background: transparent; color: #f87171; border: 1px solid rgba(248, 113, 113, 0.3); }
+        .btn-danger:hover { background: rgba(248, 113, 113, 0.1); border-color: #f87171; }
+
         .btn-text { background: transparent; color: var(--text-dim); border: none; font-size: 0.8rem; font-weight: 600; cursor: pointer; padding: 15px; width: 100%; }
 
-        /* Modals */
         .modal { display: none; position: fixed; inset: 0; background: rgba(2, 6, 23, 0.95); backdrop-filter: blur(10px); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
-        .modal-content { background: #0f172a; border: 1px solid var(--border); border-radius: 24px; padding: 30px; max-width: 400px; width: 100%; position: relative; }
+        .modal-content { background: #0f172a; border: 1px solid var(--border); border-radius: 24px; padding: 30px; max-width: 400px; width: 100%; position: relative; max-height: 90vh; overflow-y: auto; }
         .section-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: var(--primary); letter-spacing: 2px; margin-bottom: 15px; display: block; }
         .close-modal { position: absolute; top: 15px; right: 15px; background: transparent; border: none; color: var(--text-dim); cursor: pointer; font-size: 1.2rem; }
 
@@ -92,12 +92,28 @@
         .share-link-box { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 12px; border-radius: 10px; font-family: monospace; font-size: 0.75rem; word-break: break-all; cursor: pointer; }
 
         .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 20px 0; }
-        .g-btn { aspect-ratio: 1; border-radius: 10px; border: 1px solid var(--border); background: rgba(255,255,255,0.03); color: var(--text-main); font-weight: 700; cursor: pointer; }
+        .g-btn { aspect-ratio: 1; border-radius: 10px; border: 1px solid var(--border); background: rgba(255,255,255,0.03); color: var(--text-main); font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .g-btn:hover { border-color: var(--primary); }
         .g-btn.active { background: var(--primary); border-color: var(--primary); color: var(--bg); }
+
+        .item-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
+        .item-btn {
+            padding: 16px; border-radius: 12px; border: 1px solid var(--border);
+            background: rgba(255,255,255,0.03); color: var(--text-main); font-weight: 600;
+            cursor: pointer; transition: 0.2s; font-family: inherit; font-size: 0.9rem;
+        }
+        .item-btn:hover { border-color: var(--primary); }
+        .item-btn.active { background: var(--primary); border-color: var(--primary); color: var(--bg); }
+
+        .info-list { list-style: none; padding: 0; margin: 15px 0; color: var(--text-dim); line-height: 1.7; font-size: 0.95rem; }
+        .info-list li { padding: 8px 0; border-bottom: 1px solid var(--border); }
+        .info-list li:last-child { border-bottom: none; }
+        .info-list strong { color: var(--text-main); }
 
         #toast { visibility: hidden; min-width: 200px; background: var(--primary); color: var(--bg); text-align: center; border-radius: 50px; padding: 12px; position: fixed; z-index: 1000; left: 50%; bottom: 30px; transform: translateX(-50%); font-weight: 800; }
         #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
         @keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 30px; opacity: 1; } }
+        @keyframes fadeout { from { bottom: 30px; opacity: 1; } to { bottom: 0; opacity: 0; } }
     </style>
 </head>
 <body>
@@ -105,13 +121,12 @@
     <div id="toast">Response Received! ✓</div>
 
     <div class="container">
-        
-        <!-- PARKING HERO -->
+
         <div class="parking-hero">
             <div class="parking-title">PARKING & ARRIVAL</div>
             <div class="parking-text">
-                To keep our neighbors happy, please <strong>do not park on the street or at the house.</strong> 
-                Park at the neighborhood pool lot—it’s a very short, scenic walk to our front door!
+                To keep our neighbors happy, please <strong>do not park on the street or at the house.</strong>
+                Park at the neighborhood pool lot - it's a very short, scenic walk to our front door!
             </div>
             <div class="walk-tag">🚶 2 Minute Walk to 6629 Penfield</div>
             <a href="https://maps.app.goo.gl/4hbNhkQDsiBBpEqn9" target="_blank" class="btn btn-park">Navigate to Parking Lot</a>
@@ -130,7 +145,7 @@
                 <span class="section-label" style="margin:0">Attending</span>
                 <span class="count-big" id="live-count">0</span>
             </div>
-            
+
             <div class="item-tally" id="tally-container">
                 <div class="badge">Chips <span>0</span></div>
                 <div class="badge">Sides <span>0</span></div>
@@ -143,12 +158,11 @@
             <button class="btn btn-outline" onclick="openModal('lunchModal')">What's for Lunch?</button>
             <button class="btn btn-outline" onclick="openModal('bringModal')">Bring an Item</button>
             <button class="btn btn-outline" onclick="openModal('kidsModal')">Kids & Pool Info</button>
-            
-            <button class="btn-text" onclick="openModal('changeStep1')">Change or Cancel RSVP</button>
+
+            <button class="btn-text" onclick="openModal('cancelModal')">Change or Cancel RSVP</button>
         </div>
     </div>
 
-    <!-- Modals -->
     <div id="contactModal" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('contactModal')">✕</button>
         <span class="section-label">Hosts</span>
@@ -165,7 +179,7 @@
     <div id="shareModal" class="modal"><div class="modal-content" style="text-align: center;">
         <button class="close-modal" onclick="closeModal('shareModal')">✕</button>
         <span class="section-label">Invite Others</span>
-        <div class="qr-container"><img id="qr-img" src="" style="display: block; width: 150px; height: 150px;"></div>
+        <div class="qr-container"><img id="qr-img" src="" alt="QR code" style="display: block; width: 150px; height: 150px;"></div>
         <div class="share-link-box" id="share-url-text" onclick="copyLink()">Tap to Copy Link</div>
     </div></div>
 
@@ -173,8 +187,54 @@
         <button class="close-modal" onclick="closeModal('aboutModal')">✕</button>
         <span class="section-label">A Note From Us</span>
         <p style="color: var(--text-dim); line-height: 1.6; font-size: 0.95rem;">
-            No set agenda—come and go as you desire. We’ll start right after the second service lets out (around <strong>12:15 p.m.</strong>) and we're open until 6:00 p.m.
+            No set agenda - come and go as you desire. We'll start right after the second service lets out (around <strong>12:15 p.m.</strong>) and we're open until 6:00 p.m.
         </p>
+        <ul class="info-list">
+            <li><strong>Lunch</strong> served from 12:30 - 2:00 p.m.</li>
+            <li><strong>Pool</strong> open all afternoon</li>
+            <li><strong>Movie room</strong> available for the kids (or anyone wanting AC)</li>
+        </ul>
+    </div></div>
+
+    <div id="lunchModal" class="modal"><div class="modal-content">
+        <button class="close-modal" onclick="closeModal('lunchModal')">✕</button>
+        <span class="section-label">On the Menu</span>
+        <ul class="info-list">
+            <li><strong>Burgers & hot dogs</strong> from the grill</li>
+            <li><strong>Pulled pork</strong> sliders</li>
+            <li><strong>Buns, condiments, and toppings</strong> provided</li>
+            <li><strong>Water, lemonade, and sweet tea</strong> on hand</li>
+        </ul>
+        <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 15px;">
+            If you have specific dietary needs, just let us know and we'll have something for you.
+        </p>
+    </div></div>
+
+    <div id="bringModal" class="modal"><div class="modal-content">
+        <button class="close-modal" onclick="closeModal('bringModal')">✕</button>
+        <span class="section-label">Bring Something (Optional)</span>
+        <p style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 5px;">
+            Lunch is covered, but if you'd like to contribute, pick a category:
+        </p>
+        <div class="item-grid" id="item-grid">
+            <button class="item-btn" data-item="chips">🥨 Chips</button>
+            <button class="item-btn" data-item="sides">🥗 Sides</button>
+            <button class="item-btn" data-item="drinks">🥤 Drinks</button>
+            <button class="item-btn" data-item="dessert">🍰 Dessert</button>
+        </div>
+        <button class="btn btn-main" onclick="submitItem()">Confirm</button>
+    </div></div>
+
+    <div id="kidsModal" class="modal"><div class="modal-content">
+        <button class="close-modal" onclick="closeModal('kidsModal')">✕</button>
+        <span class="section-label">Kids & Pool</span>
+        <ul class="info-list">
+            <li>Kids of all ages are <strong>very welcome</strong></li>
+            <li>The <strong>movie room</strong> will have kid-friendly films running all afternoon</li>
+            <li>Pool is open - <strong>parents please supervise</strong> your own children at all times</li>
+            <li>Bring <strong>swimsuits, towels, and sunscreen</strong></li>
+            <li>Floats and pool toys are available</li>
+        </ul>
     </div></div>
 
     <div id="rsvpModal" class="modal"><div class="modal-content">
@@ -184,6 +244,16 @@
             <button class="g-btn" data-val="1">1</button><button class="g-btn" data-val="2">2</button><button class="g-btn" data-val="3">3</button><button class="g-btn" data-val="4">4</button><button class="g-btn" data-val="5">5</button><button class="g-btn" data-val="6">6</button><button class="g-btn" data-val="7">7</button><button class="g-btn" data-val="8">8</button><button class="g-btn" data-val="9">9</button><button class="g-btn" data-val="10">10</button>
         </div>
         <button class="btn btn-main" onclick="submitRSVP()">Confirm</button>
+    </div></div>
+
+    <div id="cancelModal" class="modal"><div class="modal-content">
+        <button class="close-modal" onclick="closeModal('cancelModal')">✕</button>
+        <span class="section-label">Change or Cancel</span>
+        <p style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 20px;">
+            Need to update your RSVP? Reach out directly and we'll handle it.
+        </p>
+        <button class="btn btn-outline" onclick="closeModal('cancelModal'); openModal('contactModal');">Contact a Host</button>
+        <button class="btn btn-danger" onclick="cancelMyRSVP()">Cancel My Last RSVP</button>
     </div></div>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -202,7 +272,13 @@
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-        
+
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.style.display = 'none';
+            });
+        });
+
         function openShareModal() {
             const url = window.location.href;
             document.getElementById('share-url-text').innerText = url;
@@ -218,7 +294,8 @@
 
         function showToast(msg) {
             const t = document.getElementById("toast");
-            t.innerText = msg; t.className = "show";
+            t.innerText = msg;
+            t.className = "show";
             setTimeout(() => { t.className = ""; }, 3000);
         }
 
@@ -234,19 +311,61 @@
             `;
         });
 
-        document.querySelectorAll('.g-btn').forEach(btn => {
+        document.querySelectorAll('#num-grid .g-btn').forEach(btn => {
             btn.onclick = function() {
                 this.parentElement.querySelectorAll('.g-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
             };
         });
 
+        document.querySelectorAll('#item-grid .item-btn').forEach(btn => {
+            btn.onclick = function() {
+                this.parentElement.querySelectorAll('.item-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            };
+        });
+
+        let lastRSVP = parseInt(sessionStorage.getItem('lastRSVP') || '0');
+
         function submitRSVP() {
             const active = document.querySelector('#num-grid .g-btn.active');
-            if(!active) return;
-            eventRef.child('total').transaction(c => (c || 0) + parseInt(active.dataset.val));
+            if (!active) {
+                showToast("Pick a number first");
+                return;
+            }
+            const count = parseInt(active.dataset.val);
+            eventRef.child('total').transaction(c => (c || 0) + count);
+            lastRSVP += count;
+            sessionStorage.setItem('lastRSVP', lastRSVP);
+            active.classList.remove('active');
             closeModal('rsvpModal');
             showToast("See you there! ✓");
+        }
+
+        function submitItem() {
+            const active = document.querySelector('#item-grid .item-btn.active');
+            if (!active) {
+                showToast("Pick an item first");
+                return;
+            }
+            const item = active.dataset.item;
+            eventRef.child('items/' + item).transaction(c => (c || 0) + 1);
+            active.classList.remove('active');
+            closeModal('bringModal');
+            showToast("Thanks for bringing it! ✓");
+        }
+
+        function cancelMyRSVP() {
+            if (lastRSVP <= 0) {
+                showToast("No RSVP to cancel");
+                return;
+            }
+            const toRemove = lastRSVP;
+            eventRef.child('total').transaction(c => Math.max(0, (c || 0) - toRemove));
+            lastRSVP = 0;
+            sessionStorage.removeItem('lastRSVP');
+            closeModal('cancelModal');
+            showToast("RSVP cancelled");
         }
     </script>
 </body>
