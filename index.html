@@ -772,33 +772,36 @@
         }
         .btn-text:hover { color: var(--primary); }
 
-        /* ---------- Theme toggle (top-right) ---------- */
+        /* ---------- Theme toggle (top-right, vertical stack) ---------- */
         .theme-toggle {
             position: fixed;
-            top: 18px;
-            right: 18px;
+            top: 14px;
+            right: 14px;
             z-index: 50;
-            height: 38px;
-            padding: 0 14px 0 10px;
-            border-radius: 999px;
+            min-width: 56px;
+            padding: 7px 10px;
+            border-radius: 14px;
             background: var(--card-bg);
             backdrop-filter: blur(20px) saturate(160%);
             -webkit-backdrop-filter: blur(20px) saturate(160%);
             border: 1px solid var(--border);
             color: var(--text-main);
             cursor: pointer;
-            display: inline-flex;
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            gap: 1px;
             font-family: inherit;
-            font-size: 0.78rem;
-            font-weight: 600;
-            letter-spacing: 0.2px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
             transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
                         background 0.4s, border-color 0.4s, box-shadow 0.4s,
                         color 0.4s;
             box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.3);
-            white-space: nowrap;
         }
         .theme-toggle:hover {
             transform: translateY(-1px) scale(1.04);
@@ -807,38 +810,17 @@
             box-shadow: 0 6px 18px -4px var(--primary-glow);
         }
         .theme-toggle:active {
-            transform: translateY(0) scale(0.97);
+            transform: translateY(0) scale(0.96);
             transition: transform 0.1s;
         }
-        .theme-toggle-icons {
-            position: relative;
-            width: 16px;
-            height: 16px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+        .theme-toggle-line {
+            display: block;
+            transition: opacity 0.18s ease-out;
         }
-        .theme-icon {
-            position: absolute;
-            transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
-                        opacity 0.25s ease-out;
-        }
-        /* Dark theme: moon visible (the toggle says "Light Mode"), sun hidden */
-        .theme-icon-moon { opacity: 1; transform: rotate(0deg) scale(1); }
-        .theme-icon-sun { opacity: 0; transform: rotate(-90deg) scale(0.5); }
-        /* Light theme: sun visible (the toggle says "Dark Mode"), moon hidden */
-        [data-theme="light"] .theme-icon-moon { opacity: 0; transform: rotate(90deg) scale(0.5); }
-        [data-theme="light"] .theme-icon-sun { opacity: 1; transform: rotate(0deg) scale(1); }
+        .theme-toggle-line.swapping { opacity: 0; }
 
-        .theme-toggle-label {
-            display: inline-block;
-            line-height: 1;
-            transition: opacity 0.2s ease-out;
-        }
-        .theme-toggle-label.swapping { opacity: 0; }
-
-        /* Subtle scale celebration on toggle — no full rotation, less jarring */
-        .theme-toggle.toggled { animation: themeTogglePop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        /* Subtle scale celebration on toggle */
+        .theme-toggle.toggled { animation: themeTogglePop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
         @keyframes themeTogglePop {
             0% { transform: scale(1); }
             45% { transform: scale(1.08); }
@@ -932,11 +914,13 @@
             opacity: 0.55;
         }
 
-        /* Pause expensive aurora drift animations while a modal is open so the
+        /* Pause expensive continuous animations while a modal is open so the
            GPU has more headroom for the modal motion. */
         body.modal-open .aurora-bg::before,
         body.modal-open .aurora-bg::after,
-        body.modal-open .aurora-accent {
+        body.modal-open .aurora-accent,
+        body.modal-open .next-date-box::before,
+        body.modal-open .parking-hero::after {
             animation-play-state: paused;
         }
 
@@ -978,8 +962,8 @@
         .modal.show {
             display: flex;
             background: var(--modal-overlay);
-            backdrop-filter: blur(20px) saturate(140%);
-            -webkit-backdrop-filter: blur(20px) saturate(140%);
+            backdrop-filter: blur(8px) saturate(130%);
+            -webkit-backdrop-filter: blur(8px) saturate(130%);
             padding-top: max(20px, calc(50vh - 320px)); /* visually centered for typical modal sizes */
         }
         .modal.closing {
@@ -989,7 +973,8 @@
         }
         .modal-content {
             background: var(--modal-content-bg);
-            backdrop-filter: blur(40px) saturate(180%);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
             border: 1px solid var(--border-bright);
             border-radius: 28px;
             padding: 32px; max-width: 420px; width: 100%;
@@ -1010,46 +995,36 @@
             transform-style: preserve-3d;
         }
         .modal.show .modal-content {
-            animation: modalBloom 0.65s cubic-bezier(0.16, 1.1, 0.32, 1.05) forwards;
+            animation: modalBloom 0.5s cubic-bezier(0.16, 1.1, 0.32, 1.05) forwards;
         }
         .modal.closing .modal-content {
-            animation: modalCollapse 0.28s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+            animation: modalCollapse 0.22s cubic-bezier(0.55, 0, 1, 0.45) forwards;
         }
-        /* Bloom-in: starts small and tilted slightly back in 3D, blooms forward
-           through a small overshoot, settles. Feels like it pops through glass. */
+        /* Bloom-in: pure transform + opacity. Both are GPU-composited, so this
+           runs at 60fps even on modest hardware. The 3D rotateX on entry gives
+           visual depth without the cost of filter blur. */
         @keyframes modalBloom {
             0% {
-                transform: scale(0.7) translateY(40px) translateZ(-100px) rotateX(8deg);
+                transform: scale(0.8) translateY(30px) translateZ(-80px) rotateX(6deg);
                 opacity: 0;
-                filter: blur(8px);
             }
-            45% {
-                transform: scale(1.04) translateY(-3px) translateZ(0) rotateX(-1deg);
+            55% {
+                transform: scale(1.02) translateY(-2px) translateZ(0) rotateX(-0.5deg);
                 opacity: 1;
-                filter: blur(0);
-            }
-            70% {
-                transform: scale(0.99) translateY(0) translateZ(0) rotateX(0.3deg);
-                filter: blur(0);
             }
             100% {
                 transform: scale(1) translateY(0) translateZ(0) rotateX(0);
                 opacity: 1;
-                filter: blur(0);
             }
         }
-        /* Collapse-out: accelerates inward and back, with a brief blur on exit
-           so the eye doesn't track discrete frames at the end. */
         @keyframes modalCollapse {
             0% {
                 transform: scale(1) translateY(0) translateZ(0);
                 opacity: 1;
-                filter: blur(0);
             }
             100% {
-                transform: scale(0.82) translateY(20px) translateZ(-50px);
+                transform: scale(0.88) translateY(12px) translateZ(-30px);
                 opacity: 0;
-                filter: blur(4px);
             }
         }
 
@@ -1472,21 +1447,10 @@
     <div class="aurora-bg"></div>
     <div class="aurora-accent"></div>
 
-    <!-- Theme toggle — fixed top-right, sun/moon crossfade with text label -->
+    <!-- Theme toggle — fixed top-right, stacked vertical text -->
     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light or dark mode" type="button">
-        <span class="theme-toggle-icons">
-            <svg class="theme-icon theme-icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-            </svg>
-            <svg class="theme-icon theme-icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="12" cy="12" r="4"/>
-                <path d="M12 2v2"/><path d="M12 20v2"/>
-                <path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/>
-                <path d="M2 12h2"/><path d="M20 12h2"/>
-                <path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
-            </svg>
-        </span>
-        <span class="theme-toggle-label" id="theme-toggle-label">Light Mode</span>
+        <span class="theme-toggle-line theme-toggle-line-1" id="theme-toggle-line-1">Light</span>
+        <span class="theme-toggle-line theme-toggle-line-2">Mode</span>
     </button>
 
     <!-- Wraps everything that should scale/blur when a modal opens.
@@ -1809,26 +1773,25 @@
             const toggle = document.getElementById('theme-toggle');
             if (!toggle) return;
             const meta = document.querySelector('meta[name="theme-color"]');
-            const labelEl = document.getElementById('theme-toggle-label');
+            const line1 = document.getElementById('theme-toggle-line-1');
 
             function updateToggleLabel() {
-                if (!labelEl) return;
+                if (!line1) return;
                 const isLight = document.documentElement.getAttribute('data-theme') === 'light';
                 // Label says what tapping will do: in dark mode, tap → "Light Mode";
-                // in light mode, tap → "Dark Mode".
-                const target = isLight ? 'Dark Mode' : 'Light Mode';
-                if (labelEl.innerText === target) return;
-                // Brief fade so it doesn't pop
-                labelEl.classList.add('swapping');
+                // in light mode, tap → "Dark Mode". Only the first word changes.
+                const target = isLight ? 'Dark' : 'Light';
+                if (line1.innerText === target) return;
+                line1.classList.add('swapping');
                 setTimeout(() => {
-                    labelEl.innerText = target;
-                    labelEl.classList.remove('swapping');
+                    line1.innerText = target;
+                    line1.classList.remove('swapping');
                 }, 150);
             }
             // Initial label set without the fade
-            if (labelEl) {
+            if (line1) {
                 const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-                labelEl.innerText = isLight ? 'Dark Mode' : 'Light Mode';
+                line1.innerText = isLight ? 'Dark' : 'Light';
             }
 
             toggle.addEventListener('click', () => {
