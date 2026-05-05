@@ -45,7 +45,7 @@
             --aurora-accent-opacity: 0.15;
             --grain-opacity: 0.04;
             --grain-blend: overlay;
-            --modal-overlay: rgba(2, 6, 23, 0.55);
+            --modal-overlay: rgba(2, 6, 23, 0.7);
             --modal-content-bg: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(2, 6, 23, 0.95) 100%);
             --parking-bg: linear-gradient(135deg, rgba(56, 189, 248, 0.12) 0%, rgba(15, 23, 42, 0.6) 100%);
             --btn-main-bg: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
@@ -81,7 +81,7 @@
             --aurora-accent-opacity: 0.25;
             --grain-opacity: 0.05;
             --grain-blend: multiply;
-            --modal-overlay: rgba(15, 23, 42, 0.35);
+            --modal-overlay: rgba(15, 23, 42, 0.5);
             --modal-content-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.97) 0%, rgba(250, 250, 247, 0.97) 100%);
             --parking-bg: linear-gradient(135deg, rgba(2, 132, 199, 0.08) 0%, rgba(255, 255, 255, 0.85) 100%);
             --btn-main-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
@@ -799,6 +799,7 @@
             letter-spacing: 0.4px;
             text-transform: uppercase;
             transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
                         background 0.4s, border-color 0.4s, box-shadow 0.4s,
                         color 0.4s;
             box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.3);
@@ -825,6 +826,14 @@
             0% { transform: scale(1); }
             45% { transform: scale(1.08); }
             100% { transform: scale(1); }
+        }
+
+        /* Hidden state — fades up and out when user scrolls down,
+           returns when they scroll back up toward the top. */
+        .theme-toggle.scroll-hidden {
+            opacity: 0;
+            transform: translateY(-12px) scale(0.92);
+            pointer-events: none;
         }
 
         /* ---------- Light-theme adjustments for surfaces ---------- */
@@ -945,31 +954,23 @@
             display: none;
             position: fixed; inset: 0;
             background: rgba(2, 6, 23, 0);
-            -webkit-backdrop-filter: blur(0px);
-            backdrop-filter: blur(0px);
             z-index: 100;
             align-items: flex-start; justify-content: center;
             padding: 20px;
             overflow-y: auto;
             /* 3D perspective so the modal can pop with depth on bloom */
             perspective: 1200px;
-            /* Backdrop snaps in/out faster than the modal animation so the
-               background settles before content arrives — feels less mushy. */
-            transition: background 0.25s cubic-bezier(0.32, 0.72, 0, 1),
-                        backdrop-filter 0.25s cubic-bezier(0.32, 0.72, 0, 1),
-                        -webkit-backdrop-filter 0.25s cubic-bezier(0.32, 0.72, 0, 1);
+            /* Backdrop opacity snaps in/out fast — no blur, which was the
+               main stutter source on lower-end devices. */
+            transition: background 0.2s cubic-bezier(0.32, 0.72, 0, 1);
         }
         .modal.show {
             display: flex;
             background: var(--modal-overlay);
-            backdrop-filter: blur(8px) saturate(130%);
-            -webkit-backdrop-filter: blur(8px) saturate(130%);
             padding-top: max(20px, calc(50vh - 320px)); /* visually centered for typical modal sizes */
         }
         .modal.closing {
             background: rgba(2, 6, 23, 0);
-            backdrop-filter: blur(0px);
-            -webkit-backdrop-filter: blur(0px);
         }
         .modal-content {
             background: var(--modal-content-bg);
@@ -1778,8 +1779,6 @@
             function updateToggleLabel() {
                 if (!line1) return;
                 const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-                // Label says what tapping will do: in dark mode, tap → "Light Mode";
-                // in light mode, tap → "Dark Mode". Only the first word changes.
                 const target = isLight ? 'Dark' : 'Light';
                 if (line1.innerText === target) return;
                 line1.classList.add('swapping');
@@ -1788,7 +1787,6 @@
                     line1.classList.remove('swapping');
                 }, 150);
             }
-            // Initial label set without the fade
             if (line1) {
                 const isLight = document.documentElement.getAttribute('data-theme') === 'light';
                 line1.innerText = isLight ? 'Dark' : 'Light';
@@ -1799,8 +1797,6 @@
                 const isLight = document.documentElement.getAttribute('data-theme') === 'light';
                 const next = isLight ? 'dark' : 'light';
 
-                // Apply the brief color-transition window — removed after it settles
-                // so the transitions don't run perpetually on every hover/state change.
                 document.body.classList.add('theme-transitioning');
                 clearTimeout(window._themeTransTimer);
                 window._themeTransTimer = setTimeout(() => {
@@ -1818,12 +1814,47 @@
 
                 updateToggleLabel();
 
-                // Subtle pop on toggle
                 toggle.classList.remove('toggled');
                 void toggle.offsetWidth;
                 toggle.classList.add('toggled');
                 setTimeout(() => toggle.classList.remove('toggled'), 600);
             });
+
+            // ---------- Scroll-aware visibility ----------
+            // Fade the toggle out once the user scrolls down past a threshold,
+            // bring it back when they scroll up. Throttled with rAF so it
+            // doesn't run on every scroll tick.
+            let lastY = window.scrollY;
+            let ticking = false;
+            const HIDE_THRESHOLD = 80;   // px from top before we consider hiding
+            const UP_DELTA = 4;          // need this much upward movement to reveal
+
+            function updateScrollVisibility() {
+                ticking = false;
+                // Don't change state while a modal is open — the page is locked
+                if (document.body.classList.contains('modal-open')) return;
+
+                const y = window.scrollY;
+                const goingDown = y > lastY;
+                const goingUp = lastY - y > UP_DELTA;
+
+                if (y < HIDE_THRESHOLD) {
+                    // Near the top — always visible
+                    toggle.classList.remove('scroll-hidden');
+                } else if (goingDown) {
+                    toggle.classList.add('scroll-hidden');
+                } else if (goingUp) {
+                    toggle.classList.remove('scroll-hidden');
+                }
+                lastY = y;
+            }
+
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    requestAnimationFrame(updateScrollVisibility);
+                    ticking = true;
+                }
+            }, { passive: true });
         })();
 
         // ---------- Mouse parallax for aurora — subtle premium touch ----------
