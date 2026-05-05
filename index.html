@@ -934,8 +934,14 @@
             to { bottom: -50px; opacity: 0; }
         }
 
-        /* Optional "Other" detail input */
-        .other-detail {
+        /* Per-category notes container — appears below picks in the bring modal */
+        #category-notes-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 14px 0 4px 0;
+        }
+        .category-note-input {
             width: 100%;
             background: rgba(255,255,255,0.04);
             border: 1px solid var(--border);
@@ -944,18 +950,106 @@
             border-radius: 12px;
             font-family: inherit;
             font-size: 0.9rem;
-            margin-top: -6px;
-            margin-bottom: 12px;
             transition: all 0.3s;
-            display: none;
+            opacity: 0;
+            transform: translateY(-4px);
+            animation: noteSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        .other-detail::placeholder { color: var(--text-dim); }
-        .other-detail:focus {
+        @keyframes noteSlideIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .category-note-input::placeholder { color: var(--text-dim); }
+        .category-note-input:focus {
             outline: none;
             border-color: var(--primary);
             background: rgba(56, 189, 248, 0.06);
         }
-        .other-detail.visible { display: block; }
+
+        /* Make tally badges feel tappable */
+        .badge {
+            cursor: pointer;
+            user-select: none;
+        }
+        .badge:active { transform: scale(0.96); }
+
+        /* Category details modal */
+        .category-summary {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, rgba(167, 139, 250, 0.05) 100%);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 14px;
+            padding: 16px 18px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .category-summary-label {
+            font-size: 0.92rem;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+        .category-summary-count {
+            font-family: 'Fraunces', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+            font-variant-numeric: tabular-nums;
+        }
+        .category-notes-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .category-notes-list li {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 14px;
+            color: var(--text-main);
+            font-size: 0.92rem;
+            line-height: 1.4;
+            position: relative;
+            padding-left: 36px;
+            opacity: 0;
+            transform: translateY(4px);
+            animation: noteAppear 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .category-notes-list li:nth-child(1) { animation-delay: 0.05s; }
+        .category-notes-list li:nth-child(2) { animation-delay: 0.10s; }
+        .category-notes-list li:nth-child(3) { animation-delay: 0.15s; }
+        .category-notes-list li:nth-child(4) { animation-delay: 0.20s; }
+        .category-notes-list li:nth-child(5) { animation-delay: 0.25s; }
+        .category-notes-list li:nth-child(n+6) { animation-delay: 0.30s; }
+        @keyframes noteAppear {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .category-notes-list li::before {
+            content: '';
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+        .category-notes-empty {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 18px 12px;
+            background: rgba(255,255,255,0.02);
+            border: 1px dashed var(--border);
+            border-radius: 12px;
+            line-height: 1.5;
+        }
 
         /* ---------- Premium polish ---------- */
 
@@ -1166,7 +1260,7 @@
             <button class="item-btn" data-item="drinks"><span class="check">✓</span><span>🥤 Drinks</span></button>
             <button class="item-btn" data-item="other"><span class="check">✓</span><span>✨ Other</span></button>
         </div>
-        <input type="text" id="other-detail" class="other-detail" placeholder="What are you bringing? (optional)" maxlength="60">
+        <div id="category-notes-container"></div>
         <button class="btn btn-main" onclick="submitItem()">Confirm</button>
     </div></div>
 
@@ -1223,6 +1317,15 @@
             <div class="grid" id="cancel-new-grid"></div>
             <button class="btn btn-main" onclick="submitChange()">Update RSVP</button>
         </div>
+    </div></div>
+
+    <!-- Category details modal — populated dynamically when a badge is tapped -->
+    <div id="categoryModal" class="modal"><div class="modal-content">
+        <button class="close-modal" onclick="closeModal('categoryModal')">✕</button>
+        <span class="section-label" id="category-modal-title">Category</span>
+        <div class="category-summary" id="category-summary"></div>
+        <ul class="category-notes-list" id="category-notes-list"></ul>
+        <button class="btn btn-outline" onclick="closeModalAndOpenBring()" style="margin-top: 18px;">Add what you're bringing</button>
     </div></div>
 
     <!-- Admin Modal (only accessible via ?admin=1 URL parameter) -->
@@ -1616,6 +1719,8 @@
         let prevTotal = 0;
         let prevItems = {};
         let firstLoad = true;
+        let latestEventData = { items: {}, notes: {} };
+        let currentCategory = null;
         eventRef.on('value', (snap) => {
             const data = snap.val() || { total: 0, items: {} };
             const newTotal = data.total || 0;
@@ -1636,17 +1741,30 @@
             prevTotal = newTotal;
 
             const items = data.items || {};
+            const notes = data.notes || {};
             const keys = ['chips', 'sides', 'snacks', 'desserts', 'drinks', 'other'];
-            const labels = { chips: 'Chips', sides: 'Sides', snacks: 'Snacks', desserts: 'Desserts', drinks: 'Drinks', other: 'Other' };
+
+            // Stash the latest snapshot so the category modal can read it on demand
+            // and refresh live while open.
+            latestEventData = { items, notes };
 
             // Re-render badges, but mark any that changed for a brief pulse
             const tally = document.getElementById('tally-container');
             tally.innerHTML = keys.map(k => {
                 const count = items[k] || 0;
                 const bumped = !firstLoad && (prevItems[k] || 0) !== count ? ' bumped' : '';
-                return `<div class="badge${bumped}" data-key="${k}">${labels[k]} <span>${count}</span></div>`;
+                return `<button class="badge${bumped}" data-key="${k}" type="button">${CATEGORY_LABELS[k]} <span>${count}</span></button>`;
             }).join('');
+            // Re-attach click handlers (innerHTML wipes them)
+            tally.querySelectorAll('.badge').forEach(b => {
+                b.onclick = () => openCategoryModal(b.dataset.key);
+            });
             prevItems = { ...items };
+
+            // If the category modal is currently open, refresh its contents live
+            if (currentCategory && document.getElementById('categoryModal').classList.contains('show')) {
+                renderCategoryModal(currentCategory);
+            }
 
             const totalItems = keys.reduce((a, k) => a + (items[k] || 0), 0);
             const subEl = document.getElementById('food-note-sub');
@@ -1694,14 +1812,108 @@
             }
         }
 
+        // ---------- Category details modal ----------
+        function openCategoryModal(category) {
+            currentCategory = category;
+            renderCategoryModal(category);
+            openModal('categoryModal');
+        }
+
+        function renderCategoryModal(category) {
+            const items = latestEventData.items || {};
+            const notes = (latestEventData.notes || {})[category] || {};
+            const count = items[category] || 0;
+
+            document.getElementById('category-modal-title').innerText = CATEGORY_LABELS[category];
+
+            const summary = document.getElementById('category-summary');
+            summary.innerHTML = `
+                <span class="category-summary-label">${count === 0 ? 'Nothing yet — be the first!' : (count === 1 ? '1 person bringing' : count + ' people bringing')}</span>
+                <span class="category-summary-count">${count}</span>
+            `;
+
+            const noteValues = Object.values(notes)
+                .map(n => n && n.text)
+                .filter(Boolean);
+
+            const list = document.getElementById('category-notes-list');
+            if (noteValues.length === 0) {
+                list.innerHTML = `<div class="category-notes-empty">${count > 0
+                    ? "No specifics yet — people just said they'd bring something."
+                    : "Tap \u201cAdd what you're bringing\u201d below to start the list."
+                }</div>`;
+            } else {
+                list.innerHTML = noteValues
+                    .map(t => `<li>${escapeHtml(t)}</li>`)
+                    .join('');
+            }
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.innerText = str;
+            return div.innerHTML;
+        }
+
+        function closeModalAndOpenBring() {
+            closeModal('categoryModal');
+            // Pre-select the current category so it's quick to add a note for it
+            if (currentCategory) {
+                const btn = document.querySelector(`#item-grid .item-btn[data-item="${currentCategory}"]`);
+                if (btn && !btn.classList.contains('active')) {
+                    btn.classList.add('active');
+                    refreshCategoryNoteInputs();
+                }
+            }
+            // Slight delay so the category modal close animation finishes first
+            setTimeout(() => openModal('bringModal'), 150);
+        }
+
+        // Friendly labels and placeholders for each category
+        const CATEGORY_LABELS = {
+            chips: 'Chips', sides: 'Sides', snacks: 'Snacks',
+            desserts: 'Desserts', drinks: 'Drinks', other: 'Other'
+        };
+        const CATEGORY_PLACEHOLDERS = {
+            chips: 'What kind of chips? (optional)',
+            sides: 'What side are you bringing? (optional)',
+            snacks: 'What snack are you bringing? (optional)',
+            desserts: 'What dessert are you bringing? (optional)',
+            drinks: 'What drinks are you bringing? (optional)',
+            other: 'What are you bringing? (optional)'
+        };
+
+        // Re-render per-category text inputs whenever selections change
+        function refreshCategoryNoteInputs() {
+            const container = document.getElementById('category-notes-container');
+            const active = Array.from(document.querySelectorAll('#item-grid .item-btn.active'))
+                .map(b => b.dataset.item);
+
+            // Preserve any text the user has already typed
+            const existingValues = {};
+            container.querySelectorAll('input[data-cat]').forEach(input => {
+                existingValues[input.dataset.cat] = input.value;
+            });
+
+            container.innerHTML = '';
+            active.forEach(cat => {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.className = 'category-note-input';
+                input.dataset.cat = cat;
+                input.placeholder = CATEGORY_PLACEHOLDERS[cat];
+                input.maxLength = 80;
+                if (existingValues[cat]) input.value = existingValues[cat];
+                container.appendChild(input);
+            });
+        }
+
         // Multi-select item picker - toggle, don't replace
         document.querySelectorAll('#item-grid .item-btn').forEach(btn => {
             btn.onclick = function() {
                 tap();
                 this.classList.toggle('active');
-                // Show the "what is it?" detail input if "Other" is active
-                const otherActive = document.querySelector('#item-grid .item-btn[data-item="other"].active');
-                document.getElementById('other-detail').classList.toggle('visible', !!otherActive);
+                refreshCategoryNoteInputs();
             };
         });
 
@@ -1739,30 +1951,28 @@
                 return;
             }
 
-            // Collect optional "Other" detail and store it for the host's view
-            const otherInput = document.getElementById('other-detail');
-            const otherDetail = otherInput.value.trim();
+            // Capture any optional per-category notes typed
+            const notesByCat = {};
+            document.querySelectorAll('#category-notes-container input[data-cat]').forEach(input => {
+                const text = input.value.trim();
+                if (text) notesByCat[input.dataset.cat] = text.slice(0, 80);
+            });
 
             tap([10, 30, 10]);
             activeButtons.forEach(btn => {
                 const item = btn.dataset.item;
                 eventRef.child('items/' + item).transaction(c => (c || 0) + 1);
                 btn.classList.remove('active');
-            });
-
-            // If they specified what "Other" is, push it to a list for the host
-            if (otherDetail && document.querySelector('#item-grid .item-btn[data-item="other"]')) {
-                // Only save if "other" was actually one of the selections
-                const otherWasSelected = Array.from(activeButtons).some(b => b.dataset.item === 'other');
-                if (otherWasSelected) {
-                    eventRef.child('otherNotes').push({
-                        text: otherDetail.slice(0, 60),
+                if (notesByCat[item]) {
+                    eventRef.child('notes/' + item).push({
+                        text: notesByCat[item],
                         ts: firebase.database.ServerValue.TIMESTAMP
                     });
                 }
-            }
-            otherInput.value = '';
-            otherInput.classList.remove('visible');
+            });
+
+            // Reset the bring modal's UI state
+            document.getElementById('category-notes-container').innerHTML = '';
 
             closeModal('bringModal');
             const msg = activeButtons.length === 1
@@ -1884,22 +2094,28 @@
             adminEventListener.on('value', (snap) => {
                 const data = snap.val() || { total: 0, items: {} };
                 const items = data.items || {};
-                const itemList = ['chips', 'sides', 'snacks', 'desserts', 'drinks', 'other']
+                const allNotes = data.notes || {};
+                const cats = ['chips', 'sides', 'snacks', 'desserts', 'drinks', 'other'];
+                const catLabels = { chips: 'Chips', sides: 'Sides', snacks: 'Snacks', desserts: 'Desserts', drinks: 'Drinks', other: 'Other' };
+
+                const itemList = cats
                     .filter(k => items[k])
                     .map(k => `${k}: ${items[k]}`)
                     .join(', ') || 'none';
 
-                // Show "other" notes if present
-                const notes = data.otherNotes || {};
-                const noteValues = Object.values(notes).map(n => n.text).filter(Boolean);
-                const notesHtml = noteValues.length
-                    ? `<div style="margin-top:8px;"><strong>"Other" notes:</strong> ${noteValues.map(t => `<span style="color:var(--text-main);">${t}</span>`).join(' · ')}</div>`
-                    : '';
+                // Build a per-category notes block — one line per category that has notes
+                const noteBlocks = cats.map(k => {
+                    const noteValues = Object.values(allNotes[k] || {})
+                        .map(n => n && n.text)
+                        .filter(Boolean);
+                    if (noteValues.length === 0) return '';
+                    return `<div style="margin-top:6px;"><strong>${catLabels[k]}:</strong> <span style="color:var(--text-main);">${noteValues.map(t => escapeHtml(t)).join(' · ')}</span></div>`;
+                }).filter(Boolean).join('');
 
                 document.getElementById('admin-current-state').innerHTML = `
                     <div><strong>Guest count:</strong> ${data.total || 0}</div>
                     <div><strong>Food pledged:</strong> ${itemList}</div>
-                    ${notesHtml}
+                    ${noteBlocks ? '<div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--border);"><strong style="display:block; margin-bottom:4px;">Notes by category</strong>' + noteBlocks + '</div>' : ''}
                 `;
             });
         }
@@ -1919,7 +2135,8 @@
                 label = `Reset ALL food selections for ${key}?`;
                 action = () => Promise.all([
                     db.ref('open-house/' + key + '/items').remove(),
-                    db.ref('open-house/' + key + '/otherNotes').remove()
+                    db.ref('open-house/' + key + '/notes').remove(),
+                    db.ref('open-house/' + key + '/otherNotes').remove()  // legacy cleanup
                 ]);
             } else if (scope === 'total') {
                 label = `Reset guest count to 0 for ${key}?`;
@@ -1966,6 +2183,8 @@
         window.submitChange = submitChange;
         window.confirmReset = confirmReset;
         window.exitAdmin = exitAdmin;
+        window.openCategoryModal = openCategoryModal;
+        window.closeModalAndOpenBring = closeModalAndOpenBring;
     }); // end whenFirebaseReady
     </script>
 </body>
