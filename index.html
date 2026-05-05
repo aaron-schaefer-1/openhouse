@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Schaefer Open House</title>
+    <meta name="theme-color" content="#020617">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet">
@@ -24,6 +25,10 @@
             --text-dim: #94a3b8;
             --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+            /* Mouse parallax variables (updated in JS) */
+            --mx: 0;
+            --my: 0;
         }
 
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
@@ -39,7 +44,7 @@
             position: relative;
         }
 
-        /* Animated aurora background */
+        /* Animated aurora background — now responds subtly to cursor */
         .aurora-bg {
             position: fixed; inset: 0; z-index: -2;
             background: var(--bg-deep);
@@ -50,16 +55,19 @@
             width: 80vw; height: 80vw;
             border-radius: 50%;
             filter: blur(100px); opacity: 0.4;
+            transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
         .aurora-bg::before {
             background: radial-gradient(circle, var(--primary) 0%, transparent 60%);
             top: -30%; left: -20%;
             animation: drift1 22s ease-in-out infinite;
+            transform: translate(calc(var(--mx) * 30px), calc(var(--my) * 20px));
         }
         .aurora-bg::after {
             background: radial-gradient(circle, var(--secondary) 0%, transparent 60%);
             bottom: -30%; right: -20%;
             animation: drift2 28s ease-in-out infinite;
+            transform: translate(calc(var(--mx) * -30px), calc(var(--my) * -20px));
         }
         .aurora-accent {
             position: fixed; z-index: -1;
@@ -68,6 +76,8 @@
             border-radius: 50%; filter: blur(120px); opacity: 0.15;
             top: 30%; left: 25%;
             animation: drift3 35s ease-in-out infinite;
+            transition: transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transform: translate(calc(var(--mx) * 40px), calc(var(--my) * 30px));
         }
         @keyframes drift1 {
             0%, 100% { transform: translate(0, 0) scale(1); }
@@ -161,6 +171,18 @@
             display: block; margin-top: 4px;
             position: relative;
         }
+        .countdown-pill {
+            margin-top: 10px;
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 0.5px;
+            position: relative;
+            padding: 4px 10px;
+            background: rgba(56, 189, 248, 0.08);
+            border-radius: 10px;
+        }
 
         .hero-extras {
             margin-top: 14px;
@@ -181,6 +203,13 @@
             font-size: 0.82rem;
             font-weight: 600;
             backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(6px);
+            transition: opacity 0.5s, transform 0.5s var(--bounce);
+        }
+        .weather-pill.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         .weather-pill span:first-child { font-size: 1rem; }
 
@@ -332,6 +361,7 @@
             -webkit-text-fill-color: transparent;
             line-height: 1;
             transition: transform 0.5s var(--bounce);
+            font-variant-numeric: tabular-nums;
         }
         .count-big.pulse {
             animation: countPulse 0.6s var(--bounce);
@@ -340,6 +370,22 @@
             0% { transform: scale(1); }
             50% { transform: scale(1.25); }
             100% { transform: scale(1); }
+        }
+        .count-big.skeleton {
+            background: linear-gradient(90deg, rgba(148,163,184,0.1) 25%, rgba(148,163,184,0.25) 50%, rgba(148,163,184,0.1) 75%);
+            background-size: 200% 100%;
+            -webkit-background-clip: initial;
+            background-clip: initial;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            animation: skel 1.4s ease-in-out infinite;
+            border-radius: 8px;
+            min-width: 50px;
+            display: inline-block;
+        }
+        @keyframes skel {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
 
         .item-tally { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; justify-content: center; }
@@ -361,6 +407,36 @@
             font-size: 0.82rem;
             font-weight: 500;
             margin-top: 4px;
+        }
+
+        /* Personalized "you're attending" banner — appears after RSVP */
+        .my-rsvp-banner {
+            display: none;
+            background: linear-gradient(135deg, rgba(52, 211, 153, 0.12) 0%, rgba(56, 189, 248, 0.08) 100%);
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            border-radius: 14px;
+            padding: 12px 16px;
+            margin-bottom: 14px;
+            font-size: 0.88rem;
+            color: #d1fae5;
+            text-align: center;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+            animation: bannerIn 0.5s var(--bounce);
+        }
+        .my-rsvp-banner.visible { display: block; }
+        @keyframes bannerIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .my-rsvp-banner strong { color: #6ee7b7; }
+        .my-rsvp-banner::before {
+            content: '✓';
+            display: inline-block;
+            margin-right: 6px;
+            color: #6ee7b7;
+            font-weight: 800;
         }
 
         .btn-change {
@@ -509,6 +585,15 @@
             font-weight: 800;
             margin-left: 3px;
         }
+        /* When a badge updates, brief glow */
+        .badge.bumped {
+            animation: badgeBump 0.7s var(--bounce);
+        }
+        @keyframes badgeBump {
+            0% { transform: scale(1); border-color: var(--border); }
+            40% { transform: scale(1.12); border-color: var(--primary); box-shadow: 0 0 16px -2px var(--primary-glow); }
+            100% { transform: scale(1); border-color: var(--border); }
+        }
 
         .btn {
             width: 100%; border: none; padding: 16px;
@@ -557,6 +642,17 @@
             transition: left 0.6s;
         }
         .btn:hover::after { left: 100%; }
+
+        /* Magnetic cursor effect — subtle pull on hover for premium buttons */
+        .btn-magnet {
+            transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s, border-color 0.4s, background 0.4s;
+        }
+
+        /* Press-down feedback for tactile feel on tap */
+        .btn:active, .btn-round:active, .cal-btn:active, .g-btn:active, .item-btn:active {
+            transform: scale(0.97);
+            transition: transform 0.08s ease;
+        }
 
         .btn-text {
             background: transparent;
@@ -809,6 +905,42 @@
             to { bottom: -50px; opacity: 0; }
         }
 
+        /* Optional "Other" detail input */
+        .other-detail {
+            width: 100%;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            margin-top: -6px;
+            margin-bottom: 12px;
+            transition: all 0.3s;
+            display: none;
+        }
+        .other-detail::placeholder { color: var(--text-dim); }
+        .other-detail:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(56, 189, 248, 0.06);
+        }
+        .other-detail.visible { display: block; }
+
+        /* Respect reduced motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            .aurora-bg::before, .aurora-bg::after, .aurora-accent {
+                animation: none !important;
+                transform: none !important;
+            }
+        }
+
         /* Scrollbar styling */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
@@ -834,9 +966,10 @@
                 <span class="next-date-label">Next Open House</span>
                 <span class="next-date-value" id="next-date">Loading...</span>
                 <span class="next-date-time">12:15 - 6 p.m. · Come and go as you please</span>
+                <span class="countdown-pill" id="countdown-pill" style="display:none;"></span>
             </div>
             <div class="hero-extras">
-                <div class="weather-pill" id="weather-pill" style="display: none;">
+                <div class="weather-pill" id="weather-pill">
                     <span id="weather-icon">☀️</span>
                     <span id="weather-text">Loading forecast...</span>
                 </div>
@@ -869,8 +1002,10 @@
 
             <div class="stat-box">
                 <span class="section-label" style="margin:0">Attending</span>
-                <span class="count-big" id="live-count">0</span>
+                <span class="count-big skeleton" id="live-count">&nbsp;&nbsp;&nbsp;</span>
             </div>
+
+            <div class="my-rsvp-banner" id="my-rsvp-banner"></div>
 
             <div class="food-note">
                 <strong>We're providing burgers and hot dogs.</strong>
@@ -878,15 +1013,15 @@
             </div>
 
             <div class="item-tally" id="tally-container">
-                <div class="badge">Chips <span>0</span></div>
-                <div class="badge">Sides <span>0</span></div>
-                <div class="badge">Snacks <span>0</span></div>
-                <div class="badge">Desserts <span>0</span></div>
-                <div class="badge">Drinks <span>0</span></div>
-                <div class="badge">Other <span>0</span></div>
+                <div class="badge" data-key="chips">Chips <span>0</span></div>
+                <div class="badge" data-key="sides">Sides <span>0</span></div>
+                <div class="badge" data-key="snacks">Snacks <span>0</span></div>
+                <div class="badge" data-key="desserts">Desserts <span>0</span></div>
+                <div class="badge" data-key="drinks">Drinks <span>0</span></div>
+                <div class="badge" data-key="other">Other <span>0</span></div>
             </div>
 
-            <button class="btn btn-main" onclick="openModal('rsvpModal')">I'm Attending</button>
+            <button class="btn btn-main btn-magnet" onclick="openModal('rsvpModal')">I'm Attending</button>
             <button class="btn btn-outline" onclick="openModal('aboutModal')">What is this all about?</button>
             <button class="btn btn-outline" onclick="openModal('lunchModal')">What's for Lunch?</button>
             <button class="btn btn-outline" onclick="openModal('bringModal')">I'm Bringing Food to Share</button>
@@ -915,6 +1050,7 @@
         <span class="section-label">Invite Others</span>
         <div class="qr-container"><img id="qr-img" src="" alt="QR code" style="display: block; width: 150px; height: 150px;"></div>
         <div class="share-link-box" id="share-url-text" onclick="copyLink()">📋 Copy Invite Link</div>
+        <button class="btn btn-outline" onclick="nativeShare()" id="native-share-btn" style="margin-top: 14px; display: none;">Share via…</button>
     </div></div>
 
     <div id="aboutModal" class="modal"><div class="modal-content">
@@ -923,7 +1059,7 @@
         <div class="modal-prose">
             <p>We are excited to open our home to friends. <strong>Anyone is welcome - feel free to bring a friend.</strong></p>
             <p>There is <strong>no agenda</strong>. Come and go as you please.</p>
-            <p>Kids are <strong>extremely welcome</strong>. The <strong>pool, hot tub, and movie room</strong> are all open and ready.</p>
+            <p>Kids are <strong>extremely welcome</strong>. Our <strong>backyard pool, hot tub, and movie room</strong> are all open and ready.</p>
         </div>
     </div></div>
 
@@ -952,6 +1088,7 @@
             <button class="item-btn" data-item="drinks"><span class="check">✓</span><span>🥤 Drinks</span></button>
             <button class="item-btn" data-item="other"><span class="check">✓</span><span>✨ Other</span></button>
         </div>
+        <input type="text" id="other-detail" class="other-detail" placeholder="What are you bringing? (optional)" maxlength="60">
         <button class="btn btn-main" onclick="submitItem()">Confirm</button>
     </div></div>
 
@@ -968,12 +1105,12 @@
 
     <div id="kidsModal" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('kidsModal')">✕</button>
-        <span class="section-label">Kids & Pool</span>
+        <span class="section-label">Kids & Our Backyard Pool</span>
         <ul class="info-list">
             <li>Kids of all ages are <strong>extremely welcome</strong></li>
             <li>The <strong>movie room</strong> will be open all afternoon playing kid-friendly movies</li>
-            <li>Pool is open - <strong>parents please supervise</strong> your own children at all times</li>
-            <li>The <strong>hot tub will be warm (not hot!)</strong> so cold kids can keep enjoying the water</li>
+            <li>Our <strong>backyard pool</strong> is open - <strong>parents please supervise</strong> your own children at all times</li>
+            <li>Our <strong>backyard hot tub will be warm (not hot!)</strong> so cold kids can keep enjoying the water</li>
             <li>Bring <strong>swimsuits, towels, and sunscreen</strong></li>
         </ul>
     </div></div>
@@ -1043,6 +1180,30 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
     <script>
+    // Wait for Firebase to be defined before initializing.
+    // If something blocks gstatic.com (ad blocker, privacy extension, network),
+    // poll briefly and then show a friendly error instead of crashing.
+    function whenFirebaseReady(callback, attempt) {
+        attempt = attempt || 0;
+        if (typeof firebase !== 'undefined' && firebase.initializeApp) {
+            callback();
+        } else if (attempt < 50) { // ~5 seconds max wait
+            setTimeout(() => whenFirebaseReady(callback, attempt + 1), 100);
+        } else {
+            // Firebase didn't load — show an inline message instead of a silent broken page
+            const countEl = document.getElementById('live-count');
+            if (countEl) {
+                countEl.classList.remove('skeleton');
+                countEl.innerText = '—';
+                countEl.style.fontSize = '1rem';
+            }
+            const sub = document.getElementById('food-note-sub');
+            if (sub) sub.innerText = "Couldn't reach the RSVP server. Check your connection or disable ad-blocker for this page.";
+            console.error("Firebase failed to load. This is usually caused by an ad blocker or privacy extension blocking gstatic.com.");
+        }
+    }
+
+    whenFirebaseReady(function() {
         const firebaseConfig = {
             apiKey: "AIzaSyB4iOpTfrH2UTMbVaN6BodtL5D_b0FU16k",
             authDomain: "summerrsvp-8fab0.firebaseapp.com",
@@ -1091,9 +1252,79 @@
         const eventKey = getEventKey(nextDate);
         const eventRef = db.ref('open-house/' + eventKey);
 
+        // ---------- Countdown pill — friendly relative time ----------
+        function updateCountdown() {
+            const pill = document.getElementById('countdown-pill');
+            const eventStart = new Date(nextDate);
+            eventStart.setHours(12, 15, 0, 0);
+            const eventEnd = new Date(nextDate);
+            eventEnd.setHours(18, 0, 0, 0);
+            const now = new Date();
+            const diffMs = eventStart - now;
+            const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+            let text = '';
+            if (now >= eventStart && now <= eventEnd) {
+                text = '✨ Happening now — come on over!';
+            } else if (diffDays === 0 && diffMs > 0) {
+                const hours = Math.round(diffMs / (1000 * 60 * 60));
+                text = hours <= 1 ? 'Starting soon' : `Today — in ${hours} hours`;
+            } else if (diffDays === 1) {
+                text = 'Tomorrow';
+            } else if (diffDays > 0 && diffDays <= 14) {
+                text = `In ${diffDays} days`;
+            } else if (diffDays > 14) {
+                const weeks = Math.round(diffDays / 7);
+                text = `In about ${weeks} weeks`;
+            }
+
+            if (text) {
+                pill.innerText = text;
+                pill.style.display = 'inline-block';
+            }
+        }
+        updateCountdown();
+        // Refresh countdown every minute so "today/tomorrow/now" stay accurate
+        setInterval(updateCountdown, 60 * 1000);
+
         // ---------- Haptic feedback (mobile only, silently no-ops elsewhere) ----------
         function tap(strength) {
             if (navigator.vibrate) navigator.vibrate(strength || 8);
+        }
+
+        // ---------- Mouse parallax for aurora — subtle premium touch ----------
+        // Skipped on touch devices and when reduced motion is preferred.
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const isTouch = matchMedia('(hover: none)').matches;
+        if (!prefersReducedMotion && !isTouch) {
+            let targetX = 0, targetY = 0, currentX = 0, currentY = 0;
+            window.addEventListener('mousemove', (e) => {
+                targetX = (e.clientX / window.innerWidth - 0.5) * 2;
+                targetY = (e.clientY / window.innerHeight - 0.5) * 2;
+            });
+            function tickParallax() {
+                currentX += (targetX - currentX) * 0.04;
+                currentY += (targetY - currentY) * 0.04;
+                document.documentElement.style.setProperty('--mx', currentX.toFixed(3));
+                document.documentElement.style.setProperty('--my', currentY.toFixed(3));
+                requestAnimationFrame(tickParallax);
+            }
+            requestAnimationFrame(tickParallax);
+        }
+
+        // ---------- Magnetic hover for primary CTA — extremely subtle ----------
+        if (!prefersReducedMotion && !isTouch) {
+            document.querySelectorAll('.btn-magnet').forEach(btn => {
+                btn.addEventListener('mousemove', (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    btn.style.transform = `translate(${x * 0.12}px, ${y * 0.18}px) translateY(-2px)`;
+                });
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.transform = '';
+                });
+            });
         }
 
         // ---------- Calendar integration ----------
@@ -1112,13 +1343,12 @@
             return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
         }
 
-        const eventDescription = "Come on over! No agenda, come and go as you please. Burgers and hot dogs provided. Pool, hot tub, and movie room are open. Park at the neighborhood pool lot - short walk to 6629 Penfield Street.";
+        const eventDescription = "Come on over! No agenda, come and go as you please. Burgers and hot dogs provided. Our backyard pool, hot tub, and movie room are open. Park at the neighborhood pool lot - short walk to 6629 Penfield Street.";
         const eventLocation = "6629 Penfield Street, Wake Forest, NC 27587";
 
         function addToGoogleCal() {
             tap();
             const { start, end } = getEventTimes();
-            // Google Calendar wants UTC, but using floating local works on most clients
             const dates = `${formatCalDate(start)}/${formatCalDate(end)}`;
             const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Schaefer Open House')}&dates=${dates}&details=${encodeURIComponent(eventDescription)}&location=${encodeURIComponent(eventLocation)}`;
             window.open(url, '_blank');
@@ -1152,14 +1382,12 @@
         }
 
         // ---------- Weather forecast (Open-Meteo, no API key needed) ----------
-        // Wake Forest, NC
         const LAT = 35.98;
         const LON = -78.51;
         function loadWeather() {
             const today = new Date();
             today.setHours(0, 0, 0, 0);
             const daysAway = Math.round((nextDate - today) / (1000 * 60 * 60 * 24));
-            // Open-Meteo gives 7-day forecasts reliably; only show if event is within range
             if (daysAway < 0 || daysAway > 14) return;
 
             const dateStr = getEventKey(nextDate);
@@ -1180,13 +1408,12 @@
                     let text = `${label} · ${high}° / ${low}°`;
                     if (rain >= 30) text += ` · ${rain}% rain`;
                     document.getElementById('weather-text').innerText = text;
-                    pill.style.display = 'inline-flex';
+                    pill.classList.add('visible');
                 })
                 .catch(() => { /* silent fail */ });
         }
 
         function describeWeather(code) {
-            // WMO weather code mapping (simplified)
             if (code === 0) return { icon: '☀️', label: 'Sunny' };
             if (code <= 2) return { icon: '🌤️', label: 'Partly cloudy' };
             if (code === 3) return { icon: '☁️', label: 'Overcast' };
@@ -1203,6 +1430,7 @@
 
         // ---------- Confetti burst ----------
         function fireConfetti() {
+            if (prefersReducedMotion) return;
             const colors = ['#38bdf8', '#a78bfa', '#f472b6', '#fbbf24', '#34d399'];
             const count = 60;
             const container = document.createElement('div');
@@ -1212,9 +1440,9 @@
             for (let i = 0; i < count; i++) {
                 const piece = document.createElement('div');
                 const size = 6 + Math.random() * 6;
-                const startX = 40 + Math.random() * 20; // start near center bottom
-                const drift = (Math.random() - 0.5) * 60; // -30vw to +30vw drift
-                const rise = 60 + Math.random() * 30; // how high it goes
+                const startX = 40 + Math.random() * 20;
+                const drift = (Math.random() - 0.5) * 60;
+                const rise = 60 + Math.random() * 30;
                 const rotate = Math.random() * 720 - 360;
                 const dur = 1400 + Math.random() * 800;
                 const delay = Math.random() * 150;
@@ -1246,7 +1474,6 @@
         function openModal(id) {
             const modal = document.getElementById(id);
             modal.style.display = 'flex';
-            // Force reflow so animation triggers
             void modal.offsetWidth;
             modal.classList.add('show');
             const content = modal.querySelector('.modal-content');
@@ -1266,16 +1493,20 @@
             });
         });
 
-        // ESC closes any open modal
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 document.querySelectorAll('.modal.show').forEach(m => closeModal(m.id));
             }
         });
 
+        // ---------- Share Modal ----------
         function openShareModal() {
             const url = window.location.href;
             document.getElementById('qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(url)}`;
+            // Show native share button if supported (mobile mostly)
+            if (navigator.share) {
+                document.getElementById('native-share-btn').style.display = 'flex';
+            }
             openModal('shareModal');
         }
 
@@ -1283,6 +1514,16 @@
             navigator.clipboard.writeText(window.location.href).then(() => {
                 showToast("Link Copied! ✓");
             });
+        }
+
+        function nativeShare() {
+            if (!navigator.share) return;
+            tap();
+            navigator.share({
+                title: 'Schaefer Open House',
+                text: `You're invited to the Schaefer Open House on ${formatDate(nextDate)}!`,
+                url: window.location.href
+            }).catch(() => { /* user cancelled, ignore */ });
         }
 
         function showToast(msg) {
@@ -1313,47 +1554,100 @@
         buildGrid('cancel-original-grid', 1, 15);
         buildGrid('cancel-new-grid', 0, 15);
 
+        // ---------- Animated count-up — smooth tweening of numeric values ----------
+        function animateCount(el, from, to, duration) {
+            duration = duration || 700;
+            const start = performance.now();
+            // ease-out cubic feels great for arriving numbers
+            const ease = t => 1 - Math.pow(1 - t, 3);
+            function step(now) {
+                const t = Math.min(1, (now - start) / duration);
+                const v = Math.round(from + (to - from) * ease(t));
+                el.innerText = v;
+                if (t < 1) requestAnimationFrame(step);
+                else el.innerText = to;
+            }
+            requestAnimationFrame(step);
+        }
+
         let prevTotal = 0;
+        let prevItems = {};
+        let firstLoad = true;
         eventRef.on('value', (snap) => {
             const data = snap.val() || { total: 0, items: {} };
             const newTotal = data.total || 0;
             const countEl = document.getElementById('live-count');
 
-            // Trigger pulse animation if count increased
-            if (newTotal !== prevTotal && prevTotal !== 0) {
+            // First load: remove skeleton, count up smoothly from 0
+            if (firstLoad) {
+                countEl.classList.remove('skeleton');
+                animateCount(countEl, 0, newTotal, 900);
+                firstLoad = false;
+            } else if (newTotal !== prevTotal) {
+                // Subsequent updates: animate smoothly + pulse
+                animateCount(countEl, prevTotal, newTotal, 500);
                 countEl.classList.remove('pulse');
                 void countEl.offsetWidth;
                 countEl.classList.add('pulse');
             }
-            countEl.innerText = newTotal;
             prevTotal = newTotal;
 
             const items = data.items || {};
-            document.getElementById('tally-container').innerHTML = `
-                <div class="badge">Chips <span>${items.chips || 0}</span></div>
-                <div class="badge">Sides <span>${items.sides || 0}</span></div>
-                <div class="badge">Snacks <span>${items.snacks || 0}</span></div>
-                <div class="badge">Desserts <span>${items.desserts || 0}</span></div>
-                <div class="badge">Drinks <span>${items.drinks || 0}</span></div>
-                <div class="badge">Other <span>${items.other || 0}</span></div>
-            `;
+            const keys = ['chips', 'sides', 'snacks', 'desserts', 'drinks', 'other'];
+            const labels = { chips: 'Chips', sides: 'Sides', snacks: 'Snacks', desserts: 'Desserts', drinks: 'Drinks', other: 'Other' };
 
-            // Update the food note sub-text based on what's being brought
-            const totalItems = (items.chips || 0) + (items.sides || 0) + (items.snacks || 0)
-                + (items.desserts || 0) + (items.drinks || 0) + (items.other || 0);
+            // Re-render badges, but mark any that changed for a brief pulse
+            const tally = document.getElementById('tally-container');
+            tally.innerHTML = keys.map(k => {
+                const count = items[k] || 0;
+                const bumped = !firstLoad && (prevItems[k] || 0) !== count ? ' bumped' : '';
+                return `<div class="badge${bumped}" data-key="${k}">${labels[k]} <span>${count}</span></div>`;
+            }).join('');
+            prevItems = { ...items };
+
+            const totalItems = keys.reduce((a, k) => a + (items[k] || 0), 0);
             const subEl = document.getElementById('food-note-sub');
             if (totalItems === 0) {
                 subEl.innerText = "No one's signed up to bring anything yet.";
             } else {
                 subEl.innerText = "People are also bringing:";
             }
+
+            // Update the personalized "you're attending" banner
+            updateMyBanner(newTotal);
         });
+
+        // ---------- Personalized "you're attending" banner ----------
+        function updateMyBanner(totalAttending) {
+            const banner = document.getElementById('my-rsvp-banner');
+            const myCount = getMyRsvp();
+            if (myCount > 0) {
+                const others = Math.max(0, totalAttending - myCount);
+                let msg;
+                if (myCount === 1 && others === 0) {
+                    msg = `You're attending! See you on ${formatDate(nextDate).split(',')[0]}.`;
+                } else if (myCount === 1) {
+                    msg = `You're in! Joining <strong>${others}</strong> ${others === 1 ? 'other' : 'others'}.`;
+                } else if (others === 0) {
+                    msg = `Your party of <strong>${myCount}</strong> is locked in.`;
+                } else {
+                    msg = `Your party of <strong>${myCount}</strong> + <strong>${others}</strong> ${others === 1 ? 'other' : 'others'} attending.`;
+                }
+                banner.innerHTML = msg;
+                banner.classList.add('visible');
+            } else {
+                banner.classList.remove('visible');
+            }
+        }
 
         // Multi-select item picker - toggle, don't replace
         document.querySelectorAll('#item-grid .item-btn').forEach(btn => {
             btn.onclick = function() {
                 tap();
                 this.classList.toggle('active');
+                // Show the "what is it?" detail input if "Other" is active
+                const otherActive = document.querySelector('#item-grid .item-btn[data-item="other"].active');
+                document.getElementById('other-detail').classList.toggle('visible', !!otherActive);
             };
         });
 
@@ -1376,7 +1670,6 @@
             }
             const count = parseInt(active.dataset.val);
             eventRef.child('total').transaction(c => (c || 0) + count);
-            // Add to whatever they may have already RSVP'd for in case they're updating
             setMyRsvp(getMyRsvp() + count);
             active.classList.remove('active');
             closeModal('rsvpModal');
@@ -1391,13 +1684,32 @@
                 showToast("Pick at least one item");
                 return;
             }
+
+            // Collect optional "Other" detail and store it for the host's view
+            const otherInput = document.getElementById('other-detail');
+            const otherDetail = otherInput.value.trim();
+
             tap([10, 30, 10]);
-            // Increment each selected item
             activeButtons.forEach(btn => {
                 const item = btn.dataset.item;
                 eventRef.child('items/' + item).transaction(c => (c || 0) + 1);
                 btn.classList.remove('active');
             });
+
+            // If they specified what "Other" is, push it to a list for the host
+            if (otherDetail && document.querySelector('#item-grid .item-btn[data-item="other"]')) {
+                // Only save if "other" was actually one of the selections
+                const otherWasSelected = Array.from(activeButtons).some(b => b.dataset.item === 'other');
+                if (otherWasSelected) {
+                    eventRef.child('otherNotes').push({
+                        text: otherDetail.slice(0, 60),
+                        ts: firebase.database.ServerValue.TIMESTAMP
+                    });
+                }
+            }
+            otherInput.value = '';
+            otherInput.classList.remove('visible');
+
             closeModal('bringModal');
             const msg = activeButtons.length === 1
                 ? "Thanks for bringing it! ✓"
@@ -1412,7 +1724,6 @@
             document.querySelectorAll('#cancel-original-grid .g-btn').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('#cancel-new-grid .g-btn').forEach(b => b.classList.remove('active'));
 
-            // Pre-select if we know what they RSVP'd for, and add a friendly note
             const hint = document.getElementById('rsvp-known-hint');
             if (myCount > 0 && myCount <= 15) {
                 const btn = document.querySelector(`#cancel-original-grid .g-btn[data-val="${myCount}"]`);
@@ -1450,7 +1761,6 @@
             const diff = newCount - originalCount;
 
             eventRef.child('total').transaction(c => Math.max(0, (c || 0) + diff));
-            // Update the locally-tracked count
             setMyRsvp(Math.max(0, getMyRsvp() + diff));
             closeModal('cancelModal');
             tap([10, 30, 10]);
@@ -1476,8 +1786,6 @@
             return params.get('admin') === '1';
         }
 
-        // Build a list of event dates in the series for the dropdown
-        // Shows the previous 4 events through next 6 events for context
         function buildAdminEventList() {
             const select = document.getElementById('admin-event-select');
             select.innerHTML = '';
@@ -1485,15 +1793,13 @@
             const today = new Date();
             today.setHours(0, 0, 0, 0);
 
-            // Generate events from start to start + 1 year
             const events = [];
-            for (let i = 0; i < 27; i++) { // ~1 year of every-other-Sunday
+            for (let i = 0; i < 27; i++) {
                 const d = new Date(start);
                 d.setDate(start.getDate() + i * 14);
                 events.push(d);
             }
 
-            // Find next event index for default selection
             let nextIdx = events.findIndex(d => d >= today);
             if (nextIdx === -1) nextIdx = events.length - 1;
 
@@ -1516,7 +1822,6 @@
         let adminEventListener = null;
 
         function loadAdminEventState() {
-            // Tear down previous listener if any
             if (adminEventListener) {
                 adminEventListener.off('value');
             }
@@ -1529,9 +1834,18 @@
                     .filter(k => items[k])
                     .map(k => `${k}: ${items[k]}`)
                     .join(', ') || 'none';
+
+                // Show "other" notes if present
+                const notes = data.otherNotes || {};
+                const noteValues = Object.values(notes).map(n => n.text).filter(Boolean);
+                const notesHtml = noteValues.length
+                    ? `<div style="margin-top:8px;"><strong>"Other" notes:</strong> ${noteValues.map(t => `<span style="color:var(--text-main);">${t}</span>`).join(' · ')}</div>`
+                    : '';
+
                 document.getElementById('admin-current-state').innerHTML = `
                     <div><strong>Guest count:</strong> ${data.total || 0}</div>
                     <div><strong>Food pledged:</strong> ${itemList}</div>
+                    ${notesHtml}
                 `;
             });
         }
@@ -1549,7 +1863,10 @@
             let label, action;
             if (scope === 'items') {
                 label = `Reset ALL food selections for ${key}?`;
-                action = () => db.ref('open-house/' + key + '/items').remove();
+                action = () => Promise.all([
+                    db.ref('open-house/' + key + '/items').remove(),
+                    db.ref('open-house/' + key + '/otherNotes').remove()
+                ]);
             } else if (scope === 'total') {
                 label = `Reset guest count to 0 for ${key}?`;
                 action = () => db.ref('open-house/' + key + '/total').set(0);
@@ -1571,14 +1888,31 @@
             }
         }
 
-        // Auto-open admin modal if URL has ?admin=1
         if (isAdminUrl()) {
-            // Small delay so the page renders first
             setTimeout(() => {
                 buildAdminEventList();
                 openModal('adminModal');
             }, 300);
         }
+
+        // Expose functions used by inline onclick attributes to global scope.
+        // (They live inside the whenFirebaseReady callback for safety, but the
+        // HTML's onclick handlers look them up on window.)
+        window.openModal = openModal;
+        window.closeModal = closeModal;
+        window.openShareModal = openShareModal;
+        window.copyLink = copyLink;
+        window.nativeShare = nativeShare;
+        window.addToGoogleCal = addToGoogleCal;
+        window.downloadICS = downloadICS;
+        window.submitRSVP = submitRSVP;
+        window.submitItem = submitItem;
+        window.openCancelModal = openCancelModal;
+        window.goToCancelStep2 = goToCancelStep2;
+        window.submitChange = submitChange;
+        window.confirmReset = confirmReset;
+        window.exitAdmin = exitAdmin;
+    }); // end whenFirebaseReady
     </script>
 </body>
 </html>
