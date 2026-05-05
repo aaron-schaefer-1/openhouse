@@ -1541,27 +1541,30 @@
             });
         }
 
-        // ---------- Rubber-band overscroll bounce ----------
-        // When the user tries to scroll past the top or bottom of the page, the
-        // whole page-content shifts with rubber-band resistance, then springs back.
-        // iOS Safari does this natively for the body; this script adds the same
-        // feel for desktop wheel/trackpad and Android browsers.
-        if (!prefersReducedMotion) {
+        // ---------- Rubber-band overscroll bounce (touch only, scrollable pages only) ----------
+        // Native iOS Safari already provides rubber-band on body scroll, so this
+        // adds the same feel for Android browsers. Desktop wheel/trackpad is left
+        // alone — hijacking it tends to feel worse than helpful, even when done
+        // carefully. Only runs when the page actually has scrollable overflow.
+        if (!prefersReducedMotion && isTouch) {
             const pageContent = document.getElementById('page-content');
-            let bounceY = 0;       // current displacement
-            let velocity = 0;      // for momentum-style decay
-            let lastEventTime = 0;
+            let bounceY = 0;
+            let velocity = 0;
             let raf = null;
 
+            function pageIsScrollable() {
+                return document.documentElement.scrollHeight > window.innerHeight + 2;
+            }
+            function atTop() { return window.scrollY <= 0; }
+            function atBottom() {
+                return window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 1;
+            }
             function applyBounce() {
-                if (!pageContent) return;
-                pageContent.style.transform = `translateY(${bounceY.toFixed(2)}px)`;
+                if (pageContent) pageContent.style.transform = `translateY(${bounceY.toFixed(2)}px)`;
             }
             function clearBounce() {
-                if (!pageContent) return;
-                pageContent.style.transform = '';
+                if (pageContent) pageContent.style.transform = '';
             }
-
             function springBack() {
                 cancelAnimationFrame(raf);
                 const stiffness = 0.18;
@@ -1582,39 +1585,6 @@
                 step();
             }
 
-            function atTop() { return window.scrollY <= 0; }
-            function atBottom() {
-                return window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 1;
-            }
-
-            // Wheel / trackpad — desktop
-            window.addEventListener('wheel', (e) => {
-                // Skip if a modal is open — modals scroll independently
-                if (document.body.classList.contains('modal-open')) return;
-                if (Math.abs(e.deltaY) < 1) return;
-
-                const overscrollingTop = atTop() && e.deltaY < 0;
-                const overscrollingBottom = atBottom() && e.deltaY > 0;
-                if (!overscrollingTop && !overscrollingBottom) {
-                    if (bounceY !== 0) springBack();
-                    return;
-                }
-
-                e.preventDefault();
-                cancelAnimationFrame(raf);
-
-                // Rubber-band: resistance grows with current displacement
-                const resistance = 1 / (1 + Math.abs(bounceY) * 0.012);
-                const delta = -e.deltaY * 0.45 * resistance;
-                bounceY = Math.max(-180, Math.min(180, bounceY + delta));
-                applyBounce();
-
-                // Schedule a spring-back after the wheel events settle
-                clearTimeout(window._bounceTimer);
-                window._bounceTimer = setTimeout(springBack, 80);
-            }, { passive: false });
-
-            // Touch — mobile
             let touchStartY = null;
             let lastTouchY = null;
             window.addEventListener('touchstart', (e) => {
@@ -1627,12 +1597,14 @@
             window.addEventListener('touchmove', (e) => {
                 if (document.body.classList.contains('modal-open')) return;
                 if (touchStartY === null) return;
+                if (!pageIsScrollable() && bounceY === 0) return; // page fits, leave it alone
+
                 const y = e.touches[0].clientY;
                 const dy = y - lastTouchY;
                 lastTouchY = y;
 
                 const overscrollingTop = atTop() && dy > 0;
-                const overscrollingBottom = atBottom() && dy < 0;
+                const overscrollingBottom = pageIsScrollable() && atBottom() && dy < 0;
 
                 if (overscrollingTop || overscrollingBottom) {
                     const resistance = 1 / (1 + Math.abs(bounceY) * 0.008);
@@ -1640,15 +1612,18 @@
                     applyBounce();
                     e.preventDefault();
                 } else if (bounceY !== 0) {
+                    // Released back to a normal scroll position — let the spring settle
                     springBack();
                 }
             }, { passive: false });
 
-            window.addEventListener('touchend', () => {
+            const endTouch = () => {
                 touchStartY = null;
                 lastTouchY = null;
                 if (bounceY !== 0) springBack();
-            }, { passive: true });
+            };
+            window.addEventListener('touchend', endTouch, { passive: true });
+            window.addEventListener('touchcancel', endTouch, { passive: true });
         }
 
         // ---------- Calendar integration ----------
