@@ -171,18 +171,6 @@
             display: block; margin-top: 4px;
             position: relative;
         }
-        .countdown-pill {
-            margin-top: 10px;
-            display: inline-block;
-            font-size: 0.72rem;
-            font-weight: 700;
-            color: var(--primary);
-            letter-spacing: 0.5px;
-            position: relative;
-            padding: 4px 10px;
-            background: rgba(56, 189, 248, 0.08);
-            border-radius: 10px;
-        }
 
         .hero-extras {
             margin-top: 14px;
@@ -257,15 +245,38 @@
             border-radius: 24px; padding: 26px;
             margin-bottom: 20px; text-align: center;
             position: relative; overflow: hidden;
-            box-shadow: 0 20px 60px -20px rgba(56, 189, 248, 0.3);
+            box-shadow:
+                0 20px 60px -20px rgba(56, 189, 248, 0.3),
+                0 1px 0 0 rgba(255, 255, 255, 0.04) inset;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s;
         }
-        .parking-hero::before {
+        /* Slowly rotating conic gradient halo behind the parking card — Stripe-style glow */
+        .parking-hero::after {
             content: '';
-            position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px;
-            background: linear-gradient(135deg, transparent, var(--primary), transparent);
-            opacity: 0; border-radius: 24px;
-            transition: opacity 0.4s;
+            position: absolute;
+            inset: -100%;
+            background: conic-gradient(
+                from 0deg,
+                transparent 0deg,
+                rgba(56, 189, 248, 0.18) 60deg,
+                transparent 120deg,
+                transparent 240deg,
+                rgba(167, 139, 250, 0.15) 300deg,
+                transparent 360deg
+            );
+            animation: spin 18s linear infinite;
             z-index: -1;
+            opacity: 0.6;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .parking-hero:hover {
+            transform: translateY(-3px);
+            box-shadow:
+                0 28px 70px -20px rgba(56, 189, 248, 0.45),
+                0 1px 0 0 rgba(255, 255, 255, 0.08) inset;
         }
         .parking-title {
             font-weight: 800; font-size: 1.15rem;
@@ -334,10 +345,24 @@
             border: 1px solid var(--border);
             border-radius: 28px;
             padding: 32px;
+            /* Layered card-stack shadows for true depth perception */
             box-shadow:
-                0 25px 50px -12px rgba(0, 0, 0, 0.6),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+                0 1px 0 rgba(255, 255, 255, 0.05) inset,
+                0 1px 2px rgba(0, 0, 0, 0.4),
+                0 4px 12px rgba(0, 0, 0, 0.3),
+                0 16px 32px -8px rgba(0, 0, 0, 0.5),
+                0 32px 64px -16px rgba(0, 0, 0, 0.6);
             position: relative;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 1px 0 rgba(255, 255, 255, 0.07) inset,
+                0 1px 2px rgba(0, 0, 0, 0.4),
+                0 6px 16px rgba(0, 0, 0, 0.35),
+                0 20px 40px -8px rgba(0, 0, 0, 0.55),
+                0 40px 80px -16px rgba(0, 0, 0, 0.65);
         }
 
         .stat-box {
@@ -696,14 +721,18 @@
             padding: 32px; max-width: 420px; width: 100%;
             position: relative; max-height: 90vh; overflow-y: auto;
             box-shadow:
-                0 40px 80px -20px rgba(0, 0, 0, 0.8),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            transform: scale(0.92) translateY(20px);
+                0 1px 0 rgba(255, 255, 255, 0.05) inset,
+                0 8px 16px rgba(0, 0, 0, 0.5),
+                0 24px 48px rgba(0, 0, 0, 0.7),
+                0 60px 100px -20px rgba(0, 0, 0, 0.8);
+            transform: scale(0.88) translateY(24px);
             opacity: 0;
-            animation: modalIn 0.4s var(--bounce) forwards;
+            animation: modalSpring 0.55s cubic-bezier(0.34, 1.56, 0.34, 1) forwards;
         }
-        @keyframes modalIn {
-            to { transform: scale(1) translateY(0); opacity: 1; }
+        @keyframes modalSpring {
+            0% { transform: scale(0.88) translateY(24px); opacity: 0; }
+            60% { transform: scale(1.01) translateY(-2px); opacity: 1; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
         }
         .section-label {
             font-size: 0.7rem; font-weight: 800;
@@ -928,7 +957,55 @@
         }
         .other-detail.visible { display: block; }
 
-        /* Respect reduced motion preferences */
+        /* ---------- Premium polish ---------- */
+
+        /* Staggered fade-in for the main card's children — gives a cascading reveal */
+        .card > * {
+            opacity: 0;
+            transform: translateY(8px);
+            animation: cascadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .card > *:nth-child(1) { animation-delay: 0.15s; }
+        .card > *:nth-child(2) { animation-delay: 0.22s; }
+        .card > *:nth-child(3) { animation-delay: 0.29s; }
+        .card > *:nth-child(4) { animation-delay: 0.36s; }
+        .card > *:nth-child(5) { animation-delay: 0.43s; }
+        .card > *:nth-child(6) { animation-delay: 0.50s; }
+        .card > *:nth-child(7) { animation-delay: 0.57s; }
+        .card > *:nth-child(8) { animation-delay: 0.64s; }
+        .card > *:nth-child(9) { animation-delay: 0.71s; }
+        .card > *:nth-child(10) { animation-delay: 0.78s; }
+        .card > *:nth-child(11) { animation-delay: 0.85s; }
+        .card > *:nth-child(12) { animation-delay: 0.92s; }
+        @keyframes cascadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom focus rings — keyboard-accessible AND aesthetic */
+        :focus-visible {
+            outline: none;
+            box-shadow:
+                0 0 0 2px var(--bg-deep),
+                0 0 0 4px rgba(56, 189, 248, 0.6),
+                0 0 16px -2px var(--primary-glow);
+            border-radius: 12px;
+        }
+        .btn:focus-visible, .btn-round:focus-visible, .cal-btn:focus-visible,
+        .g-btn:focus-visible, .item-btn:focus-visible, .badge:focus-visible {
+            box-shadow:
+                0 0 0 2px var(--bg-deep),
+                0 0 0 4px rgba(56, 189, 248, 0.6),
+                0 0 20px -2px var(--primary-glow);
+        }
+        a:focus-visible {
+            outline: none;
+            text-decoration: underline;
+            text-decoration-color: var(--primary);
+            text-decoration-thickness: 2px;
+            text-underline-offset: 4px;
+        }
+
+
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
@@ -939,6 +1016,8 @@
                 animation: none !important;
                 transform: none !important;
             }
+            .parking-hero::after { animation: none !important; }
+            .card > * { opacity: 1 !important; transform: none !important; }
         }
 
         /* Scrollbar styling */
@@ -966,7 +1045,6 @@
                 <span class="next-date-label">Next Open House</span>
                 <span class="next-date-value" id="next-date">Loading...</span>
                 <span class="next-date-time">12:15 - 6 p.m. · Come and go as you please</span>
-                <span class="countdown-pill" id="countdown-pill" style="display:none;"></span>
             </div>
             <div class="hero-extras">
                 <div class="weather-pill" id="weather-pill">
@@ -1251,41 +1329,6 @@
 
         const eventKey = getEventKey(nextDate);
         const eventRef = db.ref('open-house/' + eventKey);
-
-        // ---------- Countdown pill — friendly relative time ----------
-        function updateCountdown() {
-            const pill = document.getElementById('countdown-pill');
-            const eventStart = new Date(nextDate);
-            eventStart.setHours(12, 15, 0, 0);
-            const eventEnd = new Date(nextDate);
-            eventEnd.setHours(18, 0, 0, 0);
-            const now = new Date();
-            const diffMs = eventStart - now;
-            const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-
-            let text = '';
-            if (now >= eventStart && now <= eventEnd) {
-                text = '✨ Happening now — come on over!';
-            } else if (diffDays === 0 && diffMs > 0) {
-                const hours = Math.round(diffMs / (1000 * 60 * 60));
-                text = hours <= 1 ? 'Starting soon' : `Today — in ${hours} hours`;
-            } else if (diffDays === 1) {
-                text = 'Tomorrow';
-            } else if (diffDays > 0 && diffDays <= 14) {
-                text = `In ${diffDays} days`;
-            } else if (diffDays > 14) {
-                const weeks = Math.round(diffDays / 7);
-                text = `In about ${weeks} weeks`;
-            }
-
-            if (text) {
-                pill.innerText = text;
-                pill.style.display = 'inline-block';
-            }
-        }
-        updateCountdown();
-        // Refresh countdown every minute so "today/tomorrow/now" stay accurate
-        setInterval(updateCountdown, 60 * 1000);
 
         // ---------- Haptic feedback (mobile only, silently no-ops elsewhere) ----------
         function tap(strength) {
@@ -1611,6 +1654,17 @@
                 subEl.innerText = "No one's signed up to bring anything yet.";
             } else {
                 subEl.innerText = "People are also bringing:";
+            }
+
+            // If the server says 0 attendees but we have a local RSVP, the data was
+            // reset by the host (or this is a fresh event). Clear the stale local count.
+            if (newTotal === 0 && getMyRsvp() > 0) {
+                setMyRsvp(0);
+            }
+            // Also defensively cap local count at the actual total — prevents
+            // banners showing "your party of 13" when there are only 3 attendees.
+            if (getMyRsvp() > newTotal) {
+                setMyRsvp(newTotal);
             }
 
             // Update the personalized "you're attending" banner
