@@ -257,6 +257,17 @@
             font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
             letter-spacing: 0.5px;
         }
+        .walk-tag-link {
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s var(--bounce);
+        }
+        .walk-tag-link:hover {
+            background: rgba(56, 189, 248, 0.25);
+            border-color: var(--primary);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px -6px var(--primary-glow);
+        }
 
         .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; width: 100%; gap: 10px; }
         .btn-round {
@@ -401,6 +412,85 @@
             font-weight: 600;
             margin-bottom: 14px;
             text-align: center;
+        }
+
+        /* ----- Admin styles ----- */
+        .admin-input {
+            width: 100%;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 14px 16px;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 14px;
+            transition: all 0.3s;
+        }
+        .admin-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(56, 189, 248, 0.06);
+        }
+        select.admin-input {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8' fill='none'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%2394a3b8' stroke-width='2'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+        }
+        .admin-event-pick { margin-bottom: 6px; }
+        .admin-label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 6px;
+        }
+        .admin-current-state {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 16px;
+            font-size: 0.88rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+        .admin-current-state strong {
+            color: var(--text-main);
+            font-weight: 700;
+        }
+        .admin-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .btn-warning {
+            background: rgba(251, 191, 36, 0.1);
+            color: #fde68a;
+            border: 1px solid rgba(251, 191, 36, 0.4);
+        }
+        .btn-warning:hover {
+            background: rgba(251, 191, 36, 0.18);
+            border-color: #fbbf24;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px -8px rgba(251, 191, 36, 0.4);
+        }
+        .btn-danger-solid {
+            background: rgba(248, 113, 113, 0.1);
+            color: #fecaca;
+            border: 1px solid rgba(248, 113, 113, 0.4);
+        }
+        .btn-danger-solid:hover {
+            background: rgba(248, 113, 113, 0.18);
+            border-color: #f87171;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px -8px rgba(248, 113, 113, 0.4);
         }
         .badge {
             background: rgba(255,255,255,0.04);
@@ -766,7 +856,7 @@
             <div class="parking-text">
                 Please park at the neighborhood parking lot by the neighborhood pool. It is a very short walk to our home from there.
             </div>
-            <div class="walk-tag">🚶 Short walk to our home at 6629 Penfield Street</div>
+            <a href="https://www.google.com/maps/dir/?api=1&destination=6629+Penfield+Street+Wake+Forest+NC+27587&travelmode=walking" target="_blank" rel="noopener" class="walk-tag walk-tag-link">🚶 Walking Directions to 6629 Penfield Street</a>
             <a href="https://maps.app.goo.gl/4hbNhkQDsiBBpEqn9" target="_blank" class="btn btn-park">Navigate to Parking Lot</a>
         </div>
 
@@ -917,6 +1007,35 @@
             </div>
             <div class="grid" id="cancel-new-grid"></div>
             <button class="btn btn-main" onclick="submitChange()">Update RSVP</button>
+        </div>
+    </div></div>
+
+    <!-- Admin Modal (only accessible via ?admin=1 URL parameter) -->
+    <div id="adminModal" class="modal"><div class="modal-content">
+        <button class="close-modal" onclick="closeModal('adminModal')">✕</button>
+
+        <div id="admin-panel">
+            <span class="section-label">🔒 Host Admin Panel</span>
+            <div class="admin-event-pick">
+                <label for="admin-event-select" class="admin-label">Event Date</label>
+                <select id="admin-event-select" class="admin-input"></select>
+            </div>
+
+            <div class="admin-current-state" id="admin-current-state">Loading...</div>
+
+            <div class="admin-actions">
+                <button class="btn btn-warning" onclick="confirmReset('items')">
+                    🍽️ Reset Food Selections
+                </button>
+                <button class="btn btn-warning" onclick="confirmReset('total')">
+                    👥 Reset Guest Count
+                </button>
+                <button class="btn btn-danger-solid" onclick="confirmReset('all')">
+                    💥 Reset Everything for This Event
+                </button>
+            </div>
+
+            <button class="btn btn-outline" onclick="exitAdmin()" style="margin-top: 18px;">Close Admin</button>
         </div>
     </div></div>
 
@@ -1345,6 +1464,120 @@
             } else {
                 showToast("No change made");
             }
+        }
+
+        // ============================================================
+        // ADMIN MODE
+        // Access by appending ?admin=1 to the URL
+        // ============================================================
+
+        function isAdminUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('admin') === '1';
+        }
+
+        // Build a list of event dates in the series for the dropdown
+        // Shows the previous 4 events through next 6 events for context
+        function buildAdminEventList() {
+            const select = document.getElementById('admin-event-select');
+            select.innerHTML = '';
+            const start = new Date(2026, 4, 24);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            // Generate events from start to start + 1 year
+            const events = [];
+            for (let i = 0; i < 27; i++) { // ~1 year of every-other-Sunday
+                const d = new Date(start);
+                d.setDate(start.getDate() + i * 14);
+                events.push(d);
+            }
+
+            // Find next event index for default selection
+            let nextIdx = events.findIndex(d => d >= today);
+            if (nextIdx === -1) nextIdx = events.length - 1;
+
+            events.forEach((d, idx) => {
+                const opt = document.createElement('option');
+                const key = getEventKey(d);
+                opt.value = key;
+                let label = formatDate(d);
+                if (d < today) label += ' (past)';
+                else if (idx === nextIdx) label += ' (next)';
+                opt.innerText = label;
+                if (idx === nextIdx) opt.selected = true;
+                select.appendChild(opt);
+            });
+
+            select.onchange = loadAdminEventState;
+            loadAdminEventState();
+        }
+
+        let adminEventListener = null;
+
+        function loadAdminEventState() {
+            // Tear down previous listener if any
+            if (adminEventListener) {
+                adminEventListener.off('value');
+            }
+            const key = document.getElementById('admin-event-select').value;
+            adminEventListener = db.ref('open-house/' + key);
+            adminEventListener.on('value', (snap) => {
+                const data = snap.val() || { total: 0, items: {} };
+                const items = data.items || {};
+                const itemList = ['chips', 'sides', 'snacks', 'desserts', 'drinks', 'other']
+                    .filter(k => items[k])
+                    .map(k => `${k}: ${items[k]}`)
+                    .join(', ') || 'none';
+                document.getElementById('admin-current-state').innerHTML = `
+                    <div><strong>Guest count:</strong> ${data.total || 0}</div>
+                    <div><strong>Food pledged:</strong> ${itemList}</div>
+                `;
+            });
+        }
+
+        function exitAdmin() {
+            if (adminEventListener) {
+                adminEventListener.off('value');
+                adminEventListener = null;
+            }
+            closeModal('adminModal');
+        }
+
+        function confirmReset(scope) {
+            const key = document.getElementById('admin-event-select').value;
+            let label, action;
+            if (scope === 'items') {
+                label = `Reset ALL food selections for ${key}?`;
+                action = () => db.ref('open-house/' + key + '/items').remove();
+            } else if (scope === 'total') {
+                label = `Reset guest count to 0 for ${key}?`;
+                action = () => db.ref('open-house/' + key + '/total').set(0);
+            } else {
+                label = `Reset EVERYTHING for ${key}? Guest count AND food selections.`;
+                action = () => db.ref('open-house/' + key).remove();
+            }
+
+            if (confirm(label + '\n\nThis cannot be undone.')) {
+                action()
+                    .then(() => {
+                        tap([20, 40, 20]);
+                        showToast("Reset complete ✓");
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        showToast("Reset failed - check console");
+                    });
+            }
+        }
+
+        // Auto-open admin modal if URL has ?admin=1
+        if (isAdminUrl()) {
+            // Small delay so the page renders first
+            setTimeout(() => {
+                buildAdminEventList();
+                openModal('adminModal');
+            }, 300);
         }
     </script>
 </body>
