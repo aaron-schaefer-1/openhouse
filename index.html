@@ -4,13 +4,28 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Schaefer Open House</title>
-    <meta name="theme-color" content="#020617">
+    <meta name="theme-color" content="#020617" id="theme-color-meta">
+    <script>
+        // Apply saved theme as early as possible to prevent flash-of-wrong-theme.
+        // Default: dark. User preference is sticky.
+        (function() {
+            try {
+                const saved = localStorage.getItem('schaefer-theme');
+                if (saved === 'light') {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    const meta = document.querySelector('meta[name="theme-color"]');
+                    if (meta) meta.setAttribute('content', '#fafaf7');
+                }
+            } catch (e) { /* localStorage might be disabled — ignore */ }
+        })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet">
 
     <style>
         :root {
+            /* Dark theme (default) */
             --bg: #020617;
             --bg-deep: #000308;
             --card-bg: rgba(15, 23, 42, 0.7);
@@ -23,6 +38,20 @@
             --accent: #f472b6;
             --text-main: #f1f5f9;
             --text-dim: #94a3b8;
+            --aurora-1: #38bdf8;
+            --aurora-2: #a78bfa;
+            --aurora-3: #f472b6;
+            --aurora-opacity: 0.4;
+            --aurora-accent-opacity: 0.15;
+            --grain-opacity: 0.04;
+            --grain-blend: overlay;
+            --modal-overlay: rgba(2, 6, 23, 0.55);
+            --modal-content-bg: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(2, 6, 23, 0.95) 100%);
+            --parking-bg: linear-gradient(135deg, rgba(56, 189, 248, 0.12) 0%, rgba(15, 23, 42, 0.6) 100%);
+            --btn-main-bg: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+            --btn-main-text: var(--bg);
+            --btn-main-shadow: rgba(255, 255, 255, 0.3);
+            --btn-outline-bg: rgba(255,255,255,0.02);
             --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 
@@ -31,10 +60,52 @@
             --my: 0;
         }
 
+        /* Light theme — warm, premium, not clinical */
+        [data-theme="light"] {
+            --bg: #fafaf7;          /* warm off-white */
+            --bg-deep: #f4f3ed;     /* slightly deeper warm cream */
+            --card-bg: rgba(255, 255, 255, 0.78);
+            --card-bg-solid: #ffffff;
+            --border: rgba(15, 23, 42, 0.08);
+            --border-bright: rgba(15, 23, 42, 0.16);
+            --primary: #0284c7;     /* deeper cyan, readable on light bg */
+            --primary-glow: rgba(2, 132, 199, 0.35);
+            --secondary: #7c3aed;   /* deeper violet */
+            --accent: #db2777;      /* deeper pink */
+            --text-main: #0f172a;   /* deep navy, not pure black */
+            --text-dim: #64748b;    /* slate-500 */
+            --aurora-1: #7dd3fc;    /* lighter, pastel auroras */
+            --aurora-2: #c4b5fd;
+            --aurora-3: #fbcfe8;
+            --aurora-opacity: 0.5;
+            --aurora-accent-opacity: 0.25;
+            --grain-opacity: 0.05;
+            --grain-blend: multiply;
+            --modal-overlay: rgba(15, 23, 42, 0.35);
+            --modal-content-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.97) 0%, rgba(250, 250, 247, 0.97) 100%);
+            --parking-bg: linear-gradient(135deg, rgba(2, 132, 199, 0.08) 0%, rgba(255, 255, 255, 0.85) 100%);
+            --btn-main-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --btn-main-text: #ffffff;
+            --btn-main-shadow: rgba(15, 23, 42, 0.25);
+            --btn-outline-bg: rgba(15, 23, 42, 0.02);
+        }
+
+        /* Smooth color transitions when switching themes */
+        body, .card, .modal-content, .parking-hero, .next-date-box,
+        .stat-box, .badge, .btn-round, .cal-btn, .item-btn, .g-btn,
+        .step-banner, .my-rsvp-banner, .rsvp-hint, .weather-pill,
+        .admin-input, .admin-current-state, .category-summary,
+        .category-notes-list li, .category-note-input, .info-list li,
+        .share-link-box {
+            transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
-        html, body { overflow-x: hidden; overscroll-behavior-y: none; }
-        html { scroll-behavior: smooth; }
+        html, body { overflow-x: hidden; }
 
         body {
             margin: 0; padding: 20px; min-height: 100vh;
@@ -50,22 +121,25 @@
             position: fixed; inset: 0; z-index: -2;
             background: var(--bg-deep);
             overflow: hidden;
+            transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .aurora-bg::before, .aurora-bg::after {
             content: ''; position: absolute;
             width: 80vw; height: 80vw;
             border-radius: 50%;
-            filter: blur(100px); opacity: 0.4;
-            transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            filter: blur(100px); opacity: var(--aurora-opacity);
+            transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1),
+                        opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                        background 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .aurora-bg::before {
-            background: radial-gradient(circle, var(--primary) 0%, transparent 60%);
+            background: radial-gradient(circle, var(--aurora-1) 0%, transparent 60%);
             top: -30%; left: -20%;
             animation: drift1 22s ease-in-out infinite;
             transform: translate(calc(var(--mx) * 30px), calc(var(--my) * 20px));
         }
         .aurora-bg::after {
-            background: radial-gradient(circle, var(--secondary) 0%, transparent 60%);
+            background: radial-gradient(circle, var(--aurora-2) 0%, transparent 60%);
             bottom: -30%; right: -20%;
             animation: drift2 28s ease-in-out infinite;
             transform: translate(calc(var(--mx) * -30px), calc(var(--my) * -20px));
@@ -73,11 +147,13 @@
         .aurora-accent {
             position: fixed; z-index: -1;
             width: 50vw; height: 50vw;
-            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
-            border-radius: 50%; filter: blur(120px); opacity: 0.15;
+            background: radial-gradient(circle, var(--aurora-3) 0%, transparent 70%);
+            border-radius: 50%; filter: blur(120px); opacity: var(--aurora-accent-opacity);
             top: 30%; left: 25%;
             animation: drift3 35s ease-in-out infinite;
-            transition: transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transition: transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+                        opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                        background 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             transform: translate(calc(var(--mx) * 40px), calc(var(--my) * 30px));
         }
         @keyframes drift1 {
@@ -99,8 +175,8 @@
             content: ''; position: fixed; inset: 0;
             pointer-events: none; z-index: 100;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
-            opacity: 0.04;
-            mix-blend-mode: overlay;
+            opacity: var(--grain-opacity);
+            mix-blend-mode: var(--grain-blend);
         }
 
         .container {
@@ -240,7 +316,7 @@
         }
 
         .parking-hero {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.12) 0%, rgba(15, 23, 42, 0.6) 100%);
+            background: var(--parking-bg);
             backdrop-filter: blur(24px) saturate(180%);
             border: 1px solid rgba(56, 189, 248, 0.4);
             border-radius: 24px; padding: 26px;
@@ -632,16 +708,16 @@
             position: relative; overflow: hidden;
         }
         .btn-main {
-            background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
-            color: var(--bg);
-            box-shadow: 0 8px 24px -8px rgba(255, 255, 255, 0.3);
+            background: var(--btn-main-bg);
+            color: var(--btn-main-text);
+            box-shadow: 0 8px 24px -8px var(--btn-main-shadow);
         }
         .btn-main:hover {
             transform: translateY(-2px);
-            box-shadow: 0 14px 32px -10px rgba(255, 255, 255, 0.4);
+            box-shadow: 0 14px 32px -10px var(--btn-main-shadow);
         }
         .btn-outline {
-            background: rgba(255,255,255,0.02);
+            background: var(--btn-outline-bg);
             color: var(--text-main);
             border: 1px solid var(--border);
             backdrop-filter: blur(10px);
@@ -694,12 +770,151 @@
         }
         .btn-text:hover { color: var(--primary); }
 
-        /* ---------- Page content gets pushed back when a modal is open ---------- */
+        /* ---------- Theme toggle (top-right) ---------- */
+        .theme-toggle {
+            position: fixed;
+            top: 18px;
+            right: 18px;
+            z-index: 50;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        background 0.4s, border-color 0.4s, box-shadow 0.4s,
+                        color 0.4s;
+            box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.3);
+        }
+        .theme-toggle:hover {
+            transform: scale(1.08);
+            border-color: var(--primary);
+            color: var(--primary);
+            box-shadow: 0 6px 18px -4px var(--primary-glow);
+        }
+        .theme-toggle:active {
+            transform: scale(0.94);
+            transition: transform 0.1s;
+        }
+        .theme-icon {
+            position: absolute;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        opacity 0.3s ease-out;
+        }
+        /* Dark theme: moon visible, sun hidden */
+        .theme-icon-moon { opacity: 1; transform: rotate(0deg) scale(1); }
+        .theme-icon-sun { opacity: 0; transform: rotate(-90deg) scale(0.5); }
+        /* Light theme: sun visible, moon hidden */
+        [data-theme="light"] .theme-icon-moon { opacity: 0; transform: rotate(90deg) scale(0.5); }
+        [data-theme="light"] .theme-icon-sun { opacity: 1; transform: rotate(0deg) scale(1); }
+
+        /* When the user just toggled, do a celebratory full rotation */
+        .theme-toggle.toggled { animation: themeToggleSpin 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes themeToggleSpin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.15); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        /* ---------- Light-theme adjustments for surfaces ---------- */
+        /* These bulk-override the rgba(255,255,255,...) glass surfaces that
+           are invisible on a light background. */
+        [data-theme="light"] .btn-outline,
+        [data-theme="light"] .badge,
+        [data-theme="light"] .item-btn,
+        [data-theme="light"] .g-btn,
+        [data-theme="light"] .admin-input,
+        [data-theme="light"] .admin-current-state,
+        [data-theme="light"] .category-notes-list li,
+        [data-theme="light"] .category-note-input,
+        [data-theme="light"] .share-link-box {
+            background: rgba(15, 23, 42, 0.03);
+        }
+        [data-theme="light"] .btn-round {
+            background: rgba(255, 255, 255, 0.7);
+            color: var(--text-dim);
+        }
+        [data-theme="light"] .close-modal {
+            background: rgba(15, 23, 42, 0.05);
+        }
+        [data-theme="light"] .close-modal:hover {
+            background: rgba(15, 23, 42, 0.1);
+        }
+        [data-theme="light"] .stat-box {
+            background: linear-gradient(135deg, rgba(2, 132, 199, 0.05) 0%, rgba(124, 58, 237, 0.03) 100%);
+        }
+        [data-theme="light"] .my-rsvp-banner {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(2, 132, 199, 0.05) 100%);
+            color: #065f46;
+            border-color: rgba(16, 185, 129, 0.25);
+        }
+        [data-theme="light"] .my-rsvp-banner strong { color: #047857; }
+        [data-theme="light"] .my-rsvp-banner::before { color: #047857; }
+        [data-theme="light"] .step-banner {
+            background: linear-gradient(135deg, rgba(2, 132, 199, 0.07) 0%, rgba(124, 58, 237, 0.04) 100%);
+        }
+        [data-theme="light"] .weather-pill {
+            background: rgba(217, 119, 6, 0.08);
+            border-color: rgba(217, 119, 6, 0.25);
+            color: #92400e;
+        }
+        [data-theme="light"] .btn-change {
+            background: rgba(217, 119, 6, 0.06);
+            color: #b45309;
+            border-color: rgba(217, 119, 6, 0.3);
+        }
+        [data-theme="light"] .btn-change:hover {
+            border-color: #d97706;
+            background: rgba(217, 119, 6, 0.1);
+            color: #92400e;
+        }
+        [data-theme="light"] .rsvp-hint {
+            background: rgba(16, 185, 129, 0.07);
+            border-color: rgba(16, 185, 129, 0.25);
+            color: #047857;
+        }
+        [data-theme="light"] .next-date-box {
+            background: linear-gradient(135deg, rgba(2, 132, 199, 0.08) 0%, rgba(124, 58, 237, 0.05) 100%);
+            border-color: rgba(2, 132, 199, 0.3);
+        }
+        [data-theme="light"] .hero-title-block h1 {
+            background: linear-gradient(135deg, #0f172a 0%, #334155 60%, #64748b 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        [data-theme="light"] .card {
+            box-shadow:
+                0 1px 0 rgba(255, 255, 255, 0.8) inset,
+                0 1px 2px rgba(15, 23, 42, 0.06),
+                0 4px 12px rgba(15, 23, 42, 0.05),
+                0 16px 32px -8px rgba(15, 23, 42, 0.08),
+                0 32px 64px -16px rgba(15, 23, 42, 0.1);
+        }
+        [data-theme="light"] .card:hover {
+            box-shadow:
+                0 1px 0 rgba(255, 255, 255, 0.9) inset,
+                0 1px 2px rgba(15, 23, 42, 0.06),
+                0 6px 16px rgba(15, 23, 42, 0.06),
+                0 20px 40px -8px rgba(15, 23, 42, 0.1),
+                0 40px 80px -16px rgba(15, 23, 42, 0.12);
+        }
+        [data-theme="light"] body.modal-open #page-content {
+            filter: blur(3px) brightness(0.92);
+        }
+
         #page-content {
             transform-origin: 50% 0%;
             transition: transform 0.55s cubic-bezier(0.32, 0.72, 0, 1),
                         filter 0.55s cubic-bezier(0.32, 0.72, 0, 1);
-            will-change: transform, filter;
         }
         body.modal-open #page-content {
             transform: scale(0.94) translateY(8px);
@@ -724,7 +939,7 @@
         }
         .modal.show {
             display: flex;
-            background: rgba(2, 6, 23, 0.55);
+            background: var(--modal-overlay);
             backdrop-filter: blur(20px) saturate(140%);
             -webkit-backdrop-filter: blur(20px) saturate(140%);
             padding-top: max(20px, calc(50vh - 320px)); /* visually centered for typical modal sizes */
@@ -735,7 +950,7 @@
             -webkit-backdrop-filter: blur(0px);
         }
         .modal-content {
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(2, 6, 23, 0.95) 100%);
+            background: var(--modal-content-bg);
             backdrop-filter: blur(40px) saturate(180%);
             border: 1px solid var(--border-bright);
             border-radius: 28px;
@@ -1191,6 +1406,20 @@
     <div class="aurora-bg"></div>
     <div class="aurora-accent"></div>
 
+    <!-- Theme toggle — fixed top-right, sun/moon crossfade -->
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light or dark mode" type="button">
+        <svg class="theme-icon theme-icon-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="theme-icon theme-icon-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2"/><path d="M12 20v2"/>
+            <path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/>
+            <path d="M2 12h2"/><path d="M20 12h2"/>
+            <path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+        </svg>
+    </button>
+
     <!-- Wraps everything that should scale/blur when a modal opens.
          The aurora layers stay outside so they remain crisp. -->
     <div id="page-content">
@@ -1506,6 +1735,33 @@
             if (navigator.vibrate) navigator.vibrate(strength || 8);
         }
 
+        // ---------- Theme toggle ----------
+        (function() {
+            const toggle = document.getElementById('theme-toggle');
+            if (!toggle) return;
+            const meta = document.querySelector('meta[name="theme-color"]');
+
+            toggle.addEventListener('click', () => {
+                tap();
+                const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+                const next = isLight ? 'dark' : 'light';
+                if (next === 'light') {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    if (meta) meta.setAttribute('content', '#fafaf7');
+                } else {
+                    document.documentElement.removeAttribute('data-theme');
+                    if (meta) meta.setAttribute('content', '#020617');
+                }
+                try { localStorage.setItem('schaefer-theme', next); } catch (e) {}
+
+                // Celebratory spin on toggle
+                toggle.classList.remove('toggled');
+                void toggle.offsetWidth;
+                toggle.classList.add('toggled');
+                setTimeout(() => toggle.classList.remove('toggled'), 700);
+            });
+        })();
+
         // ---------- Mouse parallax for aurora — subtle premium touch ----------
         // Skipped on touch devices and when reduced motion is preferred.
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1541,90 +1797,11 @@
             });
         }
 
-        // ---------- Rubber-band overscroll bounce (touch only, scrollable pages only) ----------
-        // Native iOS Safari already provides rubber-band on body scroll, so this
-        // adds the same feel for Android browsers. Desktop wheel/trackpad is left
-        // alone — hijacking it tends to feel worse than helpful, even when done
-        // carefully. Only runs when the page actually has scrollable overflow.
-        if (!prefersReducedMotion && isTouch) {
-            const pageContent = document.getElementById('page-content');
-            let bounceY = 0;
-            let velocity = 0;
-            let raf = null;
-
-            function pageIsScrollable() {
-                return document.documentElement.scrollHeight > window.innerHeight + 2;
-            }
-            function atTop() { return window.scrollY <= 0; }
-            function atBottom() {
-                return window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 1;
-            }
-            function applyBounce() {
-                if (pageContent) pageContent.style.transform = `translateY(${bounceY.toFixed(2)}px)`;
-            }
-            function clearBounce() {
-                if (pageContent) pageContent.style.transform = '';
-            }
-            function springBack() {
-                cancelAnimationFrame(raf);
-                const stiffness = 0.18;
-                const damping = 0.72;
-                function step() {
-                    velocity += -bounceY * stiffness;
-                    velocity *= damping;
-                    bounceY += velocity;
-                    if (Math.abs(bounceY) < 0.3 && Math.abs(velocity) < 0.3) {
-                        bounceY = 0;
-                        velocity = 0;
-                        clearBounce();
-                        return;
-                    }
-                    applyBounce();
-                    raf = requestAnimationFrame(step);
-                }
-                step();
-            }
-
-            let touchStartY = null;
-            let lastTouchY = null;
-            window.addEventListener('touchstart', (e) => {
-                if (document.body.classList.contains('modal-open')) return;
-                touchStartY = e.touches[0].clientY;
-                lastTouchY = touchStartY;
-                cancelAnimationFrame(raf);
-            }, { passive: true });
-
-            window.addEventListener('touchmove', (e) => {
-                if (document.body.classList.contains('modal-open')) return;
-                if (touchStartY === null) return;
-                if (!pageIsScrollable() && bounceY === 0) return; // page fits, leave it alone
-
-                const y = e.touches[0].clientY;
-                const dy = y - lastTouchY;
-                lastTouchY = y;
-
-                const overscrollingTop = atTop() && dy > 0;
-                const overscrollingBottom = pageIsScrollable() && atBottom() && dy < 0;
-
-                if (overscrollingTop || overscrollingBottom) {
-                    const resistance = 1 / (1 + Math.abs(bounceY) * 0.008);
-                    bounceY = Math.max(-220, Math.min(220, bounceY + dy * 0.55 * resistance));
-                    applyBounce();
-                    e.preventDefault();
-                } else if (bounceY !== 0) {
-                    // Released back to a normal scroll position — let the spring settle
-                    springBack();
-                }
-            }, { passive: false });
-
-            const endTouch = () => {
-                touchStartY = null;
-                lastTouchY = null;
-                if (bounceY !== 0) springBack();
-            };
-            window.addEventListener('touchend', endTouch, { passive: true });
-            window.addEventListener('touchcancel', endTouch, { passive: true });
-        }
+        // ---------- Native scroll, native rubber-band ----------
+        // Earlier versions tried to add a custom rubber-band overscroll. After
+        // testing it caused subtle scroll-blocking issues — and on iOS Safari
+        // the native rubber-band already feels great. Letting the OS handle it
+        // is the right call.
 
         // ---------- Calendar integration ----------
         function getEventTimes() {
