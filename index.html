@@ -55,7 +55,7 @@
             /* Text */
             --text-main: #e8eef7;
             --text-dim: #9aabc0;
-            --text-faint: #6b7c92;
+            --text-faint: #7d8ea4; /* lifted slightly from #6b7c92 for better contrast on dark bg */
 
             /* Reflections & shimmer */
             --shimmer-1: rgba(255, 255, 255, 0.08);
@@ -113,7 +113,7 @@
 
             --text-main: #1a2235;
             --text-dim: #4a5868;
-            --text-faint: #6b7c92;
+            --text-faint: #5d6e84; /* lifted for contrast on light bg */
 
             --shimmer-1: rgba(255, 255, 255, 0.6);
             --shimmer-2: rgba(120, 150, 190, 0.2);
@@ -157,7 +157,6 @@
         }
 
         /* ========== WATER / GLASS BACKGROUND ========== */
-        /* Layered flowing gradients evoking deep water with light refracting through glass */
         .water-bg {
             position: fixed; inset: 0; z-index: -3;
             background:
@@ -404,7 +403,7 @@
             -webkit-backdrop-filter: blur(28px) saturate(180%);
             border: 1px solid var(--border-bright);
             border-radius: 22px; padding: 26px;
-            margin-bottom: 20px; text-align: center;
+            margin-top: 20px; text-align: center;
             position: relative; overflow: hidden;
             box-shadow:
                 inset 0 1px 0 rgba(255, 255, 255, 0.12),
@@ -600,6 +599,9 @@
             box-shadow:
                 inset 0 1px 0 rgba(255, 255, 255, 0.1),
                 inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+            /* Reserve vertical space so the page doesn't jump when Fraunces loads
+               and the skeleton swaps for the live number. */
+            min-height: 76px;
         }
         .stat-box::before {
             content: '';
@@ -646,11 +648,38 @@
             animation: skel 1.4s ease-in-out infinite;
             border-radius: 8px;
             min-width: 55px;
+            height: 40px;
             display: inline-block;
         }
         @keyframes skel {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
+        }
+
+        /* ========== "YOU'RE DOWN FOR X" LINE ========== */
+        .my-rsvp-line {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.82rem;
+            color: var(--text-dim);
+            font-weight: 500;
+            margin: 0 0 14px 0;
+            animation: myRsvpIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .my-rsvp-line[hidden] { display: none; }
+        .my-rsvp-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--silver-bright), var(--blue));
+            box-shadow: 0 0 8px var(--blue-glow);
+            flex: 0 0 auto;
+        }
+        @keyframes myRsvpIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* ========== FOOD SECTION ========== */
@@ -729,29 +758,14 @@
             line-height: 1;
         }
 
-        /* The "see what people are bringing" label */
-        .food-explore-label {
+        /* Small caption hinting that the tiles are tappable */
+        .tap-hint {
             text-align: center;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-dim);
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        .food-explore-label::before,
-        .food-explore-label::after {
-            content: '';
-            flex: 0 0 30px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--border));
-        }
-        .food-explore-label::after {
-            background: linear-gradient(90deg, var(--border), transparent);
+            font-size: 0.74rem;
+            font-style: italic;
+            color: var(--text-faint);
+            margin: 10px 0 0 0;
+            line-height: 1.4;
         }
 
         /* Food category cards — clearly clickable, glass-like */
@@ -994,6 +1008,97 @@
                 linear-gradient(165deg, var(--glass-2) 0%, var(--glass-1) 100%);
         }
 
+        /* ========== ACCORDION (Event Info) ========== */
+        .accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .acc-item {
+            background:
+                linear-gradient(165deg, var(--glass-2) 0%, var(--glass-1) 100%);
+            backdrop-filter: blur(16px) saturate(160%);
+            -webkit-backdrop-filter: blur(16px) saturate(160%);
+            border: 1px solid var(--border-bright);
+            border-radius: 14px;
+            overflow: hidden;
+            transition: border-color 0.35s var(--flow), background 0.35s var(--flow);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.06),
+                0 2px 6px rgba(0, 0, 0, 0.12);
+        }
+        .acc-item[open] {
+            border-color: var(--border-strong);
+            background:
+                linear-gradient(165deg, var(--glass-3) 0%, var(--glass-2) 100%);
+        }
+        .acc-summary {
+            list-style: none;
+            cursor: pointer;
+            padding: 14px 18px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            user-select: none;
+            transition: color 0.3s;
+        }
+        .acc-summary:hover { color: var(--silver-bright); }
+        .acc-summary::-webkit-details-marker { display: none; }
+        .acc-summary::marker { content: ''; }
+        .acc-chevron {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            transition: transform 0.35s var(--flow), color 0.3s;
+            flex: 0 0 auto;
+        }
+        .acc-item[open] .acc-chevron {
+            transform: rotate(180deg);
+            color: var(--blue-bright);
+        }
+        [data-theme="light"] .acc-item[open] .acc-chevron { color: var(--blue-deep); }
+        .acc-content {
+            padding: 0 18px 16px 18px;
+            color: var(--text-dim);
+            line-height: 1.65;
+            font-size: 0.92rem;
+            animation: accFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .acc-content p {
+            margin: 0 0 12px 0;
+        }
+        .acc-content p:last-child { margin-bottom: 0; }
+        .acc-content strong { color: var(--text-main); font-weight: 600; }
+        .acc-content .info-list { margin: 0; }
+        @keyframes accFadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* In-prose button styled to look like a link */
+        .inline-link {
+            background: none;
+            border: none;
+            padding: 0;
+            color: var(--blue-bright);
+            font: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-thickness: 1px;
+            text-decoration-color: rgba(122, 180, 232, 0.4);
+            transition: color 0.2s, text-decoration-color 0.2s;
+        }
+        .inline-link:hover {
+            color: var(--silver-bright);
+            text-decoration-color: var(--silver-bright);
+        }
+        [data-theme="light"] .inline-link { color: var(--blue-deep); }
+        [data-theme="light"] .inline-link:hover { color: var(--silver-bright); }
+
         /* ========== STEP BANNER ========== */
         .step-banner {
             background:
@@ -1065,6 +1170,9 @@
             background-repeat: no-repeat;
             background-position: right 16px center;
             padding-right: 40px;
+        }
+        [data-theme="light"] select.admin-input {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8' fill='none'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%234a5868' stroke-width='2'/%3E%3C/svg%3E");
         }
         input[type="date"].admin-input,
         input[type="number"].admin-input { color-scheme: dark; }
@@ -1164,7 +1272,7 @@
         .theme-toggle {
             position: fixed;
             top: 14px;
-            right: 14px;
+            left: 14px;
             z-index: 50;
             min-width: 58px;
             padding: 8px 11px;
@@ -1362,7 +1470,7 @@
             padding: 12px;
             border-radius: 14px;
             display: inline-block;
-            margin: 15px 0;
+            margin: 4px 0 0 0;
             box-shadow:
                 inset 0 0 0 1px rgba(255, 255, 255, 0.2),
                 0 12px 30px -8px var(--blue-glow);
@@ -1381,6 +1489,28 @@
         .share-link-box:hover {
             border-color: var(--border-strong);
             background: var(--glass-2);
+        }
+        .share-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 18px 0 4px 0;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-faint);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .share-divider::before,
+        .share-divider::after {
+            content: '';
+            flex: 0 0 30px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border));
+        }
+        .share-divider::after {
+            background: linear-gradient(90deg, var(--border), transparent);
         }
 
         .grid {
@@ -1743,7 +1873,7 @@
 
     <div id="page-content">
 
-    <div id="toast">Response Received! ✓</div>
+    <div id="toast" role="status" aria-live="polite">Response Received! ✓</div>
 
     <div class="container">
 
@@ -1755,22 +1885,13 @@
                 <span class="next-date-time">12:15 — 6 p.m. · Come and go as you please</span>
             </div>
             <div class="hero-extras">
-                <button class="cal-btn" onclick="addToGoogleCal()">
-                    <span>📅</span> Add to Calendar
+                <button class="cal-btn" onclick="addToGoogleCal()" aria-label="Add to Google Calendar">
+                    <span aria-hidden="true">📅</span> Add to Calendar
                 </button>
-                <button class="cal-btn" onclick="downloadICS()">
-                    <span>⬇️</span> .ics File
+                <button class="cal-btn" onclick="downloadICS()" aria-label="Download .ics calendar file">
+                    <span aria-hidden="true">⬇️</span> .ics File
                 </button>
             </div>
-        </div>
-
-        <div class="parking-hero">
-            <div class="parking-title">Parking &amp; Arrival</div>
-            <div class="parking-text">
-                Please park at the neighborhood parking lot by the neighborhood pool. It is a very short walk to our home from there.
-            </div>
-            <a href="https://www.google.com/maps/dir/?api=1&destination=6629+Penfield+Street+Wake+Forest+NC+27587&travelmode=walking" target="_blank" rel="noopener" class="walk-tag walk-tag-link">🚶 Walking Directions to 6629 Penfield Street</a>
-            <a href="https://maps.app.goo.gl/4hbNhkQDsiBBpEqn9" target="_blank" class="btn btn-park">Navigate to Parking Lot</a>
         </div>
 
         <div class="header-actions">
@@ -1783,7 +1904,12 @@
             <div class="card-section">
                 <div class="stat-box">
                     <span class="section-label" style="margin:0">Attending</span>
-                    <span class="count-big skeleton" id="live-count">&nbsp;&nbsp;&nbsp;</span>
+                    <span class="count-big skeleton" id="live-count" aria-live="polite" aria-label="Number of guests attending">&nbsp;&nbsp;&nbsp;</span>
+                </div>
+
+                <div class="my-rsvp-line" id="my-rsvp-line" hidden>
+                    <span class="my-rsvp-dot" aria-hidden="true"></span>
+                    <span id="my-rsvp-text">You're down for 1</span>
                 </div>
 
                 <button class="btn btn-main btn-magnet" onclick="openModal('rsvpModal')">I'm Attending</button>
@@ -1795,13 +1921,9 @@
                 </div>
 
                 <button class="btn-bring" onclick="openModal('bringModal')">
-                    <span class="btn-bring-plus">+</span>
+                    <span class="btn-bring-plus" aria-hidden="true">+</span>
                     <span>I'm bringing food to share</span>
                 </button>
-
-                <div class="food-explore-label">
-                    <span>Tap to see what others are bringing</span>
-                </div>
 
                 <div class="item-tally" id="tally-container">
                     <button class="badge" data-key="chips" type="button">
@@ -1829,27 +1951,82 @@
                         <span class="badge-label">Other</span>
                     </button>
                 </div>
+                <p class="tap-hint">Tap any category to see what people are bringing.</p>
             </div>
 
             <div class="card-section">
                 <span class="subsection-label">Event Info</span>
-                <button class="btn btn-outline" onclick="openModal('aboutModal')">What is this all about?</button>
-                <button class="btn btn-outline" onclick="openModal('lunchModal')">What's for Lunch?</button>
-                <button class="btn btn-outline" onclick="openModal('friendsModal')">Can I bring friends?</button>
-                <button class="btn btn-outline" onclick="openModal('kidsModal')">Kids &amp; Pool Info</button>
+                <div class="accordion">
+                    <details class="acc-item">
+                        <summary class="acc-summary">
+                            <span>What is this all about?</span>
+                            <span class="acc-chevron" aria-hidden="true">▾</span>
+                        </summary>
+                        <div class="acc-content">
+                            <p>We're hosting an open house <strong>every couple of weeks all summer long</strong> — a standing invitation to come over, slow down, and spend time with people.</p>
+                            <p>There's <strong>no agenda</strong>. Come and go as you please. <strong>Anyone is welcome — feel free to bring a friend.</strong></p>
+                            <p>Kids are <strong>extremely welcome</strong>. Our <strong>backyard pool, hot tub, and movie room</strong> are all open and ready.</p>
+                        </div>
+                    </details>
+                    <details class="acc-item">
+                        <summary class="acc-summary">
+                            <span>What's for lunch?</span>
+                            <span class="acc-chevron" aria-hidden="true">▾</span>
+                        </summary>
+                        <div class="acc-content">
+                            <p><strong>Lunch can be any time</strong> — we'll have <strong>burgers and hot dogs</strong> available all afternoon.</p>
+                            <p>You're welcome to bring a <strong>side, chips, snack, dessert, or drinks</strong> if you'd like to contribute.</p>
+                            <p>Feel free to use our <strong>kitchen</strong> to prepare your own food if you need to.</p>
+                            <p>Have something you'd like grilled? Bring it over — <strong>I'm happy to throw anything you want on the grill.</strong></p>
+                        </div>
+                    </details>
+                    <details class="acc-item">
+                        <summary class="acc-summary">
+                            <span>Can I bring friends?</span>
+                            <span class="acc-chevron" aria-hidden="true">▾</span>
+                        </summary>
+                        <div class="acc-content">
+                            <p><strong>Absolutely — the more the merrier!</strong></p>
+                            <p>Tap <button type="button" class="inline-link" onclick="openShareModal()">Share Invite</button> at the top of the page to send them the link or QR code. The only thing we ask is that they <strong>RSVP</strong> so we have a rough head count for food.</p>
+                        </div>
+                    </details>
+                    <details class="acc-item">
+                        <summary class="acc-summary">
+                            <span>Kids &amp; pool info</span>
+                            <span class="acc-chevron" aria-hidden="true">▾</span>
+                        </summary>
+                        <div class="acc-content">
+                            <ul class="info-list">
+                                <li>Kids of all ages are <strong>extremely welcome</strong></li>
+                                <li>The <strong>movie room</strong> will be open all afternoon playing kid-friendly movies</li>
+                                <li>Our <strong>backyard pool</strong> is open — <strong>parents please supervise</strong> your own children at all times</li>
+                                <li>Bring <strong>swimsuits, towels, and sunscreen</strong></li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
             </div>
 
             <div class="card-section">
-                <button class="btn btn-change" onclick="openCancelModal()">✏️ Change or Cancel My RSVP</button>
+                <button class="btn btn-change" onclick="openCancelModal()"><span aria-hidden="true">✏️</span> Change or Cancel My RSVP</button>
             </div>
+        </div>
+
+        <div class="parking-hero">
+            <div class="parking-title">Parking &amp; Arrival</div>
+            <div class="parking-text">
+                Please park at the neighborhood parking lot by the neighborhood pool. It is a very short walk to our home from there.
+            </div>
+            <a href="https://www.google.com/maps/dir/?api=1&destination=6629+Penfield+Street+Wake+Forest+NC+27587&travelmode=walking" target="_blank" rel="noopener" class="walk-tag walk-tag-link"><span aria-hidden="true">🚶</span> Walking Directions to 6629 Penfield Street</a>
+            <a href="https://maps.app.goo.gl/4hbNhkQDsiBBpEqn9" target="_blank" rel="noopener" class="btn btn-park">Navigate to Parking Lot</a>
         </div>
     </div>
 
     </div><!-- end #page-content -->
 
-    <div id="contactModal" class="modal"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('contactModal')">✕</button>
-        <span class="section-label">Hosts</span>
+    <div id="contactModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle"><div class="modal-content">
+        <button class="close-modal" onclick="closeModal('contactModal')" aria-label="Close">✕</button>
+        <span class="section-label" id="contactModalTitle">Hosts</span>
         <div style="margin-bottom:20px;">
             <p style="margin: 0; font-weight: 600;">Aaron Schaefer</p>
             <a href="tel:8658502173" style="color: var(--blue-bright); text-decoration: none;">865-850-2173</a>
@@ -1860,88 +2037,45 @@
         </div>
     </div></div>
 
-    <div id="shareModal" class="modal"><div class="modal-content" style="text-align: center;">
-        <button class="close-modal" onclick="closeModal('shareModal')">✕</button>
-        <span class="section-label">Invite Others</span>
-        <div class="qr-container"><img id="qr-img" src="" alt="QR code" style="display: block; width: 150px; height: 150px;"></div>
+    <div id="shareModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle"><div class="modal-content" style="text-align: center;">
+        <button class="close-modal" onclick="closeModal('shareModal')" aria-label="Close">✕</button>
+        <span class="section-label" id="shareModalTitle">Invite Others</span>
+        <button class="btn btn-main" onclick="nativeShare()" id="native-share-btn" style="display: none; margin-bottom: 10px;"><span aria-hidden="true">📤</span> Share via…</button>
         <div class="share-link-box" id="share-url-text" onclick="copyLink()">📋 Copy Invite Link</div>
-        <button class="btn btn-outline" onclick="nativeShare()" id="native-share-btn" style="margin-top: 14px; display: none;">Share via…</button>
+        <div class="share-divider"><span>or scan</span></div>
+        <div class="qr-container"><img id="qr-img" src="" alt="QR code linking to this RSVP page" style="display: block; width: 150px; height: 150px;"></div>
     </div></div>
 
-    <div id="aboutModal" class="modal"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('aboutModal')">✕</button>
-        <span class="section-label">What This Is About</span>
-        <div class="modal-prose">
-            <p>We're hosting an open house <strong>every couple of weeks all summer long</strong> — a standing invitation to come over, slow down, and spend time with people.</p>
-            <p>The whole point is <strong>community</strong>: a place to meet new friends, catch up with old ones, and turn neighbors into the people you actually know.</p>
-            <p>There's <strong>no agenda</strong>. Come and go as you please. <strong>Anyone is welcome — feel free to bring a friend.</strong></p>
-            <p>Kids are <strong>extremely welcome</strong>. Our <strong>backyard pool, hot tub, and movie room</strong> are all open and ready.</p>
-        </div>
-    </div></div>
-
-    <div id="lunchModal" class="modal"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('lunchModal')">✕</button>
-        <span class="section-label">On the Menu</span>
-        <div class="modal-prose">
-            <p><strong>Lunch can be any time</strong> — we'll have <strong>burgers and hot dogs</strong> available all afternoon.</p>
-            <p>You're welcome to bring a <strong>side, chips, snack, dessert, or drinks</strong> if you'd like to contribute.</p>
-            <p>Feel free to use our <strong>kitchen</strong> to prepare your own food if you need to.</p>
-            <p>Have something you'd like grilled? Bring it over — <strong>I'm happy to throw anything you want on the grill.</strong></p>
-        </div>
-    </div></div>
-
-    <div id="bringModal" class="modal"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('bringModal')">✕</button>
-        <span class="section-label">I'm Bringing Food to Share</span>
+    <div id="bringModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="bringModalTitle"><div class="modal-content">
+        <button class="close-modal" onclick="closeModal('bringModal')" aria-label="Close">✕</button>
+        <span class="section-label" id="bringModalTitle">I'm Bringing Food to Share</span>
         <p style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 5px;">
             Pick anything you're planning to bring (you can choose multiple):
         </p>
         <div class="item-grid" id="item-grid">
-            <button class="item-btn" data-item="chips"><span class="check">✓</span><span>🥨 Chips</span></button>
-            <button class="item-btn" data-item="sides"><span class="check">✓</span><span>🥗 Sides</span></button>
-            <button class="item-btn" data-item="snacks"><span class="check">✓</span><span>🍿 Snacks</span></button>
-            <button class="item-btn" data-item="desserts"><span class="check">✓</span><span>🍰 Desserts</span></button>
-            <button class="item-btn" data-item="drinks"><span class="check">✓</span><span>🥤 Drinks</span></button>
-            <button class="item-btn" data-item="other"><span class="check">✓</span><span>✨ Other</span></button>
+            <button class="item-btn" data-item="chips"><span class="check" aria-hidden="true">✓</span><span>🥨 Chips</span></button>
+            <button class="item-btn" data-item="sides"><span class="check" aria-hidden="true">✓</span><span>🥗 Sides</span></button>
+            <button class="item-btn" data-item="snacks"><span class="check" aria-hidden="true">✓</span><span>🍿 Snacks</span></button>
+            <button class="item-btn" data-item="desserts"><span class="check" aria-hidden="true">✓</span><span>🍰 Desserts</span></button>
+            <button class="item-btn" data-item="drinks"><span class="check" aria-hidden="true">✓</span><span>🥤 Drinks</span></button>
+            <button class="item-btn" data-item="other"><span class="check" aria-hidden="true">✓</span><span>✨ Other</span></button>
         </div>
         <div id="category-notes-container"></div>
         <button class="btn btn-main" onclick="submitItem()">Confirm</button>
     </div></div>
 
-    <div id="friendsModal" class="modal"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('friendsModal')">✕</button>
-        <span class="section-label">Bringing Friends</span>
-        <div class="modal-prose">
-            <p><strong>Absolutely — the more the merrier!</strong></p>
-            <p>The easiest way to share is with the <strong>"Share Invite"</strong> link or QR code at the top of the page. Just tap it and send it along.</p>
-            <p>The only thing we ask is that they <strong>RSVP</strong> so we have a rough head count for food.</p>
-        </div>
-        <button class="btn btn-main" onclick="closeModal('friendsModal'); openShareModal();" style="margin-top: 20px;">Open Share Invite</button>
-    </div></div>
-
-    <div id="kidsModal" class="modal"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('kidsModal')">✕</button>
-        <span class="section-label">Kids &amp; Our Backyard Pool</span>
-        <ul class="info-list">
-            <li>Kids of all ages are <strong>extremely welcome</strong></li>
-            <li>The <strong>movie room</strong> will be open all afternoon playing kid-friendly movies</li>
-            <li>Our <strong>backyard pool</strong> is open — <strong>parents please supervise</strong> your own children at all times</li>
-            <li>Bring <strong>swimsuits, towels, and sunscreen</strong></li>
-        </ul>
-    </div></div>
-
-    <div id="rsvpModal" class="modal"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('rsvpModal')">✕</button>
-        <span class="section-label">How many in your party?</span>
+    <div id="rsvpModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="rsvpModalTitle"><div class="modal-content">
+        <button class="close-modal" onclick="closeModal('rsvpModal')" aria-label="Close">✕</button>
+        <span class="section-label" id="rsvpModalTitle">How many in your party?</span>
         <div class="grid" id="num-grid"></div>
         <button class="btn btn-main" onclick="submitRSVP()">Confirm</button>
     </div></div>
 
-    <div id="cancelModal" class="modal"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('cancelModal')">✕</button>
+    <div id="cancelModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="cancelModalTitle"><div class="modal-content">
+        <button class="close-modal" onclick="closeModal('cancelModal')" aria-label="Close">✕</button>
 
         <div id="cancel-step-1">
-            <span class="section-label">Change or Cancel · Step 1 of 2</span>
+            <span class="section-label" id="cancelModalTitle">Change or Cancel · Step 1 of 2</span>
             <div class="step-banner">
                 <span class="step-banner-title">Step 1 of 2</span>
                 <p class="step-banner-prompt">How many people did you originally RSVP for?</p>
@@ -1962,8 +2096,8 @@
         </div>
     </div></div>
 
-    <div id="categoryModal" class="modal"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('categoryModal')">✕</button>
+    <div id="categoryModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="category-modal-title"><div class="modal-content">
+        <button class="close-modal" onclick="closeModal('categoryModal')" aria-label="Close">✕</button>
         <span class="section-label" id="category-modal-title">Category</span>
         <div class="category-summary" id="category-summary"></div>
         <ul class="category-notes-list" id="category-notes-list"></ul>
@@ -1971,11 +2105,11 @@
     </div></div>
 
     <!-- Admin Modal (only accessible via ?admin=1 URL parameter) -->
-    <div id="adminModal" class="modal"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('adminModal')">✕</button>
+    <div id="adminModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="adminModalTitle"><div class="modal-content">
+        <button class="close-modal" onclick="closeModal('adminModal')" aria-label="Close">✕</button>
 
         <div id="admin-panel">
-            <span class="section-label">🔒 Host Admin Panel</span>
+            <span class="section-label" id="adminModalTitle">🔒 Host Admin Panel</span>
 
             <div class="admin-block">
                 <div class="admin-block-title">📅 Next Open House Date</div>
@@ -2037,6 +2171,21 @@
             }
             console.error("Firebase failed to load. Usually caused by an ad blocker blocking gstatic.com.");
         }
+    }
+
+    // Safe localStorage helpers — fall back to in-memory if storage is disabled (Safari private mode, etc.)
+    const _memStore = {};
+    function safeLSGet(key) {
+        try { return localStorage.getItem(key); }
+        catch (e) { return _memStore[key] || null; }
+    }
+    function safeLSSet(key, val) {
+        try { localStorage.setItem(key, val); }
+        catch (e) { _memStore[key] = val; }
+    }
+    function safeLSRemove(key) {
+        try { localStorage.removeItem(key); }
+        catch (e) { delete _memStore[key]; }
     }
 
     whenFirebaseReady(function() {
@@ -2202,7 +2351,7 @@
                     document.documentElement.removeAttribute('data-theme');
                     if (meta) meta.setAttribute('content', '#0a0e1a');
                 }
-                try { localStorage.setItem('schaefer-theme', next); } catch (e) {}
+                safeLSSet('schaefer-theme', next);
 
                 updateToggleLabel();
 
@@ -2299,7 +2448,7 @@
             const { start, end } = getEventTimes();
             const dates = `${formatCalDate(start)}/${formatCalDate(end)}`;
             const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Schaefer Open House')}&dates=${dates}&details=${encodeURIComponent(eventDescription)}&location=${encodeURIComponent(eventLocation)}`;
-            window.open(url, '_blank');
+            window.open(url, '_blank', 'noopener');
         }
 
         function downloadICS() {
@@ -2322,11 +2471,14 @@
             ].join('\r\n');
             const blob = new Blob([ics], { type: 'text/calendar' });
             const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
+            const objectUrl = URL.createObjectURL(blob);
+            link.href = objectUrl;
             link.download = `schaefer-open-house-${eventKey}.ics`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+            // Free the blob URL to prevent memory leak on repeated downloads
+            setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
         }
 
         // ---------- Confetti — silver/blue glints ----------
@@ -2413,7 +2565,10 @@
             modal.classList.add('closing');
             modal.classList.remove('show');
 
+            let cleanedUp = false;
             const onEnd = () => {
+                if (cleanedUp) return;
+                cleanedUp = true;
                 modal.style.display = 'none';
                 modal.classList.remove('closing');
                 content.style.animation = '';
@@ -2523,9 +2678,31 @@
         }
 
         function copyLink() {
-            navigator.clipboard.writeText(window.location.href).then(() => {
+            const url = window.location.href;
+            // Modern clipboard API may not be available on http: or older browsers — fall back to a textarea trick.
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(url).then(
+                    () => showToast("Link Copied! ✓"),
+                    () => fallbackCopy(url)
+                );
+            } else {
+                fallbackCopy(url);
+            }
+        }
+        function fallbackCopy(text) {
+            try {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
                 showToast("Link Copied! ✓");
-            });
+            } catch (e) {
+                showToast("Couldn't copy — try long-pressing the URL");
+            }
         }
 
         function nativeShare() {
@@ -2551,12 +2728,18 @@
             for (let i = min; i <= max; i++) {
                 const btn = document.createElement('button');
                 btn.className = 'g-btn';
+                btn.type = 'button';
                 btn.dataset.val = i;
                 btn.innerText = i;
+                btn.setAttribute('aria-label', i === 0 ? 'Cancel (0 people)' : `${i} ${i === 1 ? 'person' : 'people'}`);
                 btn.onclick = function() {
                     tap();
-                    container.querySelectorAll('.g-btn').forEach(b => b.classList.remove('active'));
+                    container.querySelectorAll('.g-btn').forEach(b => {
+                        b.classList.remove('active');
+                        b.setAttribute('aria-pressed', 'false');
+                    });
                     this.classList.add('active');
+                    this.setAttribute('aria-pressed', 'true');
                 };
                 container.appendChild(btn);
             }
@@ -2607,7 +2790,7 @@
                 const count = items[k] || 0;
                 const bumped = !firstLoad && (prevItems[k] || 0) !== count ? ' bumped' : '';
                 const hasItems = count > 0 ? ' has-items' : '';
-                return `<button class="badge${hasItems}${bumped}" data-key="${k}" type="button">
+                return `<button class="badge${hasItems}${bumped}" data-key="${k}" type="button" aria-label="${CATEGORY_LABELS[k]}: ${count} ${count === 1 ? 'person' : 'people'} bringing">
                     <span class="badge-count">${count}</span>
                     <span class="badge-label">${CATEGORY_LABELS[k]}</span>
                 </button>`;
@@ -2625,6 +2808,8 @@
                 setMyRsvp(0);
             } else if (getMyRsvp() > newTotal) {
                 setMyRsvp(newTotal);
+            } else {
+                refreshMyRsvpLine();
             }
         }
 
@@ -2704,7 +2889,7 @@
 
         function escapeHtml(str) {
             const div = document.createElement('div');
-            div.innerText = str;
+            div.textContent = str;
             return div.innerHTML;
         }
 
@@ -2738,27 +2923,43 @@
                 input.dataset.cat = cat;
                 input.placeholder = CATEGORY_PLACEHOLDERS[cat];
                 input.maxLength = 80;
+                input.setAttribute('aria-label', `${CATEGORY_LABELS[cat]} — ${CATEGORY_PLACEHOLDERS[cat]}`);
                 if (existingValues[cat]) input.value = existingValues[cat];
                 container.appendChild(input);
             });
         }
 
         document.querySelectorAll('#item-grid .item-btn').forEach(btn => {
+            btn.type = 'button';
             btn.onclick = function() {
                 tap();
                 this.classList.toggle('active');
+                this.setAttribute('aria-pressed', this.classList.contains('active') ? 'true' : 'false');
                 refreshCategoryNoteInputs();
             };
         });
 
         function myRsvpKey() { return 'myRsvp:' + eventKey; }
         function getMyRsvp() {
-            const raw = localStorage.getItem(myRsvpKey());
+            const raw = safeLSGet(myRsvpKey());
             return raw ? parseInt(raw) : 0;
         }
         function setMyRsvp(n) {
-            if (n > 0) localStorage.setItem(myRsvpKey(), n);
-            else localStorage.removeItem(myRsvpKey());
+            if (n > 0) safeLSSet(myRsvpKey(), String(n));
+            else safeLSRemove(myRsvpKey());
+            refreshMyRsvpLine();
+        }
+        function refreshMyRsvpLine() {
+            const line = document.getElementById('my-rsvp-line');
+            const text = document.getElementById('my-rsvp-text');
+            if (!line || !text) return;
+            const n = getMyRsvp();
+            if (n > 0) {
+                text.innerText = n === 1 ? "You're down for 1" : `You're down for ${n}`;
+                line.hidden = false;
+            } else {
+                line.hidden = true;
+            }
         }
 
         function submitRSVP() {
@@ -2771,6 +2972,7 @@
             eventRef.child('total').transaction(c => (c || 0) + count);
             setMyRsvp(getMyRsvp() + count);
             active.classList.remove('active');
+            active.setAttribute('aria-pressed', 'false');
             closeModal('rsvpModal');
             tap([10, 50, 20]);
             fireConfetti();
@@ -2795,6 +2997,7 @@
                 const item = btn.dataset.item;
                 eventRef.child('items/' + item).transaction(c => (c || 0) + 1);
                 btn.classList.remove('active');
+                btn.setAttribute('aria-pressed', 'false');
                 if (notesByCat[item]) {
                     eventRef.child('notes/' + item).push({
                         text: notesByCat[item],
@@ -2816,13 +3019,22 @@
             const myCount = getMyRsvp();
             document.getElementById('cancel-step-1').style.display = 'block';
             document.getElementById('cancel-step-2').style.display = 'none';
-            document.querySelectorAll('#cancel-original-grid .g-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('#cancel-new-grid .g-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('#cancel-original-grid .g-btn').forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-pressed', 'false');
+            });
+            document.querySelectorAll('#cancel-new-grid .g-btn').forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-pressed', 'false');
+            });
 
             const hint = document.getElementById('rsvp-known-hint');
             if (myCount > 0 && myCount <= 15) {
                 const btn = document.querySelector(`#cancel-original-grid .g-btn[data-val="${myCount}"]`);
-                if (btn) btn.classList.add('active');
+                if (btn) {
+                    btn.classList.add('active');
+                    btn.setAttribute('aria-pressed', 'true');
+                }
                 if (hint) {
                     hint.style.display = 'block';
                     hint.innerText = `We have you down for ${myCount}. Confirm or change below.`;
@@ -2972,7 +3184,7 @@
                 const overrideDate = parseDateKey(currentOverrideKey);
                 statusEl.classList.add('active');
                 statusEl.innerHTML = `Override active: <strong>${formatDate(overrideDate)}</strong>. Biweekly default would be <strong>${formatDate(biweekly)}</strong>.`;
-                if (clearBtn) clearBtn.style.display = 'flex';
+                if (clearBtn) clearBtn.style.display = '';
                 if (dateInput && document.activeElement !== dateInput) {
                     dateInput.value = currentOverrideKey;
                 }
