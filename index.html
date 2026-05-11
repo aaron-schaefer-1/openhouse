@@ -7,7 +7,6 @@
     <meta name="theme-color" content="#020617" id="theme-color-meta">
     <script>
         // Apply saved theme as early as possible to prevent flash-of-wrong-theme.
-        // Default: dark. User preference is sticky.
         (function() {
             try {
                 const saved = localStorage.getItem('schaefer-theme');
@@ -30,14 +29,16 @@
             --bg-deep: #000308;
             --card-bg: rgba(15, 23, 42, 0.7);
             --card-bg-solid: #0f172a;
-            --border: rgba(148, 163, 184, 0.15);
-            --border-bright: rgba(148, 163, 184, 0.3);
+            --border: rgba(148, 163, 184, 0.12);
+            --border-bright: rgba(148, 163, 184, 0.28);
+            --hairline: rgba(148, 163, 184, 0.08);
             --primary: #38bdf8;
             --primary-glow: rgba(56, 189, 248, 0.5);
             --secondary: #a78bfa;
             --accent: #f472b6;
             --text-main: #f1f5f9;
             --text-dim: #94a3b8;
+            --text-faint: #64748b;
             --aurora-1: #38bdf8;
             --aurora-2: #a78bfa;
             --aurora-3: #f472b6;
@@ -52,6 +53,7 @@
             --btn-main-text: var(--bg);
             --btn-main-shadow: rgba(255, 255, 255, 0.3);
             --btn-outline-bg: rgba(255,255,255,0.02);
+            --section-divider: rgba(148, 163, 184, 0.1);
             --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 
@@ -62,19 +64,21 @@
 
         /* Light theme — warm, premium, not clinical */
         [data-theme="light"] {
-            --bg: #fafaf7;          /* warm off-white */
-            --bg-deep: #f4f3ed;     /* slightly deeper warm cream */
+            --bg: #fafaf7;
+            --bg-deep: #f4f3ed;
             --card-bg: rgba(255, 255, 255, 0.78);
             --card-bg-solid: #ffffff;
-            --border: rgba(15, 23, 42, 0.08);
-            --border-bright: rgba(15, 23, 42, 0.16);
-            --primary: #0284c7;     /* deeper cyan, readable on light bg */
+            --border: rgba(15, 23, 42, 0.07);
+            --border-bright: rgba(15, 23, 42, 0.15);
+            --hairline: rgba(15, 23, 42, 0.05);
+            --primary: #0284c7;
             --primary-glow: rgba(2, 132, 199, 0.35);
-            --secondary: #7c3aed;   /* deeper violet */
-            --accent: #db2777;      /* deeper pink */
-            --text-main: #0f172a;   /* deep navy, not pure black */
-            --text-dim: #64748b;    /* slate-500 */
-            --aurora-1: #7dd3fc;    /* lighter, pastel auroras */
+            --secondary: #7c3aed;
+            --accent: #db2777;
+            --text-main: #0f172a;
+            --text-dim: #64748b;
+            --text-faint: #94a3b8;
+            --aurora-1: #7dd3fc;
             --aurora-2: #c4b5fd;
             --aurora-3: #fbcfe8;
             --aurora-opacity: 0.5;
@@ -88,11 +92,9 @@
             --btn-main-text: #ffffff;
             --btn-main-shadow: rgba(15, 23, 42, 0.25);
             --btn-outline-bg: rgba(15, 23, 42, 0.02);
+            --section-divider: rgba(15, 23, 42, 0.08);
         }
 
-        /* Color transitions only run while the user is actually toggling themes.
-           Running them all the time would interpolate colors on every hover and
-           state change, which compounds with modal animations and stutters. */
         body.theme-transitioning,
         body.theme-transitioning *,
         body.theme-transitioning *::before,
@@ -118,7 +120,7 @@
             position: relative;
         }
 
-        /* Animated aurora background — now responds subtly to cursor */
+        /* Aurora background */
         .aurora-bg {
             position: fixed; inset: 0; z-index: -2;
             background: var(--bg-deep);
@@ -172,7 +174,6 @@
             66% { transform: translate(-10vw, 5vh); }
         }
 
-        /* Subtle grain overlay */
         body::after {
             content: ''; position: fixed; inset: 0;
             pointer-events: none; z-index: 100;
@@ -191,6 +192,7 @@
             to { opacity: 1; transform: translateY(0); filter: blur(0); }
         }
 
+        /* ---------- Hero ---------- */
         .hero-title-block {
             text-align: center;
             margin-bottom: 24px;
@@ -251,66 +253,40 @@
             position: relative;
         }
 
+        /* Calendar buttons live next to the date box now — cleaner integration */
         .hero-extras {
             margin-top: 14px;
             display: flex;
-            flex-direction: column;
-            gap: 10px;
-            align-items: center;
-        }
-        .weather-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(251, 191, 36, 0.08);
-            border: 1px solid rgba(251, 191, 36, 0.25);
-            color: #fde68a;
-            padding: 7px 16px;
-            border-radius: 20px;
-            font-size: 0.82rem;
-            font-weight: 600;
-            backdrop-filter: blur(10px);
-            opacity: 0;
-            transform: translateY(6px);
-            transition: opacity 0.5s, transform 0.5s var(--bounce);
-        }
-        .weather-pill.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .weather-pill span:first-child { font-size: 1rem; }
-
-        .calendar-buttons {
-            display: flex;
-            gap: 8px;
             justify-content: center;
+            gap: 8px;
             flex-wrap: wrap;
         }
         .cal-btn {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 9px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--hairline);
+            color: var(--text-dim);
+            padding: 8px 14px;
             border-radius: 22px;
             font-family: inherit;
-            font-size: 0.78rem;
-            font-weight: 700;
+            font-size: 0.75rem;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s var(--bounce);
             backdrop-filter: blur(10px);
         }
         .cal-btn:hover {
             border-color: var(--primary);
-            background: rgba(56, 189, 248, 0.08);
-            transform: translateY(-2px);
+            color: var(--text-main);
+            background: rgba(56, 189, 248, 0.06);
+            transform: translateY(-1px);
             box-shadow: 0 6px 16px -6px var(--primary-glow);
         }
-        .cal-btn span { font-size: 0.95rem; }
+        .cal-btn span:first-child { font-size: 0.95rem; }
 
-        /* Glass morphism cards */
+        /* ---------- Glass / parking ---------- */
         .glass {
             background: var(--card-bg);
             backdrop-filter: blur(24px) saturate(180%);
@@ -320,16 +296,15 @@
         .parking-hero {
             background: var(--parking-bg);
             backdrop-filter: blur(24px) saturate(180%);
-            border: 1px solid rgba(56, 189, 248, 0.4);
-            border-radius: 24px; padding: 26px;
-            margin-bottom: 20px; text-align: center;
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            border-radius: 22px; padding: 24px;
+            margin-bottom: 18px; text-align: center;
             position: relative; overflow: hidden;
             box-shadow:
-                0 20px 60px -20px rgba(56, 189, 248, 0.3),
+                0 20px 60px -20px rgba(56, 189, 248, 0.25),
                 0 1px 0 0 rgba(255, 255, 255, 0.04) inset;
             transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s;
         }
-        /* Slowly rotating conic gradient halo behind the parking card — Stripe-style glow */
         .parking-hero::after {
             content: '';
             position: absolute;
@@ -354,23 +329,21 @@
         .parking-hero:hover {
             transform: translateY(-3px);
             box-shadow:
-                0 28px 70px -20px rgba(56, 189, 248, 0.45),
+                0 28px 70px -20px rgba(56, 189, 248, 0.4),
                 0 1px 0 0 rgba(255, 255, 255, 0.08) inset;
         }
         .parking-title {
-            font-weight: 800; font-size: 1.15rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-            letter-spacing: 0.5px;
+            font-weight: 800; font-size: 0.72rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
         }
-        .parking-text { font-size: 0.92rem; line-height: 1.55; color: var(--text-main); margin-bottom: 20px; }
+        .parking-text { font-size: 0.92rem; line-height: 1.55; color: var(--text-main); margin-bottom: 18px; }
         .walk-tag {
             display: inline-block;
-            background: rgba(56, 189, 248, 0.15);
-            border: 1px solid rgba(56, 189, 248, 0.3);
+            background: rgba(56, 189, 248, 0.12);
+            border: 1px solid rgba(56, 189, 248, 0.28);
             color: var(--primary);
             padding: 5px 14px; border-radius: 20px;
             font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
@@ -382,19 +355,21 @@
             transition: all 0.3s var(--bounce);
         }
         .walk-tag-link:hover {
-            background: rgba(56, 189, 248, 0.25);
+            background: rgba(56, 189, 248, 0.22);
             border-color: var(--primary);
             transform: translateY(-1px);
             box-shadow: 0 6px 16px -6px var(--primary-glow);
         }
 
-        .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; width: 100%; gap: 10px; }
+        /* Header round actions */
+        .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; width: 100%; gap: 10px; }
         .btn-round {
             flex: 1;
             background: var(--card-bg);
             backdrop-filter: blur(20px);
-            border: 1px solid var(--border); color: var(--text-dim);
-            padding: 11px; border-radius: 30px; font-size: 0.7rem; font-weight: 700;
+            border: 1px solid var(--hairline);
+            color: var(--text-dim);
+            padding: 11px; border-radius: 24px; font-size: 0.7rem; font-weight: 700;
             cursor: pointer; transition: var(--transition);
             text-transform: uppercase; letter-spacing: 1.2px;
             text-align: center;
@@ -417,14 +392,14 @@
         .btn-round:hover::before { opacity: 0.15; }
         .btn-round span { position: relative; z-index: 1; }
 
+        /* ---------- Main card with internal section grouping ---------- */
         .card {
             background: var(--card-bg);
             backdrop-filter: blur(24px) saturate(180%);
             -webkit-backdrop-filter: blur(24px) saturate(180%);
             border: 1px solid var(--border);
-            border-radius: 28px;
-            padding: 32px;
-            /* Layered card-stack shadows for true depth perception */
+            border-radius: 24px;
+            padding: 28px;
             box-shadow:
                 0 1px 0 rgba(255, 255, 255, 0.05) inset,
                 0 1px 2px rgba(0, 0, 0, 0.4),
@@ -444,10 +419,17 @@
                 0 40px 80px -16px rgba(0, 0, 0, 0.65);
         }
 
+        /* Section divider — subtle horizontal rule that creates visual rhythm */
+        .card-section + .card-section {
+            margin-top: 22px;
+            padding-top: 22px;
+            border-top: 1px solid var(--section-divider);
+        }
+
         .stat-box {
             background: linear-gradient(135deg, rgba(56, 189, 248, 0.06) 0%, rgba(167, 139, 250, 0.04) 100%);
-            border: 1px solid var(--border);
-            border-radius: 18px; padding: 18px 22px; margin-bottom: 14px;
+            border: 1px solid var(--hairline);
+            border-radius: 16px; padding: 18px 22px; margin-bottom: 14px;
             display: flex; justify-content: space-between; align-items: center;
             position: relative; overflow: hidden;
         }
@@ -492,7 +474,7 @@
             100% { background-position: -200% 0; }
         }
 
-        .item-tally { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; justify-content: center; }
+        .item-tally { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; justify-content: center; }
 
         .food-note {
             text-align: center;
@@ -513,54 +495,35 @@
             margin-top: 4px;
         }
 
-        /* Personalized "you're attending" banner — appears after RSVP */
-        .my-rsvp-banner {
-            display: none;
-            background: linear-gradient(135deg, rgba(52, 211, 153, 0.12) 0%, rgba(56, 189, 248, 0.08) 100%);
-            border: 1px solid rgba(52, 211, 153, 0.3);
-            border-radius: 14px;
-            padding: 12px 16px;
-            margin-bottom: 14px;
-            font-size: 0.88rem;
-            color: #d1fae5;
-            text-align: center;
-            font-weight: 600;
-            position: relative;
-            overflow: hidden;
-            animation: bannerIn 0.5s var(--bounce);
-        }
-        .my-rsvp-banner.visible { display: block; }
-        @keyframes bannerIn {
-            from { opacity: 0; transform: translateY(-8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .my-rsvp-banner strong { color: #6ee7b7; }
-        .my-rsvp-banner::before {
-            content: '✓';
-            display: inline-block;
-            margin-right: 6px;
-            color: #6ee7b7;
+        /* Subtle subsection heading for the info button group */
+        .subsection-label {
+            font-size: 0.62rem;
             font-weight: 800;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            letter-spacing: 2px;
+            margin: 0 0 12px 4px;
+            display: block;
         }
 
         .btn-change {
-            background: rgba(248, 191, 84, 0.08);
+            background: rgba(248, 191, 84, 0.06);
             color: #fbbf24;
-            border: 1px solid rgba(251, 191, 36, 0.35);
+            border: 1px solid rgba(251, 191, 36, 0.3);
             backdrop-filter: blur(10px);
             margin-top: 6px;
         }
         .btn-change:hover {
             border-color: #fbbf24;
-            background: rgba(251, 191, 36, 0.12);
+            background: rgba(251, 191, 36, 0.1);
             color: #fde68a;
             transform: translateY(-1px);
             box-shadow: 0 8px 20px -8px rgba(251, 191, 36, 0.4);
         }
 
         .step-banner {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.12) 0%, rgba(167, 139, 250, 0.08) 100%);
-            border: 1px solid rgba(56, 189, 248, 0.3);
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, rgba(167, 139, 250, 0.06) 100%);
+            border: 1px solid rgba(56, 189, 248, 0.25);
             border-radius: 14px;
             padding: 14px 16px;
             margin: 12px 0 18px 0;
@@ -583,8 +546,8 @@
         }
 
         .rsvp-hint {
-            background: rgba(52, 211, 153, 0.08);
-            border: 1px solid rgba(52, 211, 153, 0.3);
+            background: rgba(52, 211, 153, 0.06);
+            border: 1px solid rgba(52, 211, 153, 0.25);
             color: #6ee7b7;
             border-radius: 12px;
             padding: 10px 14px;
@@ -621,6 +584,14 @@
             background-position: right 16px center;
             padding-right: 40px;
         }
+        input[type="date"].admin-input,
+        input[type="number"].admin-input {
+            color-scheme: dark;
+        }
+        [data-theme="light"] input[type="date"].admin-input,
+        [data-theme="light"] input[type="number"].admin-input {
+            color-scheme: light;
+        }
         .admin-event-pick { margin-bottom: 6px; }
         .admin-label {
             display: block;
@@ -645,36 +616,91 @@
             color: var(--text-main);
             font-weight: 700;
         }
+        /* Visually distinct admin section blocks */
+        .admin-block {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--hairline);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+        .admin-block-title {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin: 0 0 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .admin-inline-row {
+            display: flex;
+            gap: 8px;
+            align-items: stretch;
+        }
+        .admin-inline-row .admin-input {
+            margin-bottom: 0;
+            flex: 1;
+        }
+        .admin-inline-row .btn {
+            margin-bottom: 0;
+            width: auto;
+            padding: 0 18px;
+            white-space: nowrap;
+        }
+        .admin-override-status {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+        .admin-override-status.active {
+            color: #fbbf24;
+            font-weight: 600;
+        }
         .admin-actions {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
         .btn-warning {
-            background: rgba(251, 191, 36, 0.1);
+            background: rgba(251, 191, 36, 0.08);
             color: #fde68a;
-            border: 1px solid rgba(251, 191, 36, 0.4);
+            border: 1px solid rgba(251, 191, 36, 0.35);
         }
         .btn-warning:hover {
-            background: rgba(251, 191, 36, 0.18);
+            background: rgba(251, 191, 36, 0.16);
             border-color: #fbbf24;
             transform: translateY(-1px);
             box-shadow: 0 8px 20px -8px rgba(251, 191, 36, 0.4);
         }
         .btn-danger-solid {
-            background: rgba(248, 113, 113, 0.1);
+            background: rgba(248, 113, 113, 0.08);
             color: #fecaca;
-            border: 1px solid rgba(248, 113, 113, 0.4);
+            border: 1px solid rgba(248, 113, 113, 0.35);
         }
         .btn-danger-solid:hover {
-            background: rgba(248, 113, 113, 0.18);
+            background: rgba(248, 113, 113, 0.16);
             border-color: #f87171;
             transform: translateY(-1px);
             box-shadow: 0 8px 20px -8px rgba(248, 113, 113, 0.4);
         }
+        .btn-success {
+            background: rgba(52, 211, 153, 0.08);
+            color: #6ee7b7;
+            border: 1px solid rgba(52, 211, 153, 0.35);
+        }
+        .btn-success:hover {
+            background: rgba(52, 211, 153, 0.16);
+            border-color: #34d399;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px -8px rgba(52, 211, 153, 0.4);
+        }
         .badge {
             background: rgba(255,255,255,0.04);
-            border: 1px solid var(--border);
+            border: 1px solid var(--hairline);
             padding: 7px 13px; border-radius: 10px;
             font-size: 0.72rem; font-weight: 600; color: var(--text-dim);
             transition: all 0.3s;
@@ -689,21 +715,20 @@
             font-weight: 800;
             margin-left: 3px;
         }
-        /* When a badge updates, brief glow */
         .badge.bumped {
             animation: badgeBump 0.7s var(--bounce);
         }
         @keyframes badgeBump {
-            0% { transform: scale(1); border-color: var(--border); }
+            0% { transform: scale(1); border-color: var(--hairline); }
             40% { transform: scale(1.12); border-color: var(--primary); box-shadow: 0 0 16px -2px var(--primary-glow); }
-            100% { transform: scale(1); border-color: var(--border); }
+            100% { transform: scale(1); border-color: var(--hairline); }
         }
 
         .btn {
-            width: 100%; border: none; padding: 16px;
-            border-radius: 14px; font-weight: 700; font-size: 0.95rem;
+            width: 100%; border: none; padding: 15px;
+            border-radius: 13px; font-weight: 700; font-size: 0.92rem;
             cursor: pointer; transition: var(--transition);
-            margin-bottom: 10px;
+            margin-bottom: 9px;
             display: flex; justify-content: center; align-items: center;
             gap: 10px; text-decoration: none; text-align: center;
             font-family: inherit;
@@ -713,6 +738,9 @@
             background: var(--btn-main-bg);
             color: var(--btn-main-text);
             box-shadow: 0 8px 24px -8px var(--btn-main-shadow);
+            padding: 17px;
+            font-size: 0.98rem;
+            border-radius: 14px;
         }
         .btn-main:hover {
             transform: translateY(-2px);
@@ -721,12 +749,12 @@
         .btn-outline {
             background: var(--btn-outline-bg);
             color: var(--text-main);
-            border: 1px solid var(--border);
+            border: 1px solid var(--hairline);
             backdrop-filter: blur(10px);
         }
         .btn-outline:hover {
             border-color: var(--primary);
-            background: rgba(56, 189, 248, 0.06);
+            background: rgba(56, 189, 248, 0.05);
             transform: translateY(-1px);
         }
         .btn-park {
@@ -747,12 +775,10 @@
         }
         .btn:hover::after { left: 100%; }
 
-        /* Magnetic cursor effect — subtle pull on hover for premium buttons */
         .btn-magnet {
             transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s, border-color 0.4s, background 0.4s;
         }
 
-        /* Press-down feedback for tactile feel on tap */
         .btn:active, .btn-round:active, .cal-btn:active, .g-btn:active, .item-btn:active {
             transform: scale(0.97);
             transition: transform 0.08s ease;
@@ -772,7 +798,7 @@
         }
         .btn-text:hover { color: var(--primary); }
 
-        /* ---------- Theme toggle (top-right, vertical stack) ---------- */
+        /* Theme toggle */
         .theme-toggle {
             position: fixed;
             top: 14px;
@@ -820,7 +846,6 @@
         }
         .theme-toggle-line.swapping { opacity: 0; }
 
-        /* Subtle scale celebration on toggle */
         .theme-toggle.toggled { animation: themeTogglePop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
         @keyframes themeTogglePop {
             0% { transform: scale(1); }
@@ -828,23 +853,20 @@
             100% { transform: scale(1); }
         }
 
-        /* Hidden state — fades up and out when user scrolls down,
-           returns when they scroll back up toward the top. */
         .theme-toggle.scroll-hidden {
             opacity: 0;
             transform: translateY(-12px) scale(0.92);
             pointer-events: none;
         }
 
-        /* ---------- Light-theme adjustments for surfaces ---------- */
-        /* These bulk-override the rgba(255,255,255,...) glass surfaces that
-           are invisible on a light background. */
+        /* Light theme surface overrides */
         [data-theme="light"] .btn-outline,
         [data-theme="light"] .badge,
         [data-theme="light"] .item-btn,
         [data-theme="light"] .g-btn,
         [data-theme="light"] .admin-input,
         [data-theme="light"] .admin-current-state,
+        [data-theme="light"] .admin-block,
         [data-theme="light"] .category-notes-list li,
         [data-theme="light"] .category-note-input,
         [data-theme="light"] .share-link-box {
@@ -863,25 +885,16 @@
         [data-theme="light"] .stat-box {
             background: linear-gradient(135deg, rgba(2, 132, 199, 0.05) 0%, rgba(124, 58, 237, 0.03) 100%);
         }
-        [data-theme="light"] .my-rsvp-banner {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(2, 132, 199, 0.05) 100%);
-            color: #065f46;
-            border-color: rgba(16, 185, 129, 0.25);
-        }
-        [data-theme="light"] .my-rsvp-banner strong { color: #047857; }
-        [data-theme="light"] .my-rsvp-banner::before { color: #047857; }
         [data-theme="light"] .step-banner {
             background: linear-gradient(135deg, rgba(2, 132, 199, 0.07) 0%, rgba(124, 58, 237, 0.04) 100%);
         }
-        [data-theme="light"] .weather-pill {
-            background: rgba(217, 119, 6, 0.08);
-            border-color: rgba(217, 119, 6, 0.25);
-            color: #92400e;
+        [data-theme="light"] .cal-btn {
+            background: rgba(255, 255, 255, 0.6);
         }
         [data-theme="light"] .btn-change {
-            background: rgba(217, 119, 6, 0.06);
+            background: rgba(217, 119, 6, 0.05);
             color: #b45309;
-            border-color: rgba(217, 119, 6, 0.3);
+            border-color: rgba(217, 119, 6, 0.28);
         }
         [data-theme="light"] .btn-change:hover {
             border-color: #d97706;
@@ -892,6 +905,36 @@
             background: rgba(16, 185, 129, 0.07);
             border-color: rgba(16, 185, 129, 0.25);
             color: #047857;
+        }
+        [data-theme="light"] .btn-warning {
+            background: rgba(217, 119, 6, 0.06);
+            color: #92400e;
+            border-color: rgba(217, 119, 6, 0.3);
+        }
+        [data-theme="light"] .btn-warning:hover {
+            background: rgba(217, 119, 6, 0.12);
+            border-color: #d97706;
+            color: #78350f;
+        }
+        [data-theme="light"] .btn-danger-solid {
+            background: rgba(220, 38, 38, 0.06);
+            color: #991b1b;
+            border-color: rgba(220, 38, 38, 0.3);
+        }
+        [data-theme="light"] .btn-danger-solid:hover {
+            background: rgba(220, 38, 38, 0.12);
+            border-color: #dc2626;
+            color: #7f1d1d;
+        }
+        [data-theme="light"] .btn-success {
+            background: rgba(16, 185, 129, 0.06);
+            color: #047857;
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+        [data-theme="light"] .btn-success:hover {
+            background: rgba(16, 185, 129, 0.12);
+            border-color: #10b981;
+            color: #065f46;
         }
         [data-theme="light"] .next-date-box {
             background: linear-gradient(135deg, rgba(2, 132, 199, 0.08) 0%, rgba(124, 58, 237, 0.05) 100%);
@@ -923,8 +966,6 @@
             opacity: 0.55;
         }
 
-        /* Pause expensive continuous animations while a modal is open so the
-           GPU has more headroom for the modal motion. */
         body.modal-open .aurora-bg::before,
         body.modal-open .aurora-bg::after,
         body.modal-open .aurora-accent,
@@ -935,13 +976,10 @@
 
         #page-content {
             transform-origin: 50% 0%;
-            /* Only animate transform and opacity — both are GPU-accelerated and
-               compositor-only. No filter/blur/brightness here, which were the
-               cause of the stutter on modal open. */
             transition: transform 0.55s cubic-bezier(0.32, 0.72, 0, 1),
                         opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1);
             backface-visibility: hidden;
-            transform: translateZ(0); /* promote to its own GPU layer */
+            transform: translateZ(0);
         }
         body.modal-open #page-content {
             transform: scale(0.92) translateY(8px) translateZ(0);
@@ -949,7 +987,7 @@
             pointer-events: none;
         }
 
-        /* ---------- Modals — premium spring system ---------- */
+        /* Modals */
         .modal {
             display: none;
             position: fixed; inset: 0;
@@ -958,16 +996,13 @@
             align-items: flex-start; justify-content: center;
             padding: 20px;
             overflow-y: auto;
-            /* 3D perspective so the modal can pop with depth on bloom */
             perspective: 1200px;
-            /* Backdrop opacity snaps in/out fast — no blur, which was the
-               main stutter source on lower-end devices. */
             transition: background 0.2s cubic-bezier(0.32, 0.72, 0, 1);
         }
         .modal.show {
             display: flex;
             background: var(--modal-overlay);
-            padding-top: max(20px, calc(50vh - 320px)); /* visually centered for typical modal sizes */
+            padding-top: max(20px, calc(50vh - 320px));
         }
         .modal.closing {
             background: rgba(2, 6, 23, 0);
@@ -977,19 +1012,17 @@
             backdrop-filter: blur(16px) saturate(180%);
             -webkit-backdrop-filter: blur(16px) saturate(180%);
             border: 1px solid var(--border-bright);
-            border-radius: 28px;
-            padding: 32px; max-width: 420px; width: 100%;
+            border-radius: 26px;
+            padding: 30px; max-width: 420px; width: 100%;
             position: relative; max-height: calc(100vh - 80px); overflow-y: auto;
             box-shadow:
                 0 1px 0 rgba(255, 255, 255, 0.06) inset,
                 0 8px 16px rgba(0, 0, 0, 0.5),
                 0 24px 48px rgba(0, 0, 0, 0.7),
                 0 60px 120px -20px rgba(0, 0, 0, 0.85);
-            /* Initial state — animations drive the rest */
             transform: scale(0.7) translateY(40px);
             opacity: 0;
             margin: auto 0;
-            /* GPU promotion + hint to the compositor */
             will-change: transform, opacity;
             backface-visibility: hidden;
             -webkit-font-smoothing: antialiased;
@@ -1001,9 +1034,6 @@
         .modal.closing .modal-content {
             animation: modalCollapse 0.22s cubic-bezier(0.55, 0, 1, 0.45) forwards;
         }
-        /* Bloom-in: pure transform + opacity. Both are GPU-composited, so this
-           runs at 60fps even on modest hardware. The 3D rotateX on entry gives
-           visual depth without the cost of filter blur. */
         @keyframes modalBloom {
             0% {
                 transform: scale(0.8) translateY(30px) translateZ(-80px) rotateX(6deg);
@@ -1029,7 +1059,6 @@
             }
         }
 
-        /* Touch swipe-to-dismiss state — JS sets these custom properties */
         .modal-content.dragging {
             animation: none !important;
             transition: none !important;
@@ -1042,7 +1071,6 @@
                         opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1);
         }
 
-        /* Shared element transition — when a badge expands into the category modal */
         .badge.expanding {
             position: fixed;
             z-index: 101;
@@ -1250,7 +1278,6 @@
             to { bottom: -50px; opacity: 0; }
         }
 
-        /* Per-category notes container — appears below picks in the bring modal */
         #category-notes-container {
             display: flex;
             flex-direction: column;
@@ -1281,14 +1308,12 @@
             background: rgba(56, 189, 248, 0.06);
         }
 
-        /* Make tally badges feel tappable */
         .badge {
             cursor: pointer;
             user-select: none;
         }
         .badge:active { transform: scale(0.96); }
 
-        /* Category details modal */
         .category-summary {
             background: linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, rgba(167, 139, 250, 0.05) 100%);
             border: 1px solid rgba(56, 189, 248, 0.25);
@@ -1367,9 +1392,7 @@
             line-height: 1.5;
         }
 
-        /* ---------- Premium polish ---------- */
-
-        /* Staggered fade-in for the main card's children — gives a cascading reveal */
+        /* Card child cascade fade-in */
         .card > * {
             opacity: 0;
             transform: translateY(8px);
@@ -1383,15 +1406,10 @@
         .card > *:nth-child(6) { animation-delay: 0.50s; }
         .card > *:nth-child(7) { animation-delay: 0.57s; }
         .card > *:nth-child(8) { animation-delay: 0.64s; }
-        .card > *:nth-child(9) { animation-delay: 0.71s; }
-        .card > *:nth-child(10) { animation-delay: 0.78s; }
-        .card > *:nth-child(11) { animation-delay: 0.85s; }
-        .card > *:nth-child(12) { animation-delay: 0.92s; }
         @keyframes cascadeIn {
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Custom focus rings — keyboard-accessible AND aesthetic */
         :focus-visible {
             outline: none;
             box-shadow:
@@ -1415,7 +1433,6 @@
             text-underline-offset: 4px;
         }
 
-
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
@@ -1433,7 +1450,6 @@
             body.modal-open #page-content { transform: none !important; opacity: 0.55 !important; }
         }
 
-        /* Scrollbar styling */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb {
@@ -1448,14 +1464,11 @@
     <div class="aurora-bg"></div>
     <div class="aurora-accent"></div>
 
-    <!-- Theme toggle — fixed top-right, stacked vertical text -->
     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light or dark mode" type="button">
         <span class="theme-toggle-line theme-toggle-line-1" id="theme-toggle-line-1">Light</span>
         <span class="theme-toggle-line theme-toggle-line-2">Mode</span>
     </button>
 
-    <!-- Wraps everything that should scale/blur when a modal opens.
-         The aurora layers stay outside so they remain crisp. -->
     <div id="page-content">
 
     <div id="toast">Response Received! ✓</div>
@@ -1470,23 +1483,17 @@
                 <span class="next-date-time">12:15 - 6 p.m. · Come and go as you please</span>
             </div>
             <div class="hero-extras">
-                <div class="weather-pill" id="weather-pill">
-                    <span id="weather-icon">☀️</span>
-                    <span id="weather-text">Loading forecast...</span>
-                </div>
-                <div class="calendar-buttons">
-                    <button class="cal-btn" onclick="addToGoogleCal()">
-                        <span>📅</span> Add to Calendar
-                    </button>
-                    <button class="cal-btn" onclick="downloadICS()">
-                        <span>⬇️</span> .ics File
-                    </button>
-                </div>
+                <button class="cal-btn" onclick="addToGoogleCal()">
+                    <span>📅</span> Add to Calendar
+                </button>
+                <button class="cal-btn" onclick="downloadICS()">
+                    <span>⬇️</span> .ics File
+                </button>
             </div>
         </div>
 
         <div class="parking-hero">
-            <div class="parking-title">PARKING & ARRIVAL</div>
+            <div class="parking-title">Parking &amp; Arrival</div>
             <div class="parking-text">
                 Please park at the neighborhood parking lot by the neighborhood pool. It is a very short walk to our home from there.
             </div>
@@ -1501,35 +1508,43 @@
 
         <div class="card">
 
-            <div class="stat-box">
-                <span class="section-label" style="margin:0">Attending</span>
-                <span class="count-big skeleton" id="live-count">&nbsp;&nbsp;&nbsp;</span>
+            <div class="card-section">
+                <div class="stat-box">
+                    <span class="section-label" style="margin:0">Attending</span>
+                    <span class="count-big skeleton" id="live-count">&nbsp;&nbsp;&nbsp;</span>
+                </div>
+
+                <div class="food-note">
+                    <strong>We're providing burgers and hot dogs.</strong>
+                    <span class="food-note-sub" id="food-note-sub">People are also bringing:</span>
+                </div>
+
+                <div class="item-tally" id="tally-container">
+                    <div class="badge" data-key="chips">Chips <span>0</span></div>
+                    <div class="badge" data-key="sides">Sides <span>0</span></div>
+                    <div class="badge" data-key="snacks">Snacks <span>0</span></div>
+                    <div class="badge" data-key="desserts">Desserts <span>0</span></div>
+                    <div class="badge" data-key="drinks">Drinks <span>0</span></div>
+                    <div class="badge" data-key="other">Other <span>0</span></div>
+                </div>
             </div>
 
-            <div class="my-rsvp-banner" id="my-rsvp-banner"></div>
-
-            <div class="food-note">
-                <strong>We're providing burgers and hot dogs.</strong>
-                <span class="food-note-sub" id="food-note-sub">People are also bringing:</span>
+            <div class="card-section">
+                <button class="btn btn-main btn-magnet" onclick="openModal('rsvpModal')">I'm Attending</button>
             </div>
 
-            <div class="item-tally" id="tally-container">
-                <div class="badge" data-key="chips">Chips <span>0</span></div>
-                <div class="badge" data-key="sides">Sides <span>0</span></div>
-                <div class="badge" data-key="snacks">Snacks <span>0</span></div>
-                <div class="badge" data-key="desserts">Desserts <span>0</span></div>
-                <div class="badge" data-key="drinks">Drinks <span>0</span></div>
-                <div class="badge" data-key="other">Other <span>0</span></div>
+            <div class="card-section">
+                <span class="subsection-label">Event Info</span>
+                <button class="btn btn-outline" onclick="openModal('aboutModal')">What is this all about?</button>
+                <button class="btn btn-outline" onclick="openModal('lunchModal')">What's for Lunch?</button>
+                <button class="btn btn-outline" onclick="openModal('bringModal')">I'm Bringing Food to Share</button>
+                <button class="btn btn-outline" onclick="openModal('friendsModal')">Can I bring friends?</button>
+                <button class="btn btn-outline" onclick="openModal('kidsModal')">Kids &amp; Pool Info</button>
             </div>
 
-            <button class="btn btn-main btn-magnet" onclick="openModal('rsvpModal')">I'm Attending</button>
-            <button class="btn btn-outline" onclick="openModal('aboutModal')">What is this all about?</button>
-            <button class="btn btn-outline" onclick="openModal('lunchModal')">What's for Lunch?</button>
-            <button class="btn btn-outline" onclick="openModal('bringModal')">I'm Bringing Food to Share</button>
-            <button class="btn btn-outline" onclick="openModal('friendsModal')">Can I bring friends?</button>
-            <button class="btn btn-outline" onclick="openModal('kidsModal')">Kids & Pool Info</button>
-
-            <button class="btn btn-change" onclick="openCancelModal()">✏️ Change or Cancel My RSVP</button>
+            <div class="card-section">
+                <button class="btn btn-change" onclick="openCancelModal()">✏️ Change or Cancel My RSVP</button>
+            </div>
         </div>
     </div>
 
@@ -1608,7 +1623,7 @@
 
     <div id="kidsModal" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('kidsModal')">✕</button>
-        <span class="section-label">Kids & Our Backyard Pool</span>
+        <span class="section-label">Kids &amp; Our Backyard Pool</span>
         <ul class="info-list">
             <li>Kids of all ages are <strong>extremely welcome</strong></li>
             <li>The <strong>movie room</strong> will be open all afternoon playing kid-friendly movies</li>
@@ -1650,7 +1665,6 @@
         </div>
     </div></div>
 
-    <!-- Category details modal — populated dynamically when a badge is tapped -->
     <div id="categoryModal" class="modal"><div class="modal-content">
         <button class="close-modal" onclick="closeModal('categoryModal')">✕</button>
         <span class="section-label" id="category-modal-title">Category</span>
@@ -1665,26 +1679,47 @@
 
         <div id="admin-panel">
             <span class="section-label">🔒 Host Admin Panel</span>
-            <div class="admin-event-pick">
-                <label for="admin-event-select" class="admin-label">Event Date</label>
+
+            <!-- Block 1: Next Open House date override -->
+            <div class="admin-block">
+                <div class="admin-block-title">📅 Next Open House Date</div>
+                <label for="admin-next-date-input" class="admin-label">Manual date override</label>
+                <div class="admin-inline-row">
+                    <input type="date" id="admin-next-date-input" class="admin-input" />
+                    <button class="btn btn-success" onclick="saveNextDateOverride()">Save</button>
+                </div>
+                <div class="admin-override-status" id="admin-override-status">Loading...</div>
+                <button class="btn btn-outline" onclick="clearNextDateOverride()" id="admin-clear-override-btn" style="display: none; margin-top: 10px;">Clear override (revert to biweekly)</button>
+            </div>
+
+            <!-- Block 2: Per-event editor -->
+            <div class="admin-block">
+                <div class="admin-block-title">🛠️ Edit Event Data</div>
+                <label for="admin-event-select" class="admin-label">Event date</label>
                 <select id="admin-event-select" class="admin-input"></select>
+
+                <div class="admin-current-state" id="admin-current-state">Loading...</div>
+
+                <label for="admin-set-total-input" class="admin-label">Set exact guest count</label>
+                <div class="admin-inline-row">
+                    <input type="number" id="admin-set-total-input" class="admin-input" min="0" max="999" placeholder="e.g. 24" />
+                    <button class="btn btn-success" onclick="setExactGuestCount()">Set</button>
+                </div>
+
+                <div class="admin-actions" style="margin-top: 14px;">
+                    <button class="btn btn-warning" onclick="confirmReset('items')">
+                        🍽️ Reset Food Selections
+                    </button>
+                    <button class="btn btn-warning" onclick="confirmReset('total')">
+                        👥 Reset Guest Count to 0
+                    </button>
+                    <button class="btn btn-danger-solid" onclick="confirmReset('all')">
+                        💥 Reset Everything for This Event
+                    </button>
+                </div>
             </div>
 
-            <div class="admin-current-state" id="admin-current-state">Loading...</div>
-
-            <div class="admin-actions">
-                <button class="btn btn-warning" onclick="confirmReset('items')">
-                    🍽️ Reset Food Selections
-                </button>
-                <button class="btn btn-warning" onclick="confirmReset('total')">
-                    👥 Reset Guest Count
-                </button>
-                <button class="btn btn-danger-solid" onclick="confirmReset('all')">
-                    💥 Reset Everything for This Event
-                </button>
-            </div>
-
-            <button class="btn btn-outline" onclick="exitAdmin()" style="margin-top: 18px;">Close Admin</button>
+            <button class="btn btn-outline" onclick="exitAdmin()">Close Admin</button>
         </div>
     </div></div>
 
@@ -1692,17 +1727,14 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
     <script>
-    // Wait for Firebase to be defined before initializing.
-    // If something blocks gstatic.com (ad blocker, privacy extension, network),
-    // poll briefly and then show a friendly error instead of crashing.
+    // Wait for Firebase before initializing
     function whenFirebaseReady(callback, attempt) {
         attempt = attempt || 0;
         if (typeof firebase !== 'undefined' && firebase.initializeApp) {
             callback();
-        } else if (attempt < 50) { // ~5 seconds max wait
+        } else if (attempt < 50) {
             setTimeout(() => whenFirebaseReady(callback, attempt + 1), 100);
         } else {
-            // Firebase didn't load — show an inline message instead of a silent broken page
             const countEl = document.getElementById('live-count');
             if (countEl) {
                 countEl.classList.remove('skeleton');
@@ -1711,7 +1743,7 @@
             }
             const sub = document.getElementById('food-note-sub');
             if (sub) sub.innerText = "Couldn't reach the RSVP server. Check your connection or disable ad-blocker for this page.";
-            console.error("Firebase failed to load. This is usually caused by an ad blocker or privacy extension blocking gstatic.com.");
+            console.error("Firebase failed to load. Usually caused by an ad blocker blocking gstatic.com.");
         }
     }
 
@@ -1725,25 +1757,64 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // Compute the next open house Sunday.
-        // Series starts Sunday, May 24, 2026 and repeats every other Sunday.
-        function getNextOpenHouseDate() {
-            const start = new Date(2026, 4, 24);
+        // ---------- Shared constants ----------
+        const CATEGORY_KEYS = ['chips', 'sides', 'snacks', 'desserts', 'drinks', 'other'];
+        const CATEGORY_LABELS = {
+            chips: 'Chips', sides: 'Sides', snacks: 'Snacks',
+            desserts: 'Desserts', drinks: 'Drinks', other: 'Other'
+        };
+        const CATEGORY_PLACEHOLDERS = {
+            chips: 'What kind of chips? (optional)',
+            sides: 'What side are you bringing? (optional)',
+            snacks: 'What snack are you bringing? (optional)',
+            desserts: 'What dessert are you bringing? (optional)',
+            drinks: 'What drinks are you bringing? (optional)',
+            other: 'What are you bringing? (optional)'
+        };
+
+        // ---------- Date helpers ----------
+        // Series anchor: Sunday, May 24, 2026, biweekly.
+        // Admin can override via /open-house/_config/nextDateOverride (YYYY-MM-DD).
+        // Override is honored if it's today or in the future.
+        const SERIES_START = new Date(2026, 4, 24);
+
+        function parseDateKey(str) {
+            // Parse YYYY-MM-DD as a local date (avoids UTC off-by-one).
+            if (!str || typeof str !== 'string') return null;
+            const parts = str.split('-');
+            if (parts.length !== 3) return null;
+            const y = parseInt(parts[0]), m = parseInt(parts[1]) - 1, d = parseInt(parts[2]);
+            if (isNaN(y) || isNaN(m) || isNaN(d)) return null;
+            return new Date(y, m, d);
+        }
+
+        function getBiweeklyNextDate() {
             const today = new Date();
             today.setHours(0, 0, 0, 0);
-
-            if (today <= start) return start;
+            if (today <= SERIES_START) return new Date(SERIES_START);
 
             const msPerDay = 1000 * 60 * 60 * 24;
-            const daysSince = Math.floor((today - start) / msPerDay);
+            const daysSince = Math.floor((today - SERIES_START) / msPerDay);
             const cyclesPassed = Math.floor(daysSince / 14);
-            const next = new Date(start);
-            next.setDate(start.getDate() + cyclesPassed * 14);
-
+            const next = new Date(SERIES_START);
+            next.setDate(SERIES_START.getDate() + cyclesPassed * 14);
             if (next < today) {
                 next.setDate(next.getDate() + 14);
             }
             return next;
+        }
+
+        function getNextOpenHouseDate(overrideKey) {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            if (overrideKey) {
+                const overridden = parseDateKey(overrideKey);
+                if (overridden && overridden >= today) {
+                    return overridden;
+                }
+            }
+            return getBiweeklyNextDate();
         }
 
         function formatDate(d) {
@@ -1758,13 +1829,62 @@
             return `${yyyy}-${mm}-${dd}`;
         }
 
-        const nextDate = getNextOpenHouseDate();
-        document.getElementById('next-date').innerText = formatDate(nextDate);
+        // ---------- State that the override may change ----------
+        // nextDate, eventKey, eventRef are reassigned whenever the override changes
+        let nextDate;
+        let eventKey;
+        let eventRef;
+        let currentOverrideKey = null;
+        let eventListenerAttached = false;
+        let firstLoad = true;
+        let prevTotal = 0;
+        let prevItems = {};
+        let latestEventData = { items: {}, notes: {} };
+        let currentCategory = null;
 
-        const eventKey = getEventKey(nextDate);
-        const eventRef = db.ref('open-house/' + eventKey);
+        function setActiveEvent(date) {
+            // Detach previous listener (if any) before switching
+            if (eventRef && eventListenerAttached) {
+                eventRef.off('value', handleEventSnapshot);
+                eventListenerAttached = false;
+            }
 
-        // ---------- Haptic feedback (mobile only, silently no-ops elsewhere) ----------
+            nextDate = date;
+            eventKey = getEventKey(date);
+            eventRef = db.ref('open-house/' + eventKey);
+
+            // Reset render state so the new event animates in cleanly
+            firstLoad = true;
+            prevTotal = 0;
+            prevItems = {};
+
+            document.getElementById('next-date').innerText = formatDate(date);
+
+            eventRef.on('value', handleEventSnapshot);
+            eventListenerAttached = true;
+
+            loadWeather();
+        }
+
+        // ---------- Subscribe to override config ----------
+        // This is the master switch — when an admin sets/clears an override,
+        // the page reacts in real time.
+        const configRef = db.ref('open-house/_config/nextDateOverride');
+        configRef.on('value', (snap) => {
+            const overrideKey = snap.val();
+            currentOverrideKey = overrideKey || null;
+            const target = getNextOpenHouseDate(overrideKey);
+            const newKey = getEventKey(target);
+
+            if (newKey !== eventKey) {
+                setActiveEvent(target);
+            }
+
+            // If admin panel is open, refresh its override status display
+            refreshAdminOverrideStatus();
+        });
+
+        // ---------- Haptic feedback ----------
         function tap(strength) {
             if (navigator.vibrate) navigator.vibrate(strength || 8);
         }
@@ -1820,18 +1940,14 @@
                 setTimeout(() => toggle.classList.remove('toggled'), 600);
             });
 
-            // ---------- Scroll-aware visibility ----------
-            // Fade the toggle out once the user scrolls down past a threshold,
-            // bring it back when they scroll up. Throttled with rAF so it
-            // doesn't run on every scroll tick.
+            // Scroll-aware visibility
             let lastY = window.scrollY;
             let ticking = false;
-            const HIDE_THRESHOLD = 80;   // px from top before we consider hiding
-            const UP_DELTA = 4;          // need this much upward movement to reveal
+            const HIDE_THRESHOLD = 80;
+            const UP_DELTA = 4;
 
             function updateScrollVisibility() {
                 ticking = false;
-                // Don't change state while a modal is open — the page is locked
                 if (document.body.classList.contains('modal-open')) return;
 
                 const y = window.scrollY;
@@ -1839,7 +1955,6 @@
                 const goingUp = lastY - y > UP_DELTA;
 
                 if (y < HIDE_THRESHOLD) {
-                    // Near the top — always visible
                     toggle.classList.remove('scroll-hidden');
                 } else if (goingDown) {
                     toggle.classList.add('scroll-hidden');
@@ -1857,8 +1972,7 @@
             }, { passive: true });
         })();
 
-        // ---------- Mouse parallax for aurora — subtle premium touch ----------
-        // Skipped on touch devices and when reduced motion is preferred.
+        // ---------- Mouse parallax ----------
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const isTouch = matchMedia('(hover: none)').matches;
         if (!prefersReducedMotion && !isTouch) {
@@ -1877,7 +1991,7 @@
             requestAnimationFrame(tickParallax);
         }
 
-        // ---------- Magnetic hover for primary CTA — extremely subtle ----------
+        // ---------- Magnetic hover ----------
         if (!prefersReducedMotion && !isTouch) {
             document.querySelectorAll('.btn-magnet').forEach(btn => {
                 btn.addEventListener('mousemove', (e) => {
@@ -1892,15 +2006,8 @@
             });
         }
 
-        // ---------- Native scroll, native rubber-band ----------
-        // Earlier versions tried to add a custom rubber-band overscroll. After
-        // testing it caused subtle scroll-blocking issues — and on iOS Safari
-        // the native rubber-band already feels great. Letting the OS handle it
-        // is the right call.
-
         // ---------- Calendar integration ----------
         function getEventTimes() {
-            // Event runs 12:15 PM to 6:00 PM local time on nextDate
             const start = new Date(nextDate);
             start.setHours(12, 15, 0, 0);
             const end = new Date(nextDate);
@@ -1909,7 +2016,6 @@
         }
 
         function formatCalDate(d) {
-            // YYYYMMDDTHHMMSS for local time (no Z)
             const pad = n => String(n).padStart(2, '0');
             return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
         }
@@ -1952,54 +2058,7 @@
             document.body.removeChild(link);
         }
 
-        // ---------- Weather forecast (Open-Meteo, no API key needed) ----------
-        const LAT = 35.98;
-        const LON = -78.51;
-        function loadWeather() {
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            const daysAway = Math.round((nextDate - today) / (1000 * 60 * 60 * 24));
-            if (daysAway < 0 || daysAway > 14) return;
-
-            const dateStr = getEventKey(nextDate);
-            const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&temperature_unit=fahrenheit&timezone=auto&start_date=${dateStr}&end_date=${dateStr}`;
-
-            fetch(url)
-                .then(r => r.json())
-                .then(data => {
-                    if (!data.daily || !data.daily.temperature_2m_max) return;
-                    const high = Math.round(data.daily.temperature_2m_max[0]);
-                    const low = Math.round(data.daily.temperature_2m_min[0]);
-                    const code = data.daily.weather_code[0];
-                    const rain = data.daily.precipitation_probability_max[0] || 0;
-
-                    const { icon, label } = describeWeather(code);
-                    const pill = document.getElementById('weather-pill');
-                    document.getElementById('weather-icon').innerText = icon;
-                    let text = `${label} · ${high}° / ${low}°`;
-                    if (rain >= 30) text += ` · ${rain}% rain`;
-                    document.getElementById('weather-text').innerText = text;
-                    pill.classList.add('visible');
-                })
-                .catch(() => { /* silent fail */ });
-        }
-
-        function describeWeather(code) {
-            if (code === 0) return { icon: '☀️', label: 'Sunny' };
-            if (code <= 2) return { icon: '🌤️', label: 'Partly cloudy' };
-            if (code === 3) return { icon: '☁️', label: 'Overcast' };
-            if (code <= 48) return { icon: '🌫️', label: 'Foggy' };
-            if (code <= 57) return { icon: '🌦️', label: 'Drizzle' };
-            if (code <= 67) return { icon: '🌧️', label: 'Rain' };
-            if (code <= 77) return { icon: '🌨️', label: 'Snow' };
-            if (code <= 82) return { icon: '🌧️', label: 'Showers' };
-            if (code <= 86) return { icon: '🌨️', label: 'Snow showers' };
-            if (code >= 95) return { icon: '⛈️', label: 'Thunderstorm' };
-            return { icon: '🌤️', label: 'Mild' };
-        }
-        loadWeather();
-
-        // ---------- Confetti burst ----------
+        // ---------- Confetti ----------
         function fireConfetti() {
             if (prefersReducedMotion) return;
             const colors = ['#38bdf8', '#a78bfa', '#f472b6', '#fbbf24', '#34d399'];
@@ -2042,28 +2101,23 @@
             setTimeout(() => container.remove(), 2500);
         }
 
-        // ---------- Premium modal system ----------
-        // Tracks how many modals are currently open so we manage body class correctly
-        // when a modal closes another (e.g. category -> bring).
+        // ---------- Modals ----------
         let openModalCount = 0;
 
         function openModal(id) {
             const modal = document.getElementById(id);
             const content = modal.querySelector('.modal-content');
 
-            // Reset any lingering swipe-to-dismiss state
             content.classList.remove('dragging', 'dragging-release');
             content.style.removeProperty('--drag-y');
             content.style.removeProperty('--drag-scale');
             content.style.removeProperty('--drag-opacity');
 
-            // Reset drag state for this modal
             modal._dragState = null;
 
             modal.style.display = 'flex';
-            void modal.offsetWidth; // force reflow so the show class triggers transitions
+            void modal.offsetWidth;
 
-            // Restart the animation cleanly even if same modal reopens
             content.style.animation = 'none';
             void content.offsetWidth;
             content.style.animation = '';
@@ -2072,13 +2126,10 @@
             modal.classList.add('show');
 
             openModalCount++;
-            // Clear any in-progress overscroll bounce so it doesn't fight with
-            // the modal-open scale transform applied via CSS.
             const pageContentEl = document.getElementById('page-content');
             if (pageContentEl) pageContentEl.style.transform = '';
             document.body.classList.add('modal-open');
 
-            // Wire up swipe-to-dismiss on the modal content (touch only)
             attachModalSwipe(modal, content);
         }
 
@@ -2087,13 +2138,11 @@
             if (!modal.classList.contains('show')) return;
 
             const content = modal.querySelector('.modal-content');
-            // If the user was dragging, snap to release flow instead
             content.classList.remove('dragging');
 
             modal.classList.add('closing');
             modal.classList.remove('show');
 
-            // Wait for the exit animation, then hide & decrement count
             const onEnd = () => {
                 modal.style.display = 'none';
                 modal.classList.remove('closing');
@@ -2101,7 +2150,6 @@
                 content.removeEventListener('animationend', onEnd);
             };
             content.addEventListener('animationend', onEnd);
-            // Safety: if animation is canceled, still hide after a beat
             setTimeout(onEnd, 400);
 
             openModalCount = Math.max(0, openModalCount - 1);
@@ -2110,9 +2158,7 @@
             }
         }
 
-        // ---------- Modal swipe-to-dismiss (touch) ----------
         function attachModalSwipe(modal, content) {
-            // Only attach once per content element
             if (content._swipeAttached) return;
             content._swipeAttached = true;
 
@@ -2122,12 +2168,11 @@
             let pulledFromTop = false;
 
             content.addEventListener('touchstart', (e) => {
-                // Only initiate drag when content is scrolled to its top
                 if (content.scrollTop > 0) return;
                 pulledFromTop = true;
                 startY = e.touches[0].clientY;
                 currentY = startY;
-                dragging = false; // becomes true once we cross a threshold
+                dragging = false;
             }, { passive: true });
 
             content.addEventListener('touchmove', (e) => {
@@ -2135,7 +2180,6 @@
                 currentY = e.touches[0].clientY;
                 const dy = currentY - startY;
 
-                // Only treat downward drags as dismiss intent
                 if (dy < 4) return;
 
                 if (!dragging && dy > 8) {
@@ -2145,7 +2189,6 @@
                 }
 
                 if (dragging) {
-                    // Rubber-band: resistance increases the further you pull
                     const resisted = dy < 200 ? dy : 200 + (dy - 200) * 0.35;
                     const scale = Math.max(0.85, 1 - resisted / 1400);
                     const opacity = Math.max(0.4, 1 - resisted / 500);
@@ -2168,12 +2211,10 @@
                 content.classList.add('dragging-release');
 
                 if (dy > 100) {
-                    // Threshold met — dismiss with momentum
                     content.style.setProperty('--drag-y', `${window.innerHeight}px`);
                     content.style.setProperty('--drag-opacity', '0');
                     setTimeout(() => closeModal(modal.id), 200);
                 } else {
-                    // Snap back
                     tap(6);
                     content.style.setProperty('--drag-y', '0px');
                     content.style.setProperty('--drag-scale', '1');
@@ -2202,11 +2243,10 @@
             }
         });
 
-        // ---------- Share Modal ----------
+        // ---------- Share ----------
         function openShareModal() {
             const url = window.location.href;
             document.getElementById('qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(url)}`;
-            // Show native share button if supported (mobile mostly)
             if (navigator.share) {
                 document.getElementById('native-share-btn').style.display = 'flex';
             }
@@ -2226,7 +2266,7 @@
                 title: 'Schaefer Open House',
                 text: `You're invited to the Schaefer Open House on ${formatDate(nextDate)}!`,
                 url: window.location.href
-            }).catch(() => { /* user cancelled, ignore */ });
+            }).catch(() => {});
         }
 
         function showToast(msg) {
@@ -2236,6 +2276,7 @@
             setTimeout(() => { t.className = ""; }, 3000);
         }
 
+        // ---------- Number grid factory ----------
         function buildGrid(containerId, min, max) {
             const container = document.getElementById(containerId);
             container.innerHTML = '';
@@ -2257,11 +2298,10 @@
         buildGrid('cancel-original-grid', 1, 15);
         buildGrid('cancel-new-grid', 0, 15);
 
-        // ---------- Animated count-up — smooth tweening of numeric values ----------
+        // ---------- Count tweening ----------
         function animateCount(el, from, to, duration) {
             duration = duration || 700;
             const start = performance.now();
-            // ease-out cubic feels great for arriving numbers
             const ease = t => 1 - Math.pow(1 - t, 3);
             function step(now) {
                 const t = Math.min(1, (now - start) / duration);
@@ -2273,23 +2313,17 @@
             requestAnimationFrame(step);
         }
 
-        let prevTotal = 0;
-        let prevItems = {};
-        let firstLoad = true;
-        let latestEventData = { items: {}, notes: {} };
-        let currentCategory = null;
-        eventRef.on('value', (snap) => {
+        // ---------- Event snapshot handler (separated for clean detach) ----------
+        function handleEventSnapshot(snap) {
             const data = snap.val() || { total: 0, items: {} };
             const newTotal = data.total || 0;
             const countEl = document.getElementById('live-count');
 
-            // First load: remove skeleton, count up smoothly from 0
             if (firstLoad) {
                 countEl.classList.remove('skeleton');
                 animateCount(countEl, 0, newTotal, 900);
                 firstLoad = false;
             } else if (newTotal !== prevTotal) {
-                // Subsequent updates: animate smoothly + pulse
                 animateCount(countEl, prevTotal, newTotal, 500);
                 countEl.classList.remove('pulse');
                 void countEl.offsetWidth;
@@ -2299,31 +2333,26 @@
 
             const items = data.items || {};
             const notes = data.notes || {};
-            const keys = ['chips', 'sides', 'snacks', 'desserts', 'drinks', 'other'];
 
-            // Stash the latest snapshot so the category modal can read it on demand
-            // and refresh live while open.
             latestEventData = { items, notes };
 
-            // Re-render badges, but mark any that changed for a brief pulse
+            // Re-render badges, pulse any that changed
             const tally = document.getElementById('tally-container');
-            tally.innerHTML = keys.map(k => {
+            tally.innerHTML = CATEGORY_KEYS.map(k => {
                 const count = items[k] || 0;
                 const bumped = !firstLoad && (prevItems[k] || 0) !== count ? ' bumped' : '';
                 return `<button class="badge${bumped}" data-key="${k}" type="button">${CATEGORY_LABELS[k]} <span>${count}</span></button>`;
             }).join('');
-            // Re-attach click handlers (innerHTML wipes them)
             tally.querySelectorAll('.badge').forEach(b => {
-                b.onclick = (e) => openCategoryModal(b.dataset.key, b);
+                b.onclick = () => openCategoryModal(b.dataset.key, b);
             });
             prevItems = { ...items };
 
-            // If the category modal is currently open, refresh its contents live
             if (currentCategory && document.getElementById('categoryModal').classList.contains('show')) {
                 renderCategoryModal(currentCategory);
             }
 
-            const totalItems = keys.reduce((a, k) => a + (items[k] || 0), 0);
+            const totalItems = CATEGORY_KEYS.reduce((a, k) => a + (items[k] || 0), 0);
             const subEl = document.getElementById('food-note-sub');
             if (totalItems === 0) {
                 subEl.innerText = "No one's signed up to bring anything yet.";
@@ -2331,58 +2360,24 @@
                 subEl.innerText = "People are also bringing:";
             }
 
-            // If the server says 0 attendees but we have a local RSVP, the data was
-            // reset by the host (or this is a fresh event). Clear the stale local count.
+            // Defensive: clear stale local RSVP if data was reset or capped above total
             if (newTotal === 0 && getMyRsvp() > 0) {
                 setMyRsvp(0);
-            }
-            // Also defensively cap local count at the actual total — prevents
-            // banners showing "your party of 13" when there are only 3 attendees.
-            if (getMyRsvp() > newTotal) {
+            } else if (getMyRsvp() > newTotal) {
                 setMyRsvp(newTotal);
-            }
-
-            // Update the personalized "you're attending" banner
-            updateMyBanner(newTotal);
-        });
-
-        // ---------- Personalized "you're attending" banner ----------
-        function updateMyBanner(totalAttending) {
-            const banner = document.getElementById('my-rsvp-banner');
-            const myCount = getMyRsvp();
-            if (myCount > 0) {
-                const others = Math.max(0, totalAttending - myCount);
-                let msg;
-                if (myCount === 1 && others === 0) {
-                    msg = `You're attending! See you on ${formatDate(nextDate).split(',')[0]}.`;
-                } else if (myCount === 1) {
-                    msg = `You're in! Joining <strong>${others}</strong> ${others === 1 ? 'other' : 'others'}.`;
-                } else if (others === 0) {
-                    msg = `Your party of <strong>${myCount}</strong> is locked in.`;
-                } else {
-                    msg = `Your party of <strong>${myCount}</strong> + <strong>${others}</strong> ${others === 1 ? 'other' : 'others'} attending.`;
-                }
-                banner.innerHTML = msg;
-                banner.classList.add('visible');
-            } else {
-                banner.classList.remove('visible');
             }
         }
 
-        // ---------- Category details modal ----------
+        // ---------- Category modal ----------
         function openCategoryModal(category, sourceEl) {
             currentCategory = category;
             renderCategoryModal(category);
 
-            // Skip shared-element flourish if reduced motion or no source element
             if (prefersReducedMotion || !sourceEl) {
                 openModal('categoryModal');
                 return;
             }
 
-            // FLIP-style shared element: clone the badge, fly it to the modal
-            // title position, then open the modal with the title hidden until
-            // the clone arrives.
             const sourceRect = sourceEl.getBoundingClientRect();
             const clone = sourceEl.cloneNode(true);
             clone.classList.add('expanding');
@@ -2393,31 +2388,25 @@
             clone.style.margin = '0';
             document.body.appendChild(clone);
 
-            // Hide the original badge during the flight
             sourceEl.style.opacity = '0';
 
-            // Open the modal with its title temporarily invisible
             const titleEl = document.getElementById('category-modal-title');
             titleEl.style.opacity = '0';
             openModal('categoryModal');
 
-            // After the modal renders, measure the title's actual position
             requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
                     const targetRect = titleEl.getBoundingClientRect();
-                    // Animate the clone toward the title's center
                     clone.style.left = (targetRect.left + targetRect.width / 2 - sourceRect.width / 2) + 'px';
                     clone.style.top = targetRect.top + 'px';
                     clone.style.opacity = '0';
                     clone.style.transform = 'scale(1.4)';
 
-                    // After the flight, remove the clone and reveal the real title
                     setTimeout(() => {
                         clone.remove();
                         titleEl.style.transition = 'opacity 0.3s ease-out';
                         titleEl.style.opacity = '1';
                         sourceEl.style.opacity = '';
-                        // Cleanup the inline transition after it runs
                         setTimeout(() => titleEl.style.transition = '', 350);
                     }, 500);
                 });
@@ -2462,7 +2451,6 @@
 
         function closeModalAndOpenBring() {
             closeModal('categoryModal');
-            // Pre-select the current category so it's quick to add a note for it
             if (currentCategory) {
                 const btn = document.querySelector(`#item-grid .item-btn[data-item="${currentCategory}"]`);
                 if (btn && !btn.classList.contains('active')) {
@@ -2470,31 +2458,14 @@
                     refreshCategoryNoteInputs();
                 }
             }
-            // Slight delay so the category modal close animation finishes first
             setTimeout(() => openModal('bringModal'), 150);
         }
 
-        // Friendly labels and placeholders for each category
-        const CATEGORY_LABELS = {
-            chips: 'Chips', sides: 'Sides', snacks: 'Snacks',
-            desserts: 'Desserts', drinks: 'Drinks', other: 'Other'
-        };
-        const CATEGORY_PLACEHOLDERS = {
-            chips: 'What kind of chips? (optional)',
-            sides: 'What side are you bringing? (optional)',
-            snacks: 'What snack are you bringing? (optional)',
-            desserts: 'What dessert are you bringing? (optional)',
-            drinks: 'What drinks are you bringing? (optional)',
-            other: 'What are you bringing? (optional)'
-        };
-
-        // Re-render per-category text inputs whenever selections change
         function refreshCategoryNoteInputs() {
             const container = document.getElementById('category-notes-container');
             const active = Array.from(document.querySelectorAll('#item-grid .item-btn.active'))
                 .map(b => b.dataset.item);
 
-            // Preserve any text the user has already typed
             const existingValues = {};
             container.querySelectorAll('input[data-cat]').forEach(input => {
                 existingValues[input.dataset.cat] = input.value;
@@ -2513,7 +2484,6 @@
             });
         }
 
-        // Multi-select item picker - toggle, don't replace
         document.querySelectorAll('#item-grid .item-btn').forEach(btn => {
             btn.onclick = function() {
                 tap();
@@ -2522,15 +2492,16 @@
             };
         });
 
-        // ---------- Local RSVP tracking (per-event, persistent across visits) ----------
-        const myRsvpKey = 'myRsvp:' + eventKey;
+        // ---------- Local RSVP tracking (per-event) ----------
+        // Key is built dynamically since eventKey can change when override updates
+        function myRsvpKey() { return 'myRsvp:' + eventKey; }
         function getMyRsvp() {
-            const raw = localStorage.getItem(myRsvpKey);
+            const raw = localStorage.getItem(myRsvpKey());
             return raw ? parseInt(raw) : 0;
         }
         function setMyRsvp(n) {
-            if (n > 0) localStorage.setItem(myRsvpKey, n);
-            else localStorage.removeItem(myRsvpKey);
+            if (n > 0) localStorage.setItem(myRsvpKey(), n);
+            else localStorage.removeItem(myRsvpKey());
         }
 
         function submitRSVP() {
@@ -2556,7 +2527,6 @@
                 return;
             }
 
-            // Capture any optional per-category notes typed
             const notesByCat = {};
             document.querySelectorAll('#category-notes-container input[data-cat]').forEach(input => {
                 const text = input.value.trim();
@@ -2576,7 +2546,6 @@
                 }
             });
 
-            // Reset the bring modal's UI state
             document.getElementById('category-notes-container').innerHTML = '';
 
             closeModal('bringModal');
@@ -2645,11 +2614,13 @@
             }
         }
 
-        // ============================================================
-        // ADMIN MODE
-        // Access by appending ?admin=1 to the URL
-        // ============================================================
+        // ---------- Weather (kept silent — removed from UI but feature stripped per request) ----------
+        // Stub kept so any future per-event setup can hook in; presently no-op.
+        function loadWeather() { /* removed from UI */ }
 
+        // ============================================================
+        // ADMIN MODE — access by appending ?admin=1 to the URL
+        // ============================================================
         function isAdminUrl() {
             const params = new URLSearchParams(window.location.search);
             return params.get('admin') === '1';
@@ -2658,18 +2629,26 @@
         function buildAdminEventList() {
             const select = document.getElementById('admin-event-select');
             select.innerHTML = '';
-            const start = new Date(2026, 4, 24);
             const today = new Date();
             today.setHours(0, 0, 0, 0);
 
+            // Include any override date even if it's off the biweekly schedule
             const events = [];
             for (let i = 0; i < 27; i++) {
-                const d = new Date(start);
-                d.setDate(start.getDate() + i * 14);
+                const d = new Date(SERIES_START);
+                d.setDate(SERIES_START.getDate() + i * 14);
                 events.push(d);
             }
+            if (currentOverrideKey) {
+                const overrideDate = parseDateKey(currentOverrideKey);
+                if (overrideDate && !events.some(d => getEventKey(d) === currentOverrideKey)) {
+                    events.push(overrideDate);
+                    events.sort((a, b) => a - b);
+                }
+            }
 
-            let nextIdx = events.findIndex(d => d >= today);
+            let nextIdx = events.findIndex(d => getEventKey(d) === eventKey);
+            if (nextIdx === -1) nextIdx = events.findIndex(d => d >= today);
             if (nextIdx === -1) nextIdx = events.length - 1;
 
             events.forEach((d, idx) => {
@@ -2679,6 +2658,7 @@
                 let label = formatDate(d);
                 if (d < today) label += ' (past)';
                 else if (idx === nextIdx) label += ' (next)';
+                if (key === currentOverrideKey) label += ' [override]';
                 opt.innerText = label;
                 if (idx === nextIdx) opt.selected = true;
                 select.appendChild(opt);
@@ -2689,32 +2669,30 @@
         }
 
         let adminEventListener = null;
+        let adminEventListenerCallback = null;
 
         function loadAdminEventState() {
-            if (adminEventListener) {
-                adminEventListener.off('value');
+            if (adminEventListener && adminEventListenerCallback) {
+                adminEventListener.off('value', adminEventListenerCallback);
             }
             const key = document.getElementById('admin-event-select').value;
             adminEventListener = db.ref('open-house/' + key);
-            adminEventListener.on('value', (snap) => {
+            adminEventListenerCallback = (snap) => {
                 const data = snap.val() || { total: 0, items: {} };
                 const items = data.items || {};
                 const allNotes = data.notes || {};
-                const cats = ['chips', 'sides', 'snacks', 'desserts', 'drinks', 'other'];
-                const catLabels = { chips: 'Chips', sides: 'Sides', snacks: 'Snacks', desserts: 'Desserts', drinks: 'Drinks', other: 'Other' };
 
-                const itemList = cats
+                const itemList = CATEGORY_KEYS
                     .filter(k => items[k])
                     .map(k => `${k}: ${items[k]}`)
                     .join(', ') || 'none';
 
-                // Build a per-category notes block — one line per category that has notes
-                const noteBlocks = cats.map(k => {
+                const noteBlocks = CATEGORY_KEYS.map(k => {
                     const noteValues = Object.values(allNotes[k] || {})
                         .map(n => n && n.text)
                         .filter(Boolean);
                     if (noteValues.length === 0) return '';
-                    return `<div style="margin-top:6px;"><strong>${catLabels[k]}:</strong> <span style="color:var(--text-main);">${noteValues.map(t => escapeHtml(t)).join(' · ')}</span></div>`;
+                    return `<div style="margin-top:6px;"><strong>${CATEGORY_LABELS[k]}:</strong> <span style="color:var(--text-main);">${noteValues.map(t => escapeHtml(t)).join(' · ')}</span></div>`;
                 }).filter(Boolean).join('');
 
                 document.getElementById('admin-current-state').innerHTML = `
@@ -2722,13 +2700,117 @@
                     <div><strong>Food pledged:</strong> ${itemList}</div>
                     ${noteBlocks ? '<div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--border);"><strong style="display:block; margin-bottom:4px;">Notes by category</strong>' + noteBlocks + '</div>' : ''}
                 `;
-            });
+
+                // Pre-fill the "set exact" input with the current count for convenience
+                const inp = document.getElementById('admin-set-total-input');
+                if (inp && document.activeElement !== inp) {
+                    inp.value = data.total || 0;
+                }
+            };
+            adminEventListener.on('value', adminEventListenerCallback);
+        }
+
+        function refreshAdminOverrideStatus() {
+            const statusEl = document.getElementById('admin-override-status');
+            const clearBtn = document.getElementById('admin-clear-override-btn');
+            const dateInput = document.getElementById('admin-next-date-input');
+            if (!statusEl) return;
+
+            const biweekly = getBiweeklyNextDate();
+            if (currentOverrideKey) {
+                const overrideDate = parseDateKey(currentOverrideKey);
+                statusEl.classList.add('active');
+                statusEl.innerHTML = `Override active: <strong>${formatDate(overrideDate)}</strong>. Biweekly default would be <strong>${formatDate(biweekly)}</strong>.`;
+                if (clearBtn) clearBtn.style.display = 'flex';
+                if (dateInput && document.activeElement !== dateInput) {
+                    dateInput.value = currentOverrideKey;
+                }
+            } else {
+                statusEl.classList.remove('active');
+                statusEl.innerHTML = `Using biweekly default: <strong>${formatDate(biweekly)}</strong>. Set a date above to override.`;
+                if (clearBtn) clearBtn.style.display = 'none';
+                if (dateInput && document.activeElement !== dateInput) {
+                    dateInput.value = getEventKey(biweekly);
+                }
+            }
+
+            // Rebuild the event picker so override label stays in sync
+            if (document.getElementById('adminModal').classList.contains('show')) {
+                const select = document.getElementById('admin-event-select');
+                if (select && select.options.length > 0) {
+                    buildAdminEventList();
+                }
+            }
+        }
+
+        function saveNextDateOverride() {
+            const dateInput = document.getElementById('admin-next-date-input');
+            const value = dateInput.value;
+            if (!value) {
+                showToast("Pick a date first");
+                return;
+            }
+            const parsed = parseDateKey(value);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            if (!parsed) {
+                showToast("Invalid date");
+                return;
+            }
+            if (parsed < today) {
+                if (!confirm("That date is in the past. Save anyway? (The page will fall back to biweekly until you pick a future date.)")) {
+                    return;
+                }
+            }
+            db.ref('open-house/_config/nextDateOverride').set(value)
+                .then(() => {
+                    tap([10, 30, 10]);
+                    showToast("Next date saved ✓");
+                })
+                .catch(err => {
+                    console.error(err);
+                    showToast("Save failed - check console");
+                });
+        }
+
+        function clearNextDateOverride() {
+            if (!confirm("Clear the manual date override and revert to the biweekly schedule?")) return;
+            db.ref('open-house/_config/nextDateOverride').remove()
+                .then(() => {
+                    tap();
+                    showToast("Reverted to biweekly ✓");
+                })
+                .catch(err => {
+                    console.error(err);
+                    showToast("Clear failed - check console");
+                });
+        }
+
+        function setExactGuestCount() {
+            const key = document.getElementById('admin-event-select').value;
+            const raw = document.getElementById('admin-set-total-input').value;
+            const n = parseInt(raw, 10);
+            if (isNaN(n) || n < 0) {
+                showToast("Enter a number (0 or higher)");
+                return;
+            }
+            if (!confirm(`Set guest count for ${key} to ${n}?`)) return;
+            db.ref('open-house/' + key + '/total').set(n)
+                .then(() => {
+                    tap([10, 30, 10]);
+                    showToast("Guest count updated ✓");
+                })
+                .catch(err => {
+                    console.error(err);
+                    showToast("Update failed - check console");
+                });
         }
 
         function exitAdmin() {
-            if (adminEventListener) {
-                adminEventListener.off('value');
+            if (adminEventListener && adminEventListenerCallback) {
+                adminEventListener.off('value', adminEventListenerCallback);
                 adminEventListener = null;
+                adminEventListenerCallback = null;
             }
             closeModal('adminModal');
         }
@@ -2741,7 +2823,7 @@
                 action = () => Promise.all([
                     db.ref('open-house/' + key + '/items').remove(),
                     db.ref('open-house/' + key + '/notes').remove(),
-                    db.ref('open-house/' + key + '/otherNotes').remove()  // legacy cleanup
+                    db.ref('open-house/' + key + '/otherNotes').remove()
                 ]);
             } else if (scope === 'total') {
                 label = `Reset guest count to 0 for ${key}?`;
@@ -2767,13 +2849,12 @@
         if (isAdminUrl()) {
             setTimeout(() => {
                 buildAdminEventList();
+                refreshAdminOverrideStatus();
                 openModal('adminModal');
             }, 300);
         }
 
-        // Expose functions used by inline onclick attributes to global scope.
-        // (They live inside the whenFirebaseReady callback for safety, but the
-        // HTML's onclick handlers look them up on window.)
+        // Expose for inline onclick handlers
         window.openModal = openModal;
         window.closeModal = closeModal;
         window.openShareModal = openShareModal;
@@ -2790,7 +2871,10 @@
         window.exitAdmin = exitAdmin;
         window.openCategoryModal = openCategoryModal;
         window.closeModalAndOpenBring = closeModalAndOpenBring;
-    }); // end whenFirebaseReady
+        window.saveNextDateOverride = saveNextDateOverride;
+        window.clearNextDateOverride = clearNextDateOverride;
+        window.setExactGuestCount = setExactGuestCount;
+    });
     </script>
 </body>
 </html>
