@@ -458,6 +458,7 @@
             padding: 7px 16px; border-radius: 22px;
             font-size: 0.72rem; font-weight: 600;
             letter-spacing: 0.3px;
+            margin-top: 14px;
             position: relative;
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
         }
@@ -958,7 +959,6 @@
                     var(--blue-deep) 100%);
             color: #fff;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            margin-top: 12px;
             box-shadow:
                 inset 0 1px 0 rgba(255, 255, 255, 0.25),
                 inset 0 -1px 0 rgba(0, 0, 0, 0.2),
@@ -1007,97 +1007,6 @@
             background:
                 linear-gradient(165deg, var(--glass-2) 0%, var(--glass-1) 100%);
         }
-
-        /* ========== ACCORDION (Event Info) ========== */
-        .accordion {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .acc-item {
-            background:
-                linear-gradient(165deg, var(--glass-2) 0%, var(--glass-1) 100%);
-            backdrop-filter: blur(16px) saturate(160%);
-            -webkit-backdrop-filter: blur(16px) saturate(160%);
-            border: 1px solid var(--border-bright);
-            border-radius: 14px;
-            overflow: hidden;
-            transition: border-color 0.35s var(--flow), background 0.35s var(--flow);
-            box-shadow:
-                inset 0 1px 0 rgba(255, 255, 255, 0.06),
-                0 2px 6px rgba(0, 0, 0, 0.12);
-        }
-        .acc-item[open] {
-            border-color: var(--border-strong);
-            background:
-                linear-gradient(165deg, var(--glass-3) 0%, var(--glass-2) 100%);
-        }
-        .acc-summary {
-            list-style: none;
-            cursor: pointer;
-            padding: 14px 18px;
-            font-size: 0.92rem;
-            font-weight: 600;
-            color: var(--text-main);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            user-select: none;
-            transition: color 0.3s;
-        }
-        .acc-summary:hover { color: var(--silver-bright); }
-        .acc-summary::-webkit-details-marker { display: none; }
-        .acc-summary::marker { content: ''; }
-        .acc-chevron {
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            transition: transform 0.35s var(--flow), color 0.3s;
-            flex: 0 0 auto;
-        }
-        .acc-item[open] .acc-chevron {
-            transform: rotate(180deg);
-            color: var(--blue-bright);
-        }
-        [data-theme="light"] .acc-item[open] .acc-chevron { color: var(--blue-deep); }
-        .acc-content {
-            padding: 0 18px 16px 18px;
-            color: var(--text-dim);
-            line-height: 1.65;
-            font-size: 0.92rem;
-            animation: accFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .acc-content p {
-            margin: 0 0 12px 0;
-        }
-        .acc-content p:last-child { margin-bottom: 0; }
-        .acc-content strong { color: var(--text-main); font-weight: 600; }
-        .acc-content .info-list { margin: 0; }
-        @keyframes accFadeIn {
-            from { opacity: 0; transform: translateY(-4px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        /* In-prose button styled to look like a link */
-        .inline-link {
-            background: none;
-            border: none;
-            padding: 0;
-            color: var(--blue-bright);
-            font: inherit;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: underline;
-            text-underline-offset: 3px;
-            text-decoration-thickness: 1px;
-            text-decoration-color: rgba(122, 180, 232, 0.4);
-            transition: color 0.2s, text-decoration-color 0.2s;
-        }
-        .inline-link:hover {
-            color: var(--silver-bright);
-            text-decoration-color: var(--silver-bright);
-        }
-        [data-theme="light"] .inline-link { color: var(--blue-deep); }
-        [data-theme="light"] .inline-link:hover { color: var(--silver-bright); }
 
         /* ========== STEP BANNER ========== */
         .step-banner {
@@ -1925,6 +1834,7 @@
                     <span>I'm bringing food to share</span>
                 </button>
 
+                <span class="subsection-label">What Guests Are Bringing</span>
                 <div class="item-tally" id="tally-container">
                     <button class="badge" data-key="chips" type="button">
                         <span class="badge-count">0</span>
@@ -1956,55 +1866,10 @@
 
             <div class="card-section">
                 <span class="subsection-label">Event Info</span>
-                <div class="accordion">
-                    <details class="acc-item">
-                        <summary class="acc-summary">
-                            <span>What is this all about?</span>
-                            <span class="acc-chevron" aria-hidden="true">▾</span>
-                        </summary>
-                        <div class="acc-content">
-                            <p>We're hosting an open house <strong>every couple of weeks all summer long</strong> — a standing invitation to come over, slow down, and spend time with people.</p>
-                            <p>There's <strong>no agenda</strong>. Come and go as you please. <strong>Anyone is welcome — feel free to bring a friend.</strong></p>
-                            <p>Kids are <strong>extremely welcome</strong>. Our <strong>backyard pool, hot tub, and movie room</strong> are all open and ready.</p>
-                        </div>
-                    </details>
-                    <details class="acc-item">
-                        <summary class="acc-summary">
-                            <span>What's for lunch?</span>
-                            <span class="acc-chevron" aria-hidden="true">▾</span>
-                        </summary>
-                        <div class="acc-content">
-                            <p><strong>Lunch can be any time</strong> — we'll have <strong>burgers and hot dogs</strong> available all afternoon.</p>
-                            <p>You're welcome to bring a <strong>side, chips, snack, dessert, or drinks</strong> if you'd like to contribute.</p>
-                            <p>Feel free to use our <strong>kitchen</strong> to prepare your own food if you need to.</p>
-                            <p>Have something you'd like grilled? Bring it over — <strong>I'm happy to throw anything you want on the grill.</strong></p>
-                        </div>
-                    </details>
-                    <details class="acc-item">
-                        <summary class="acc-summary">
-                            <span>Can I bring friends?</span>
-                            <span class="acc-chevron" aria-hidden="true">▾</span>
-                        </summary>
-                        <div class="acc-content">
-                            <p><strong>Absolutely — the more the merrier!</strong></p>
-                            <p>Tap <button type="button" class="inline-link" onclick="openShareModal()">Share Invite</button> at the top of the page to send them the link or QR code. The only thing we ask is that they <strong>RSVP</strong> so we have a rough head count for food.</p>
-                        </div>
-                    </details>
-                    <details class="acc-item">
-                        <summary class="acc-summary">
-                            <span>Kids &amp; pool info</span>
-                            <span class="acc-chevron" aria-hidden="true">▾</span>
-                        </summary>
-                        <div class="acc-content">
-                            <ul class="info-list">
-                                <li>Kids of all ages are <strong>extremely welcome</strong></li>
-                                <li>The <strong>movie room</strong> will be open all afternoon playing kid-friendly movies</li>
-                                <li>Our <strong>backyard pool</strong> is open — <strong>parents please supervise</strong> your own children at all times</li>
-                                <li>Bring <strong>swimsuits, towels, and sunscreen</strong></li>
-                            </ul>
-                        </div>
-                    </details>
-                </div>
+                <button class="btn btn-outline" onclick="openModal('aboutModal')">What is this all about?</button>
+                <button class="btn btn-outline" onclick="openModal('lunchModal')">What's for Lunch?</button>
+                <button class="btn btn-outline" onclick="openModal('friendsModal')">Can I bring friends?</button>
+                <button class="btn btn-outline" onclick="openModal('kidsModal')">Kids &amp; Pool Info</button>
             </div>
 
             <div class="card-section">
@@ -2017,8 +1882,8 @@
             <div class="parking-text">
                 Please park at the neighborhood parking lot by the neighborhood pool. It is a very short walk to our home from there.
             </div>
-            <a href="https://www.google.com/maps/dir/?api=1&destination=6629+Penfield+Street+Wake+Forest+NC+27587&travelmode=walking" target="_blank" rel="noopener" class="walk-tag walk-tag-link"><span aria-hidden="true">🚶</span> Walking Directions to 6629 Penfield Street</a>
             <a href="https://maps.app.goo.gl/4hbNhkQDsiBBpEqn9" target="_blank" rel="noopener" class="btn btn-park">Navigate to Parking Lot</a>
+            <a href="https://www.google.com/maps/dir/?api=1&destination=6629+Penfield+Street+Wake+Forest+NC+27587&travelmode=walking" target="_blank" rel="noopener" class="walk-tag walk-tag-link"><span aria-hidden="true">🚶</span> Walking Directions to 6629 Penfield Street</a>
         </div>
     </div>
 
@@ -2044,6 +1909,49 @@
         <div class="share-link-box" id="share-url-text" onclick="copyLink()">📋 Copy Invite Link</div>
         <div class="share-divider"><span>or scan</span></div>
         <div class="qr-container"><img id="qr-img" src="" alt="QR code linking to this RSVP page" style="display: block; width: 150px; height: 150px;"></div>
+    </div></div>
+
+    <div id="aboutModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="aboutModalTitle"><div class="modal-content">
+        <button class="close-modal" onclick="closeModal('aboutModal')" aria-label="Close">✕</button>
+        <span class="section-label" id="aboutModalTitle">What This Is About</span>
+        <div class="modal-prose">
+            <p>We're hosting an open house <strong>every couple of weeks all summer long</strong> — a standing invitation to come over, slow down, and spend time with people.</p>
+            <p>There's <strong>no agenda</strong>. Come and go as you please. <strong>Anyone is welcome — feel free to bring a friend.</strong></p>
+            <p>Kids are <strong>extremely welcome</strong>. Our <strong>backyard pool, hot tub, and movie room</strong> are all open and ready.</p>
+        </div>
+    </div></div>
+
+    <div id="lunchModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="lunchModalTitle"><div class="modal-content">
+        <button class="close-modal" onclick="closeModal('lunchModal')" aria-label="Close">✕</button>
+        <span class="section-label" id="lunchModalTitle">On the Menu</span>
+        <div class="modal-prose">
+            <p><strong>Lunch can be any time</strong> — we'll have <strong>burgers and hot dogs</strong> available all afternoon.</p>
+            <p>You're welcome to bring a <strong>side, chips, snack, dessert, or drinks</strong> if you'd like to contribute.</p>
+            <p>Feel free to use our <strong>kitchen</strong> to prepare your own food if you need to.</p>
+            <p>Have something you'd like grilled? Bring it over — <strong>I'm happy to throw anything you want on the grill.</strong></p>
+        </div>
+    </div></div>
+
+    <div id="friendsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="friendsModalTitle"><div class="modal-content">
+        <button class="close-modal" onclick="closeModal('friendsModal')" aria-label="Close">✕</button>
+        <span class="section-label" id="friendsModalTitle">Bringing Friends</span>
+        <div class="modal-prose">
+            <p><strong>Absolutely — the more the merrier!</strong></p>
+            <p>The easiest way to share is with the <strong>"Share Invite"</strong> link or QR code at the top of the page. Just tap it and send it along.</p>
+            <p>The only thing we ask is that they <strong>RSVP</strong> so we have a rough head count for food.</p>
+        </div>
+        <button class="btn btn-main" onclick="closeModal('friendsModal'); openShareModal();" style="margin-top: 20px;">Open Share Invite</button>
+    </div></div>
+
+    <div id="kidsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="kidsModalTitle"><div class="modal-content">
+        <button class="close-modal" onclick="closeModal('kidsModal')" aria-label="Close">✕</button>
+        <span class="section-label" id="kidsModalTitle">Kids &amp; Our Backyard Pool</span>
+        <ul class="info-list">
+            <li>Kids of all ages are <strong>extremely welcome</strong></li>
+            <li>The <strong>movie room</strong> will be open all afternoon playing kid-friendly movies</li>
+            <li>Our <strong>backyard pool</strong> is open — <strong>parents please supervise</strong> your own children at all times</li>
+            <li>Bring <strong>swimsuits, towels, and sunscreen</strong></li>
+        </ul>
     </div></div>
 
     <div id="bringModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="bringModalTitle"><div class="modal-content">
