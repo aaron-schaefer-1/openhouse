@@ -30,13 +30,13 @@
             --bg-mid: #0f1421;
 
             /* Glass surfaces — translucent, layered, refractive */
-            --glass-1: rgba(180, 195, 220, 0.05);
-            --glass-2: rgba(180, 195, 220, 0.08);
-            --glass-3: rgba(200, 215, 235, 0.12);
+            --glass-1: rgba(180, 195, 220, 0.035);
+            --glass-2: rgba(180, 195, 220, 0.055);
+            --glass-3: rgba(200, 215, 235, 0.085);
 
             /* Borders — crisp, defined, like the edge of polished glass */
-            --border: rgba(180, 200, 230, 0.18);
-            --border-bright: rgba(200, 220, 245, 0.35);
+            --border: rgba(180, 200, 230, 0.14);
+            --border-bright: rgba(200, 220, 245, 0.26);
             --border-strong: rgba(220, 235, 255, 0.5);
             --hairline: rgba(180, 200, 230, 0.1);
 
@@ -92,9 +92,9 @@
             --bg-deep: #dde3eb;
             --bg-mid: #f0f3f7;
 
-            --glass-1: rgba(255, 255, 255, 0.5);
-            --glass-2: rgba(255, 255, 255, 0.65);
-            --glass-3: rgba(255, 255, 255, 0.8);
+            --glass-1: rgba(255, 255, 255, 0.4);
+            --glass-2: rgba(255, 255, 255, 0.55);
+            --glass-3: rgba(255, 255, 255, 0.7);
 
             --border: rgba(60, 80, 110, 0.18);
             --border-bright: rgba(60, 80, 110, 0.3);
@@ -307,8 +307,8 @@
             margin-top: 26px;
             background:
                 linear-gradient(165deg, var(--glass-3) 0%, var(--glass-1) 100%);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            backdrop-filter: blur(36px) saturate(200%);
+            -webkit-backdrop-filter: blur(36px) saturate(200%);
             border: 1px solid var(--border-bright);
             border-radius: 20px;
             padding: 16px 26px;
@@ -378,8 +378,8 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.35s var(--flow);
-            backdrop-filter: blur(16px) saturate(160%);
-            -webkit-backdrop-filter: blur(16px) saturate(160%);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
             box-shadow:
                 inset 0 1px 0 rgba(255, 255, 255, 0.08),
                 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -399,8 +399,8 @@
         .parking-hero {
             background:
                 linear-gradient(165deg, var(--glass-3) 0%, var(--glass-1) 100%);
-            backdrop-filter: blur(28px) saturate(180%);
-            -webkit-backdrop-filter: blur(28px) saturate(180%);
+            backdrop-filter: blur(40px) saturate(200%);
+            -webkit-backdrop-filter: blur(40px) saturate(200%);
             border: 1px solid var(--border-bright);
             border-radius: 22px; padding: 26px;
             margin-top: 20px; text-align: center;
@@ -476,6 +476,77 @@
                 0 8px 18px -6px var(--blue-glow);
         }
 
+        /* ========== FOOTER SIGN-OFF ========== */
+        .footer-signoff {
+            margin-top: 32px;
+            margin-bottom: 40px;
+            padding: 30px 24px 32px;
+            text-align: center;
+            background: linear-gradient(165deg, var(--glass-2) 0%, var(--glass-1) 55%, transparent 100%);
+            backdrop-filter: blur(36px) saturate(200%);
+            -webkit-backdrop-filter: blur(36px) saturate(200%);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+                0 8px 28px -12px rgba(0, 0, 0, 0.4);
+        }
+        .footer-signoff::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.18) 50%,
+                transparent 100%);
+        }
+        .footer-ornament {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            opacity: 0.85;
+        }
+        .footer-ornament span {
+            display: block;
+            height: 1px;
+        }
+        .footer-ornament span:nth-child(2) {
+            width: 90px;
+            background: linear-gradient(90deg, transparent, var(--silver), var(--blue), var(--silver), transparent);
+        }
+        .footer-ornament span:first-child,
+        .footer-ornament span:last-child {
+            width: 28px;
+            opacity: 0.45;
+            background: linear-gradient(90deg, transparent, var(--silver-mid), transparent);
+        }
+        .footer-text {
+            font-family: 'Fraunces', serif;
+            font-size: 1rem;
+            color: var(--text-main);
+            font-style: italic;
+            font-weight: 400;
+            letter-spacing: 0.1px;
+            line-height: 1.55;
+            margin: 0 auto 14px auto;
+            max-width: 38ch;
+            text-wrap: balance;
+        }
+        .footer-signature {
+            font-size: 0.78rem;
+            color: var(--text-faint);
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
         /* ========== HEADER ACTIONS ========== */
         .header-actions {
             display: flex;
@@ -488,8 +559,8 @@
         .btn-round {
             flex: 1;
             background: var(--glass-2);
-            backdrop-filter: blur(20px) saturate(160%);
-            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            backdrop-filter: blur(28px) saturate(180%);
+            -webkit-backdrop-filter: blur(28px) saturate(180%);
             border: 1px solid var(--border-bright);
             color: var(--text-main);
             padding: 13px;
@@ -537,8 +608,8 @@
         .card {
             background:
                 linear-gradient(165deg, var(--glass-3) 0%, var(--glass-1) 100%);
-            backdrop-filter: blur(30px) saturate(180%);
-            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            backdrop-filter: blur(44px) saturate(200%);
+            -webkit-backdrop-filter: blur(44px) saturate(200%);
             border: 1px solid var(--border-bright);
             border-radius: 24px;
             padding: 26px;
@@ -588,6 +659,8 @@
         .stat-box {
             background:
                 linear-gradient(165deg, var(--glass-3) 0%, var(--glass-1) 100%);
+            backdrop-filter: blur(28px) saturate(180%);
+            -webkit-backdrop-filter: blur(28px) saturate(180%);
             border: 1px solid var(--border-bright);
             border-radius: 16px;
             padding: 18px 22px;
@@ -779,6 +852,8 @@
         .badge {
             background:
                 linear-gradient(165deg, var(--glass-3) 0%, var(--glass-1) 100%);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
             border: 1px solid var(--border-bright);
             padding: 14px 8px 12px;
             border-radius: 14px;
@@ -932,8 +1007,8 @@
         .btn-outline {
             background:
                 linear-gradient(165deg, var(--glass-2) 0%, var(--glass-1) 100%);
-            backdrop-filter: blur(16px) saturate(160%);
-            -webkit-backdrop-filter: blur(16px) saturate(160%);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
             color: var(--text-main);
             border: 1px solid var(--border-bright);
             box-shadow:
@@ -1187,8 +1262,8 @@
             padding: 8px 11px;
             border-radius: 14px;
             background: var(--glass-2);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            backdrop-filter: blur(28px) saturate(200%);
+            -webkit-backdrop-filter: blur(28px) saturate(200%);
             border: 1px solid var(--border-bright);
             color: var(--text-main);
             cursor: pointer;
@@ -1284,8 +1359,8 @@
         .modal.closing { background: rgba(5, 8, 16, 0); }
         .modal-content {
             background: var(--modal-content-bg);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            backdrop-filter: blur(32px) saturate(200%);
+            -webkit-backdrop-filter: blur(32px) saturate(200%);
             border: 1px solid var(--border-bright);
             border-radius: 24px;
             padding: 30px;
@@ -1434,6 +1509,8 @@
             border: 1px solid var(--border-bright);
             background:
                 linear-gradient(165deg, var(--glass-2) 0%, var(--glass-1) 100%);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
             color: var(--text-main);
             font-weight: 600;
             cursor: pointer;
@@ -1478,6 +1555,8 @@
             border: 1px solid var(--border-bright);
             background:
                 linear-gradient(165deg, var(--glass-2) 0%, var(--glass-1) 100%);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
             color: var(--text-main);
             font-weight: 500;
             cursor: pointer;
@@ -1595,31 +1674,133 @@
         #category-notes-container {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin: 14px 0 4px 0;
+            gap: 10px;
+            margin: 18px 0 4px 0;
         }
-        .category-note-input {
-            width: 100%;
-            background: var(--glass-1);
-            border: 1px solid var(--border-bright);
+        #category-notes-container:empty { display: none; }
+        .notes-prompt-banner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background:
+                linear-gradient(135deg,
+                    rgba(91, 157, 217, 0.18) 0%,
+                    rgba(91, 157, 217, 0.06) 100%);
+            border: 1px solid rgba(91, 157, 217, 0.45);
+            border-radius: 14px;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 0 24px -8px rgba(91, 157, 217, 0.3);
+            opacity: 0;
+            transform: translateY(-4px);
+            animation: noteSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            position: relative;
+            overflow: hidden;
+        }
+        .notes-prompt-banner::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -50%;
+            width: 50%; height: 100%;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.12) 50%,
+                transparent 100%);
+            animation: bannerShimmer 3.5s ease-in-out infinite;
+            animation-delay: 0.5s;
+        }
+        @keyframes bannerShimmer {
+            0% { left: -50%; }
+            60% { left: 120%; }
+            100% { left: 120%; }
+        }
+        .notes-prompt-icon {
+            font-size: 1.4rem;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+        .notes-prompt-text {
+            flex: 1;
+            line-height: 1.35;
+        }
+        .notes-prompt-title {
+            display: block;
+            font-family: 'Fraunces', serif;
+            font-size: 1rem;
+            font-weight: 600;
             color: var(--text-main);
-            padding: 12px 14px;
-            border-radius: 12px;
-            font-family: inherit;
-            font-size: 0.9rem;
-            transition: all 0.3s;
+            letter-spacing: 0.1px;
+            margin-bottom: 2px;
+        }
+        .notes-prompt-sub {
+            display: block;
+            font-size: 0.78rem;
+            color: var(--text-dim);
+            font-weight: 500;
+        }
+
+        .category-note-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
             opacity: 0;
             transform: translateY(-4px);
             animation: noteSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        @keyframes noteSlideIn {
-            to { opacity: 1; transform: translateY(0); }
+        .category-note-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-main);
+            letter-spacing: 0.3px;
+            padding-left: 4px;
+        }
+        .category-note-label-emoji {
+            font-size: 1rem;
+            line-height: 1;
+        }
+        .category-note-label-optional {
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: var(--text-faint);
+            font-style: italic;
+            letter-spacing: 0.2px;
+        }
+        .category-note-input {
+            width: 100%;
+            background:
+                linear-gradient(165deg, var(--glass-2) 0%, var(--glass-1) 100%);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(91, 157, 217, 0.35);
+            color: var(--text-main);
+            padding: 13px 15px;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.08),
+                0 0 0 0 rgba(91, 157, 217, 0);
         }
         .category-note-input::placeholder { color: var(--text-faint); }
+        .category-note-input:hover {
+            border-color: rgba(91, 157, 217, 0.55);
+        }
         .category-note-input:focus {
             outline: none;
             border-color: var(--blue-bright);
-            background: var(--glass-2);
+            background:
+                linear-gradient(165deg, var(--glass-3) 0%, var(--glass-2) 100%);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.12),
+                0 0 0 4px rgba(91, 157, 217, 0.15);
+        }
+        @keyframes noteSlideIn {
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .category-summary {
@@ -1702,6 +1883,43 @@
             border: 1px dashed var(--border-bright);
             border-radius: 12px;
             line-height: 1.5;
+        }
+        .category-notes-list li.category-notes-unspecified {
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg,
+                rgba(180, 195, 220, 0.04) 0%,
+                rgba(180, 195, 220, 0.02) 100%);
+            border: 1px dashed var(--border-bright);
+            color: var(--text-dim);
+            margin-top: 4px;
+        }
+        .category-notes-list li.category-notes-unspecified::before { display: none; }
+        .unspec-count {
+            font-family: 'Fraunces', serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-main);
+            min-width: 38px;
+            text-align: center;
+            padding: 4px 8px;
+            background: var(--glass-2);
+            border: 1px solid var(--border-bright);
+            border-radius: 8px;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+        .unspec-text {
+            font-size: 0.88rem;
+            line-height: 1.35;
+        }
+        .unspec-sub {
+            color: var(--text-faint);
+            font-size: 0.82rem;
+            display: block;
+            margin-top: 2px;
         }
 
         /* Card child cascade */
@@ -1884,6 +2102,14 @@
             </div>
             <a href="https://maps.app.goo.gl/4hbNhkQDsiBBpEqn9" target="_blank" rel="noopener" class="btn btn-park">Navigate to Parking Lot</a>
             <a href="https://www.google.com/maps/dir/?api=1&destination=6629+Penfield+Street+Wake+Forest+NC+27587&travelmode=walking" target="_blank" rel="noopener" class="walk-tag walk-tag-link"><span aria-hidden="true">🚶</span> Walking Directions to 6629 Penfield Street</a>
+        </div>
+
+        <div class="footer-signoff">
+            <div class="footer-ornament" aria-hidden="true">
+                <span></span><span></span><span></span>
+            </div>
+            <p class="footer-text">&ldquo;Friendship is born at that moment when one person says to another: &lsquo;What! You too? I thought I was the only one.&rsquo;&rdquo;</p>
+            <p class="footer-signature">— C.S. Lewis</p>
         </div>
     </div>
 
@@ -2111,13 +2337,17 @@
             chips: 'Chips', sides: 'Sides', snacks: 'Snacks',
             desserts: 'Desserts', drinks: 'Drinks', other: 'Other'
         };
+        const CATEGORY_EMOJI = {
+            chips: '🥨', sides: '🥗', snacks: '🍿',
+            desserts: '🍰', drinks: '🥤', other: '✨'
+        };
         const CATEGORY_PLACEHOLDERS = {
-            chips: 'What kind of chips? (optional)',
-            sides: 'What side are you bringing? (optional)',
-            snacks: 'What snack are you bringing? (optional)',
-            desserts: 'What dessert are you bringing? (optional)',
-            drinks: 'What drinks are you bringing? (optional)',
-            other: 'What are you bringing? (optional)'
+            chips: 'e.g. salt & vinegar, tortilla chips...',
+            sides: 'e.g. pasta salad, fruit, mac & cheese...',
+            snacks: 'e.g. cheese board, veggie tray, pretzels...',
+            desserts: 'e.g. brownies, cookies, key lime pie...',
+            drinks: 'e.g. lemonade, IPAs, sparkling water...',
+            other: 'e.g. ice, plates, lawn games...'
         };
 
         const SERIES_START = new Date(2026, 4, 24);
@@ -2782,16 +3012,22 @@
                 .map(n => n && n.text)
                 .filter(Boolean);
 
+            const unspecified = Math.max(0, count - noteValues.length);
+
             const list = document.getElementById('category-notes-list');
-            if (noteValues.length === 0) {
-                list.innerHTML = `<div class="category-notes-empty">${count > 0
-                    ? "No specifics yet — people just said they'd bring something."
-                    : "Tap \u201cAdd what you're bringing\u201d below to start the list."
-                }</div>`;
+            if (noteValues.length === 0 && unspecified === 0) {
+                list.innerHTML = `<div class="category-notes-empty">Tap &ldquo;Add what you're bringing&rdquo; below to start the list.</div>`;
             } else {
-                list.innerHTML = noteValues
+                const itemsHtml = noteValues
                     .map(t => `<li>${escapeHtml(t)}</li>`)
                     .join('');
+                const unspecHtml = unspecified > 0
+                    ? `<li class="category-notes-unspecified">
+                           <span class="unspec-count">+${unspecified}</span>
+                           <span class="unspec-text">${unspecified === 1 ? 'person bringing something' : 'people bringing something'} <span class="unspec-sub">(didn't say what)</span></span>
+                       </li>`
+                    : '';
+                list.innerHTML = itemsHtml + unspecHtml;
             }
         }
 
@@ -2824,16 +3060,46 @@
             });
 
             container.innerHTML = '';
+
+            if (active.length === 0) return;
+
+            const banner = document.createElement('div');
+            banner.className = 'notes-prompt-banner';
+            banner.innerHTML = `
+                <span class="notes-prompt-icon" aria-hidden="true">📝</span>
+                <span class="notes-prompt-text">
+                    <span class="notes-prompt-title">Want to share what you're bringing?</span>
+                    <span class="notes-prompt-sub">Optional — helps others coordinate and avoid duplicates</span>
+                </span>
+            `;
+            container.appendChild(banner);
+
             active.forEach(cat => {
+                const wrap = document.createElement('div');
+                wrap.className = 'category-note-wrap';
+
+                const label = document.createElement('label');
+                label.className = 'category-note-label';
+                label.htmlFor = `note-input-${cat}`;
+                label.innerHTML = `
+                    <span class="category-note-label-emoji" aria-hidden="true">${CATEGORY_EMOJI[cat]}</span>
+                    <span>${CATEGORY_LABELS[cat]}</span>
+                    <span class="category-note-label-optional">(optional)</span>
+                `;
+
                 const input = document.createElement('input');
                 input.type = 'text';
                 input.className = 'category-note-input';
+                input.id = `note-input-${cat}`;
                 input.dataset.cat = cat;
                 input.placeholder = CATEGORY_PLACEHOLDERS[cat];
                 input.maxLength = 80;
-                input.setAttribute('aria-label', `${CATEGORY_LABELS[cat]} — ${CATEGORY_PLACEHOLDERS[cat]}`);
+                input.setAttribute('aria-label', `${CATEGORY_LABELS[cat]} — what are you bringing? (optional)`);
                 if (existingValues[cat]) input.value = existingValues[cat];
-                container.appendChild(input);
+
+                wrap.appendChild(label);
+                wrap.appendChild(input);
+                container.appendChild(wrap);
             });
         }
 
