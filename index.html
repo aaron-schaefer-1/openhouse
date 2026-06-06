@@ -132,7 +132,6 @@
         .card-section+.card-section { margin-top:24px;padding-top:24px;border-top:1px solid var(--section-divider);position:relative; }
         .card-section+.card-section::before { content:'';position:absolute;top:-1px;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,var(--blue-glow),transparent);opacity:0.4; }
 
-        /* STAT BOX — now a tappable button */
         .stat-box { background:linear-gradient(165deg,var(--glass-3) 0%,var(--glass-1) 100%);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);border:1px solid var(--border-bright);border-radius:16px;padding:18px 22px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;position:relative;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,0.1),inset 0 -1px 0 rgba(0,0,0,0.15);min-height:76px;width:100%;text-align:left;font-family:inherit;color:inherit;cursor:pointer;transition:transform 0.35s var(--flow),box-shadow 0.35s var(--flow),border-color 0.35s var(--flow),background 0.35s var(--flow); }
         .stat-box::before { content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(180deg,var(--silver-bright) 0%,var(--blue) 50%,var(--silver-deep) 100%);box-shadow:0 0 12px var(--blue-glow); }
         .stat-box:hover { transform:translateY(-2px);border-color:var(--border-strong);background:linear-gradient(165deg,rgba(91,157,217,0.08) 0%,var(--glass-2) 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,0.15),0 10px 22px -6px var(--blue-glow); }
@@ -148,11 +147,6 @@
         .count-big.skeleton { background:linear-gradient(90deg,var(--glass-1) 25%,var(--glass-3) 50%,var(--glass-1) 75%);background-size:200% 100%;-webkit-background-clip:initial;background-clip:initial;-webkit-text-fill-color:transparent;color:transparent;animation:skel 1.4s ease-in-out infinite;border-radius:8px;min-width:55px;height:40px;display:inline-block; }
         @keyframes skel { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
-        .my-rsvp-line { display:flex;align-items:center;justify-content:center;gap:8px;font-size:0.82rem;color:var(--text-dim);font-weight:500;margin:0 0 14px 0;animation:myRsvpIn 0.4s cubic-bezier(0.16,1,0.3,1); }
-        .my-rsvp-line[hidden] { display:none; }
-        .my-rsvp-dot { width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,var(--silver-bright),var(--blue));box-shadow:0 0 8px var(--blue-glow);flex:0 0 auto; }
-        @keyframes myRsvpIn { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:translateY(0)} }
-
         .food-intro { text-align:center;margin:4px 0 16px 0; }
         .food-intro-main { font-size:0.92rem;color:var(--text-main);line-height:1.5;font-weight:500; }
         .food-intro-main strong { font-weight:700; }
@@ -167,7 +161,7 @@
         .item-tally { display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:6px; }
         .badge { background:linear-gradient(165deg,var(--glass-3) 0%,var(--glass-1) 100%);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid var(--border-bright);padding:14px 8px 12px;border-radius:14px;cursor:pointer;user-select:none;transition:all 0.35s var(--flow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-family:inherit;position:relative;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,0.08),inset 0 -1px 0 rgba(0,0,0,0.12),0 2px 6px rgba(0,0,0,0.15); }
         .badge::before { content:'';position:absolute;top:0;left:0;right:0;height:50%;background:linear-gradient(180deg,rgba(255,255,255,0.06) 0%,transparent 100%);pointer-events:none; }
-        .badge::after { content:'→';position:absolute;top:6px;right:8px;font-size:0.7rem;color:var(--text-faint);opacity:0;transition:all 0.35s var(--flow); }
+        .badge::after { content:'\2192';position:absolute;top:6px;right:8px;font-size:0.7rem;color:var(--text-faint);opacity:0;transition:all 0.35s var(--flow); }
         .badge:hover { border-color:var(--border-strong);transform:translateY(-2px);background:linear-gradient(165deg,rgba(91,157,217,0.12) 0%,var(--glass-2) 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,0.12),0 8px 18px -4px var(--blue-glow); }
         .badge:hover::after { opacity:1;transform:translateX(2px); }
         .badge:active { transform:translateY(-1px) scale(0.98); }
@@ -202,7 +196,6 @@
         .rsvp-hint { background:linear-gradient(165deg,rgba(91,157,217,0.1) 0%,var(--glass-1) 100%);border:1px solid rgba(91,157,217,0.3);color:var(--blue-bright);border-radius:12px;padding:10px 14px;font-size:0.85rem;font-weight:500;margin-bottom:14px;text-align:center; }
         [data-theme="light"] .rsvp-hint { color:var(--blue-deep); }
 
-        /* RSVP Name Input */
         .rsvp-name-section { margin-top:20px;padding-top:20px;border-top:1px solid var(--section-divider);position:relative; }
         .rsvp-name-section::before { content:'';position:absolute;top:-1px;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,var(--blue-glow),transparent);opacity:0.4; }
         .rsvp-name-label { display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:0 0 8px 2px; }
@@ -214,7 +207,6 @@
         .rsvp-name-input:focus { outline:none;border-color:var(--blue);background:linear-gradient(165deg,rgba(91,157,217,0.06) 0%,var(--glass-3) 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,0.1),0 0 0 4px rgba(91,157,217,0.18),0 4px 14px -4px var(--blue-glow); }
         .rsvp-name-helper { display:block;margin:8px 4px 0 4px;font-size:0.76rem;color:var(--text-faint);line-height:1.4; }
 
-        /* Guest List Modal */
         .gl-summary { background:linear-gradient(165deg,rgba(91,157,217,0.12) 0%,var(--glass-1) 100%);border:1px solid rgba(91,157,217,0.3);border-radius:16px;padding:18px 20px;margin-bottom:18px;text-align:center;position:relative;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,0.08); }
         .gl-summary::before { content:'';position:absolute;top:0;left:-50%;width:50%;height:100%;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.08) 50%,transparent 100%);animation:bannerShimmer 5s ease-in-out infinite;animation-delay:0.4s; }
         .gl-summary-count { font-family:'Fraunces',serif;font-size:2.8rem;font-weight:600;background:linear-gradient(165deg,var(--silver-bright) 0%,var(--silver) 50%,var(--blue-bright) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1;font-variant-numeric:tabular-nums;filter:drop-shadow(0 2px 8px var(--blue-glow));margin-bottom:4px;position:relative; }
@@ -225,19 +217,15 @@
         .gl-entry:nth-child(1){animation-delay:.02s}.gl-entry:nth-child(2){animation-delay:.05s}.gl-entry:nth-child(3){animation-delay:.08s}.gl-entry:nth-child(4){animation-delay:.11s}.gl-entry:nth-child(5){animation-delay:.14s}.gl-entry:nth-child(6){animation-delay:.17s}.gl-entry:nth-child(n+7){animation-delay:.2s}
         @keyframes glIn { to{opacity:1;transform:translateY(0)} }
         .gl-entry:hover { border-color:var(--border-bright);background:linear-gradient(165deg,var(--glass-3) 0%,var(--glass-2) 100%); }
-        .gl-entry.is-me { border-color:rgba(91,157,217,0.5);background:linear-gradient(165deg,rgba(91,157,217,0.12) 0%,rgba(91,157,217,0.04) 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,0.1),0 0 0 1px rgba(91,157,217,0.25); }
         .gl-avatar { width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:600;font-size:0.92rem;flex-shrink:0;color:var(--bg-deep);background:linear-gradient(135deg,var(--silver-bright) 0%,var(--silver-mid) 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,0.35),inset 0 -1px 0 rgba(0,0,0,0.1),0 2px 6px rgba(0,0,0,0.2);text-transform:uppercase;letter-spacing:-0.5px; }
         [data-theme="light"] .gl-avatar { color:#fff;background:linear-gradient(135deg,var(--silver) 0%,var(--blue) 100%); }
-        .gl-entry.is-me .gl-avatar { background:linear-gradient(135deg,var(--blue-bright) 0%,var(--blue-deep) 100%);color:#fff; }
         .gl-avatar.anon { background:linear-gradient(135deg,var(--silver-deep) 0%,rgba(107,124,146,0.6) 100%);color:var(--text-dim);font-size:1rem; }
         .gl-info { flex:1;min-width:0;display:flex;flex-direction:column;gap:2px; }
         .gl-name { font-size:0.96rem;font-weight:600;color:var(--text-main);line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
         .gl-name-anon { color:var(--text-dim);font-weight:500;font-style:italic; }
         .gl-meta { font-size:0.74rem;color:var(--text-faint);display:flex;align-items:center;gap:6px;line-height:1.2; }
-        .gl-you { display:inline-flex;align-items:center;padding:1px 7px;background:linear-gradient(135deg,var(--blue-bright),var(--blue));color:#fff;border-radius:8px;font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;line-height:1.6; }
         .gl-dot { width:3px;height:3px;background:var(--text-faint);border-radius:50%;opacity:0.6; }
         .gl-count { font-family:'Fraunces',serif;font-size:1.3rem;font-weight:600;min-width:36px;padding:4px 10px;background:linear-gradient(165deg,var(--glass-3) 0%,var(--glass-1) 100%);border:1px solid var(--border-bright);border-radius:10px;text-align:center;color:var(--text-main);line-height:1.2;font-variant-numeric:tabular-nums;flex-shrink:0;box-shadow:inset 0 1px 0 rgba(255,255,255,0.1),inset 0 -1px 0 rgba(0,0,0,0.1); }
-        .gl-entry.is-me .gl-count { background:linear-gradient(165deg,var(--blue-bright),var(--blue));color:#fff;border-color:var(--blue-bright);box-shadow:inset 0 1px 0 rgba(255,255,255,0.25),0 2px 8px -2px var(--blue-glow); }
         .gl-anon-entry { background:linear-gradient(135deg,rgba(180,195,220,0.04) 0%,rgba(180,195,220,0.02) 100%);border:1px dashed var(--border-bright); }
         .gl-anon-entry:hover { background:var(--glass-1); }
         .gl-empty { text-align:center;padding:32px 20px;color:var(--text-dim);background:var(--glass-1);border:1px dashed var(--border-bright);border-radius:16px; }
@@ -373,6 +361,24 @@
 
         @media(prefers-reduced-motion:reduce) { *,*::before,*::after{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important} .water-ripple,.water-current{animation:none !important;transform:none !important} .card>*{opacity:1 !important;transform:none !important} #page-content{transform:none !important;filter:none !important} .modal-content{animation:none !important;opacity:1 !important;transform:none !important} body.modal-open #page-content{transform:none !important;opacity:0.55 !important} .gl-entry{opacity:1 !important;transform:none !important} }
         ::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border-bright);border-radius:4px}::-webkit-scrollbar-thumb:hover{background:var(--border-strong)}
+
+        /* --- Cancel party list --- */
+        .cancel-party-item { background:linear-gradient(165deg,var(--glass-2) 0%,var(--glass-1) 100%);border:1px solid var(--border);border-radius:14px;padding:13px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all 0.3s var(--flow);margin-bottom:8px;width:100%;text-align:left;font-family:inherit;color:inherit;box-shadow:inset 0 1px 0 rgba(255,255,255,0.05); }
+        .cancel-party-item:hover { border-color:var(--border-bright);background:linear-gradient(165deg,var(--glass-3) 0%,var(--glass-2) 100%);transform:translateY(-1px); }
+        .cancel-party-item:active { transform:scale(0.98);transition:transform 0.08s ease; }
+        /* --- Admin CRUD --- */
+        .admin-party-row { display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--glass-1);border:1px solid var(--border);border-radius:12px;margin-bottom:8px; }
+        .admin-party-info { flex:1;min-width:0; }
+        .admin-party-name { font-weight:600;color:var(--text-main);font-size:0.9rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+        .admin-party-count { font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;color:var(--text-main);min-width:30px;text-align:center; }
+        .admin-sm-btn { padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:var(--glass-1);color:var(--text-dim);font-family:inherit;font-size:0.72rem;font-weight:600;cursor:pointer;transition:all 0.2s;white-space:nowrap; }
+        .admin-sm-btn:hover { border-color:var(--border-bright);color:var(--text-main);background:var(--glass-2); }
+        .admin-sm-btn.del { color:#d08282;border-color:rgba(208,130,130,0.35); }
+        .admin-sm-btn.del:hover { background:rgba(208,130,130,0.1);border-color:#d08282; }
+        .admin-note-row { display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--glass-1);border:1px solid var(--border);border-radius:10px;margin-bottom:6px;font-size:0.85rem;color:var(--text-main); }
+        .admin-note-row .note-text { flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+        .admin-note-del { width:24px;height:24px;border-radius:50%;border:1px solid rgba(208,130,130,0.35);background:transparent;color:#d08282;font-size:0.72rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s; }
+        .admin-note-del:hover { background:rgba(208,130,130,0.1);border-color:#d08282; }
     </style>
 </head>
 <body>
@@ -390,7 +396,7 @@
 
     <div id="page-content">
 
-    <div id="toast" role="status" aria-live="polite">Response Received! ✓</div>
+    <div id="toast" role="status" aria-live="polite">Response Received! &#10003;</div>
 
     <div class="container">
 
@@ -399,14 +405,14 @@
             <div class="next-date-box">
                 <span class="next-date-label">Next Open House</span>
                 <span class="next-date-value" id="next-date">Loading...</span>
-                <span class="next-date-time">12:15 — 6 p.m. · Come and go as you please</span>
+                <span class="next-date-time">12:15 &#8212; 6 p.m. &#183; Come and go as you please</span>
             </div>
             <div class="hero-extras">
                 <button class="cal-btn" onclick="addToGoogleCal()" aria-label="Add to Google Calendar">
-                    <span aria-hidden="true">📅</span> Add to Calendar
+                    <span aria-hidden="true">&#128197;</span> Add to Calendar
                 </button>
                 <button class="cal-btn" onclick="downloadICS()" aria-label="Download .ics calendar file">
-                    <span aria-hidden="true">⬇️</span> .ics File
+                    <span aria-hidden="true">&#11015;&#65039;</span> .ics File
                 </button>
             </div>
         </div>
@@ -426,14 +432,9 @@
                     </span>
                     <span class="stat-box-right">
                         <span class="count-big skeleton" id="live-count" aria-live="polite" aria-label="Number of guests attending">&nbsp;&nbsp;&nbsp;</span>
-                        <span class="stat-box-arrow" aria-hidden="true">›</span>
+                        <span class="stat-box-arrow" aria-hidden="true">&#8250;</span>
                     </span>
                 </button>
-
-                <div class="my-rsvp-line" id="my-rsvp-line" hidden>
-                    <span class="my-rsvp-dot" aria-hidden="true"></span>
-                    <span id="my-rsvp-text">You're down for 1</span>
-                </div>
 
                 <button class="btn btn-main btn-magnet" id="rsvp-main-btn" onclick="openRSVPModal()">I'm Attending</button>
             </div>
@@ -487,7 +488,7 @@
             </div>
 
             <div class="card-section">
-                <button class="btn btn-change" onclick="openCancelModal()"><span aria-hidden="true">✏️</span> Change or Cancel My RSVP</button>
+                <button class="btn btn-change" onclick="openCancelModal()"><span aria-hidden="true">&#9999;&#65039;</span> Change or Cancel an RSVP</button>
             </div>
         </div>
 
@@ -497,7 +498,7 @@
                 Please park at the neighborhood parking lot by the neighborhood pool. It is a very short walk to our home from there.
             </div>
             <a href="https://maps.app.goo.gl/4hbNhkQDsiBBpEqn9" target="_blank" rel="noopener noreferrer" class="btn btn-park">Navigate to Parking Lot</a>
-            <a href="https://www.google.com/maps/dir/?api=1&destination=6629+Penfield+Street+Wake+Forest+NC+27587&travelmode=walking" target="_blank" rel="noopener noreferrer" class="walk-tag walk-tag-link"><span aria-hidden="true">🚶</span> Walking Directions to 6629 Penfield Street</a>
+            <a href="https://www.google.com/maps/dir/?api=1&destination=6629+Penfield+Street+Wake+Forest+NC+27587&travelmode=walking" target="_blank" rel="noopener noreferrer" class="walk-tag walk-tag-link"><span aria-hidden="true">&#128694;</span> Walking Directions to 6629 Penfield Street</a>
         </div>
 
         <div class="footer-signoff">
@@ -505,7 +506,7 @@
                 <span></span><span></span><span></span>
             </div>
             <p class="footer-text">&ldquo;Friendship is born at that moment when one person says to another: &lsquo;What! You too? I thought I was the only one.&rsquo;&rdquo;</p>
-            <p class="footer-signature">— C.S. Lewis</p>
+            <p class="footer-signature">&#8212; C.S. Lewis</p>
         </div>
     </div>
 
@@ -513,7 +514,7 @@
 
     <!-- Contact Modal -->
     <div id="contactModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('contactModal')" aria-label="Close">✕</button>
+        <button class="close-modal" onclick="closeModal('contactModal')" aria-label="Close">&#10005;</button>
         <span class="section-label" id="contactModalTitle">Hosts</span>
         <div style="margin-bottom:20px;">
             <p style="margin: 0; font-weight: 600;">Aaron Schaefer</p>
@@ -527,43 +528,43 @@
 
     <!-- Share Modal -->
     <div id="shareModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle"><div class="modal-content" style="text-align: center;">
-        <button class="close-modal" onclick="closeModal('shareModal')" aria-label="Close">✕</button>
+        <button class="close-modal" onclick="closeModal('shareModal')" aria-label="Close">&#10005;</button>
         <span class="section-label" id="shareModalTitle">Invite Others</span>
-        <button class="btn btn-main" onclick="nativeShare()" id="native-share-btn" style="display: none; margin-bottom: 10px;"><span aria-hidden="true">📤</span> Share via…</button>
-        <div class="share-link-box" id="share-url-text" onclick="copyLink()">📋 Copy Invite Link</div>
+        <button class="btn btn-main" onclick="nativeShare()" id="native-share-btn" style="display: none; margin-bottom: 10px;"><span aria-hidden="true">&#128228;</span> Share via&#8230;</button>
+        <div class="share-link-box" id="share-url-text" onclick="copyLink()">&#128203; Copy Invite Link</div>
         <div class="share-divider"><span>or scan</span></div>
         <div class="qr-container"><img id="qr-img" src="" alt="QR code linking to this RSVP page" style="display: block; width: 150px; height: 150px;"></div>
     </div></div>
 
     <!-- About Modal -->
     <div id="aboutModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="aboutModalTitle"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('aboutModal')" aria-label="Close">✕</button>
+        <button class="close-modal" onclick="closeModal('aboutModal')" aria-label="Close">&#10005;</button>
         <span class="section-label" id="aboutModalTitle">What This Is About</span>
         <div class="modal-prose">
-            <p>We're hosting an open house <strong>every couple of weeks all summer long</strong> — a standing invitation to come over, slow down, and spend time with people.</p>
-            <p>There's <strong>no agenda</strong>. Come and go as you please. <strong>Anyone is welcome — feel free to bring a friend.</strong></p>
+            <p>We're hosting an open house <strong>every couple of weeks all summer long</strong> &#8212; a standing invitation to come over, slow down, and spend time with people.</p>
+            <p>There's <strong>no agenda</strong>. Come and go as you please. <strong>Anyone is welcome &#8212; feel free to bring a friend.</strong></p>
             <p>Kids are <strong>extremely welcome</strong>. Our <strong>backyard pool, hot tub, and movie room</strong> are all open and ready.</p>
         </div>
     </div></div>
 
     <!-- Lunch Modal -->
     <div id="lunchModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="lunchModalTitle"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('lunchModal')" aria-label="Close">✕</button>
+        <button class="close-modal" onclick="closeModal('lunchModal')" aria-label="Close">&#10005;</button>
         <span class="section-label" id="lunchModalTitle">On the Menu</span>
         <div class="modal-prose">
-            <p><strong>Lunch can be any time</strong> — we'll have <strong>burgers and hot dogs</strong> available all afternoon.</p>
+            <p><strong>Lunch can be any time</strong> &#8212; we'll have <strong>burgers and hot dogs</strong> available all afternoon.</p>
             <p>You're welcome to bring a <strong>side, chips, snack, dessert, or drinks</strong> if you'd like to contribute.</p>
             <p>Feel free to use our <strong>kitchen</strong> to prepare your own food if you need to.</p>
-            <p>Have something you'd like grilled? Bring it over — <strong>I'm happy to throw anything you want on the grill.</strong></p>
+            <p>Have something you'd like grilled? Bring it over &#8212; <strong>I'm happy to throw anything you want on the grill.</strong></p>
         </div>
     </div></div>
 
     <!-- Friends Modal -->
     <div id="friendsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="friendsModalTitle"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('friendsModal')" aria-label="Close">✕</button>
+        <button class="close-modal" onclick="closeModal('friendsModal')" aria-label="Close">&#10005;</button>
         <span class="section-label" id="friendsModalTitle">Bringing Friends</span>
         <div class="modal-prose">
-            <p><strong>Absolutely — the more the merrier!</strong></p>
+            <p><strong>Absolutely &#8212; the more the merrier!</strong></p>
             <p>The easiest way to share is with the <strong>"Share Invite"</strong> link or QR code at the top of the page. Just tap it and send it along.</p>
             <p>The only thing we ask is that they <strong>RSVP</strong> so we have a rough head count for food.</p>
         </div>
@@ -572,30 +573,30 @@
 
     <!-- Kids Modal -->
     <div id="kidsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="kidsModalTitle"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('kidsModal')" aria-label="Close">✕</button>
+        <button class="close-modal" onclick="closeModal('kidsModal')" aria-label="Close">&#10005;</button>
         <span class="section-label" id="kidsModalTitle">Kids &amp; Our Backyard Pool</span>
         <ul class="info-list">
             <li>Kids of all ages are <strong>extremely welcome</strong></li>
             <li>The <strong>movie room</strong> will be open all afternoon playing kid-friendly movies</li>
-            <li>Our <strong>backyard pool</strong> is open — <strong>parents please supervise</strong> your own children at all times</li>
+            <li>Our <strong>backyard pool</strong> is open &#8212; <strong>parents please supervise</strong> your own children at all times</li>
             <li>Bring <strong>swimsuits, towels, and sunscreen</strong></li>
         </ul>
     </div></div>
 
     <!-- Bring Food Modal -->
     <div id="bringModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="bringModalTitle"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('bringModal')" aria-label="Close">✕</button>
+        <button class="close-modal" onclick="closeModal('bringModal')" aria-label="Close">&#10005;</button>
         <span class="section-label" id="bringModalTitle">I'm Bringing Food to Share</span>
         <p style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 5px;">
             Pick anything you're planning to bring (you can choose multiple):
         </p>
         <div class="item-grid" id="item-grid">
-            <button class="item-btn" data-item="chips"><span class="check" aria-hidden="true">✓</span><span>🥨 Chips</span></button>
-            <button class="item-btn" data-item="sides"><span class="check" aria-hidden="true">✓</span><span>🥗 Sides</span></button>
-            <button class="item-btn" data-item="snacks"><span class="check" aria-hidden="true">✓</span><span>🍿 Snacks</span></button>
-            <button class="item-btn" data-item="desserts"><span class="check" aria-hidden="true">✓</span><span>🍰 Desserts</span></button>
-            <button class="item-btn" data-item="drinks"><span class="check" aria-hidden="true">✓</span><span>🥤 Drinks</span></button>
-            <button class="item-btn" data-item="other"><span class="check" aria-hidden="true">✓</span><span>✨ Other</span></button>
+            <button class="item-btn" data-item="chips"><span class="check" aria-hidden="true">&#10003;</span><span>&#129384; Chips</span></button>
+            <button class="item-btn" data-item="sides"><span class="check" aria-hidden="true">&#10003;</span><span>&#129367; Sides</span></button>
+            <button class="item-btn" data-item="snacks"><span class="check" aria-hidden="true">&#10003;</span><span>&#127871; Snacks</span></button>
+            <button class="item-btn" data-item="desserts"><span class="check" aria-hidden="true">&#10003;</span><span>&#127856; Desserts</span></button>
+            <button class="item-btn" data-item="drinks"><span class="check" aria-hidden="true">&#10003;</span><span>&#129380; Drinks</span></button>
+            <button class="item-btn" data-item="other"><span class="check" aria-hidden="true">&#10003;</span><span>&#10024; Other</span></button>
         </div>
         <div id="category-notes-container"></div>
         <button class="btn btn-main" id="bring-confirm-btn" onclick="submitItem()">Confirm</button>
@@ -603,7 +604,7 @@
 
     <!-- RSVP Modal -->
     <div id="rsvpModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="rsvpModalTitle"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('rsvpModal')" aria-label="Close">✕</button>
+        <button class="close-modal" onclick="closeModal('rsvpModal')" aria-label="Close">&#10005;</button>
         <span class="section-label" id="rsvpModalTitle">How many in your party?</span>
         <div class="grid" id="num-grid"></div>
         <div class="rsvp-name-section">
@@ -617,62 +618,57 @@
         <button class="btn btn-main" id="rsvp-confirm-btn" onclick="submitRSVP()" style="margin-top:18px;">Confirm</button>
     </div></div>
 
-    <!-- Cancel/Change Modal -->
+    <!-- Cancel/Change Modal (NEW: party-list based) -->
     <div id="cancelModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="cancelModalTitle"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('cancelModal')" aria-label="Close">✕</button>
+        <button class="close-modal" onclick="closeModal('cancelModal')" aria-label="Close">&#10005;</button>
 
-        <div id="cancel-step-1">
-            <span class="section-label" id="cancelModalTitle">Change or Cancel · Step 1 of 2</span>
-            <div class="step-banner">
-                <span class="step-banner-title">Step 1 of 2</span>
-                <p class="step-banner-prompt">How many people did you originally RSVP for?</p>
-            </div>
-            <div id="rsvp-known-hint" class="rsvp-hint" style="display: none;"></div>
-            <div class="grid" id="cancel-original-grid"></div>
-            <button class="btn btn-main" onclick="goToCancelStep2()">Next →</button>
+        <div id="cancel-party-list">
+            <span class="section-label" id="cancelModalTitle">Change or Cancel</span>
+            <p style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 16px;">
+                Tap your party below to update your head count or cancel.
+            </p>
+            <div id="cancel-parties-container"></div>
         </div>
 
-        <div id="cancel-step-2" style="display: none;">
-            <span class="section-label">Change or Cancel · Step 2 of 2</span>
+        <div id="cancel-edit-view" style="display: none;">
+            <span class="section-label">Update RSVP</span>
             <div class="step-banner">
-                <span class="step-banner-title">Step 2 of 2</span>
-                <p class="step-banner-prompt">How many are coming now? (Pick 0 to cancel)</p>
+                <span class="step-banner-title">Editing</span>
+                <p class="step-banner-prompt" id="cancel-edit-name-display"></p>
             </div>
-            <div class="grid" id="cancel-new-grid"></div>
-            <div class="rsvp-name-section" id="cancel-name-section">
-                <div class="rsvp-name-label">
-                    <span class="rsvp-name-label-main">Update your name</span>
-                    <span class="rsvp-name-label-opt">optional</span>
-                </div>
-                <input type="text" class="rsvp-name-input" id="cancel-name-input" placeholder="e.g. The Johnsons, Aaron &amp; family" maxlength="60" autocomplete="off" />
-            </div>
-            <button class="btn btn-main" id="change-confirm-btn" onclick="submitChange()" style="margin-top:14px;">Update RSVP</button>
+            <label class="admin-label" for="cancel-edit-name">Party name</label>
+            <input type="text" class="rsvp-name-input" id="cancel-edit-name" placeholder="e.g. The Johnsons" maxlength="60" autocomplete="off" style="margin-bottom:16px;" />
+            <label class="admin-label">Number attending (choose 0 to cancel)</label>
+            <div class="grid" id="cancel-edit-grid"></div>
+            <button class="btn btn-main" id="cancel-edit-confirm" onclick="submitPartyEdit()" style="margin-top:14px;">Update RSVP</button>
+            <button class="btn btn-change" onclick="backToPartyList()" style="margin-top:8px;">&#8592; Back to party list</button>
         </div>
     </div></div>
 
     <!-- Guest List Modal -->
     <div id="guestListModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="guestListModalTitle"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('guestListModal')" aria-label="Close">✕</button>
+        <button class="close-modal" onclick="closeModal('guestListModal')" aria-label="Close">&#10005;</button>
         <span class="section-label" id="guestListModalTitle">Who's Coming</span>
         <div id="gl-body"></div>
     </div></div>
 
     <!-- Category Modal -->
     <div id="categoryModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="category-modal-title"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('categoryModal')" aria-label="Close">✕</button>
+        <button class="close-modal" onclick="closeModal('categoryModal')" aria-label="Close">&#10005;</button>
         <span class="section-label" id="category-modal-title">Category</span>
         <div class="category-summary" id="category-summary"></div>
         <ul class="category-notes-list" id="category-notes-list"></ul>
         <button class="btn btn-outline" onclick="closeModalAndOpenBring()" style="margin-top: 18px;">Add what you're bringing</button>
     </div></div>
 
-    <!-- Admin Modal -->
+    <!-- Admin Modal (ENHANCED with full CRUD) -->
     <div id="adminModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="adminModalTitle"><div class="modal-content">
-        <button class="close-modal" onclick="closeModal('adminModal')" aria-label="Close">✕</button>
+        <button class="close-modal" onclick="closeModal('adminModal')" aria-label="Close">&#10005;</button>
         <div id="admin-panel">
-            <span class="section-label" id="adminModalTitle">🔒 Host Admin Panel</span>
+            <span class="section-label" id="adminModalTitle">&#128274; Host Admin Panel</span>
+
             <div class="admin-block">
-                <div class="admin-block-title">📅 Next Open House Date</div>
+                <div class="admin-block-title">&#128197; Next Open House Date</div>
                 <label for="admin-next-date-input" class="admin-label">Manual date override</label>
                 <div class="admin-inline-row">
                     <input type="date" id="admin-next-date-input" class="admin-input" />
@@ -681,22 +677,42 @@
                 <div class="admin-override-status" id="admin-override-status">Loading...</div>
                 <button class="btn btn-outline" onclick="clearNextDateOverride()" id="admin-clear-override-btn" style="display: none; margin-top: 10px;">Clear override (revert to biweekly)</button>
             </div>
+
             <div class="admin-block">
-                <div class="admin-block-title">🛠️ Edit Event Data</div>
+                <div class="admin-block-title">&#128101; Party Management</div>
                 <label for="admin-event-select" class="admin-label">Event date</label>
                 <select id="admin-event-select" class="admin-input"></select>
-                <div class="admin-current-state" id="admin-current-state">Loading...</div>
-                <label for="admin-set-total-input" class="admin-label">Set exact guest count</label>
+                <div id="admin-parties-list" style="margin-bottom:14px;"></div>
+                <div style="border-top:1px solid var(--border);padding-top:12px;margin-top:4px;">
+                    <label class="admin-label">Add a party</label>
+                    <div class="admin-inline-row" style="margin-bottom:8px;">
+                        <input type="text" id="admin-add-party-name" class="admin-input" placeholder="Party name" maxlength="60" style="flex:2;" />
+                        <input type="number" id="admin-add-party-count" class="admin-input" placeholder="#" min="1" max="99" style="flex:0 0 70px;" />
+                        <button class="btn btn-success" onclick="adminAddParty()">Add</button>
+                    </div>
+                </div>
+                <div class="admin-current-state" id="admin-current-state" style="margin-top:14px;">Loading...</div>
+                <label for="admin-set-total-input" class="admin-label">Set exact guest count (overrides sum)</label>
                 <div class="admin-inline-row">
                     <input type="number" id="admin-set-total-input" class="admin-input" min="0" max="999" placeholder="e.g. 24" />
                     <button class="btn btn-success" onclick="setExactGuestCount()">Set</button>
                 </div>
-                <div class="admin-actions" style="margin-top: 14px;">
-                    <button class="btn btn-warning" onclick="confirmReset('items')">🍽️ Reset Food Selections</button>
-                    <button class="btn btn-warning" onclick="confirmReset('total')">👥 Reset Guest Count to 0</button>
-                    <button class="btn btn-danger-solid" onclick="confirmReset('all')">💥 Reset Everything for This Event</button>
+            </div>
+
+            <div class="admin-block">
+                <div class="admin-block-title">&#127869; Food Management</div>
+                <div id="admin-food-list"></div>
+            </div>
+
+            <div class="admin-block">
+                <div class="admin-block-title">&#128308; Danger Zone</div>
+                <div class="admin-actions">
+                    <button class="btn btn-warning" onclick="confirmReset('items')">&#127869; Reset Food Selections</button>
+                    <button class="btn btn-warning" onclick="confirmReset('total')">&#128101; Reset Guest Count to 0</button>
+                    <button class="btn btn-danger-solid" onclick="confirmReset('all')">&#128165; Reset Everything for This Event</button>
                 </div>
             </div>
+
             <button class="btn btn-outline" onclick="exitAdmin()">Close Admin</button>
         </div>
     </div></div>
@@ -710,37 +726,33 @@
         if (typeof firebase !== 'undefined' && firebase.initializeApp) {
             callback();
         } else if (attempt < 50) {
-            setTimeout(() => whenFirebaseReady(callback, attempt + 1), 100);
+            setTimeout(function() { whenFirebaseReady(callback, attempt + 1); }, 100);
         } else {
-            const countEl = document.getElementById('live-count');
-            if (countEl) {
-                countEl.classList.remove('skeleton');
-                countEl.innerText = '—';
-                countEl.style.fontSize = '1rem';
-            }
+            var countEl = document.getElementById('live-count');
+            if (countEl) { countEl.classList.remove('skeleton'); countEl.innerText = '\u2014'; countEl.style.fontSize = '1rem'; }
             console.error("Firebase failed to load. Usually caused by an ad blocker blocking gstatic.com.");
         }
     }
 
-    const _memStore = {};
+    var _memStore = {};
     function safeLSGet(key) { try { return localStorage.getItem(key); } catch(e) { return _memStore[key] || null; } }
     function safeLSSet(key, val) { try { localStorage.setItem(key, val); } catch(e) { _memStore[key] = val; } }
     function safeLSRemove(key) { try { localStorage.removeItem(key); } catch(e) { delete _memStore[key]; } }
 
     whenFirebaseReady(function() {
-        const firebaseConfig = {
+        var firebaseConfig = {
             apiKey: "AIzaSyB4iOpTfrH2UTMbVaN6BodtL5D_b0FU16k",
             authDomain: "summerrsvp-8fab0.firebaseapp.com",
             projectId: "summerrsvp-8fab0",
             databaseURL: "https://summerrsvp-8fab0-default-rtdb.firebaseio.com"
         };
         firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+        var db = firebase.database();
 
-        const CATEGORY_KEYS = ['chips', 'sides', 'snacks', 'desserts', 'drinks', 'other'];
-        const CATEGORY_LABELS = { chips:'Chips', sides:'Sides', snacks:'Snacks', desserts:'Desserts', drinks:'Drinks', other:'Other' };
-        const CATEGORY_EMOJI = { chips:'🥨', sides:'🥗', snacks:'🍿', desserts:'🍰', drinks:'🥤', other:'✨' };
-        const CATEGORY_PLACEHOLDERS = {
+        var CATEGORY_KEYS = ['chips', 'sides', 'snacks', 'desserts', 'drinks', 'other'];
+        var CATEGORY_LABELS = { chips:'Chips', sides:'Sides', snacks:'Snacks', desserts:'Desserts', drinks:'Drinks', other:'Other' };
+        var CATEGORY_EMOJI = { chips:'\ud83e\udd68', sides:'\ud83e\udd57', snacks:'\ud83c\udf7f', desserts:'\ud83c\udf70', drinks:'\ud83e\udd64', other:'\u2728' };
+        var CATEGORY_PLACEHOLDERS = {
             chips:'e.g. salt & vinegar, tortilla chips...',
             sides:'e.g. pasta salad, fruit, mac & cheese...',
             snacks:'e.g. cheese board, veggie tray, pretzels...',
@@ -749,33 +761,33 @@
             other:'e.g. ice, plates, caviar...'
         };
 
-        const SERIES_START = new Date(2026, 4, 24);
+        var SERIES_START = new Date(2026, 4, 24);
 
         function parseDateKey(str) {
             if (!str || typeof str !== 'string') return null;
-            const parts = str.split('-');
+            var parts = str.split('-');
             if (parts.length !== 3) return null;
-            const y = parseInt(parts[0]), m = parseInt(parts[1]) - 1, d = parseInt(parts[2]);
+            var y = parseInt(parts[0]), m = parseInt(parts[1]) - 1, d = parseInt(parts[2]);
             if (isNaN(y) || isNaN(m) || isNaN(d)) return null;
             return new Date(y, m, d);
         }
 
         function getBiweeklyNextDate() {
-            const today = new Date(); today.setHours(0,0,0,0);
+            var today = new Date(); today.setHours(0,0,0,0);
             if (today <= SERIES_START) return new Date(SERIES_START);
-            const msPerDay = 864e5;
-            const daysSince = Math.floor((today - SERIES_START) / msPerDay);
-            const cyclesPassed = Math.floor(daysSince / 14);
-            const next = new Date(SERIES_START);
+            var msPerDay = 864e5;
+            var daysSince = Math.floor((today - SERIES_START) / msPerDay);
+            var cyclesPassed = Math.floor(daysSince / 14);
+            var next = new Date(SERIES_START);
             next.setDate(SERIES_START.getDate() + cyclesPassed * 14);
             if (next < today) next.setDate(next.getDate() + 14);
             return next;
         }
 
         function getNextOpenHouseDate(overrideKey) {
-            const today = new Date(); today.setHours(0,0,0,0);
+            var today = new Date(); today.setHours(0,0,0,0);
             if (overrideKey) {
-                const overridden = parseDateKey(overrideKey);
+                var overridden = parseDateKey(overrideKey);
                 if (overridden && overridden >= today) return overridden;
             }
             return getBiweeklyNextDate();
@@ -784,57 +796,22 @@
         function formatDate(d) { return d.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' }); }
 
         function getEventKey(d) {
-            return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+            return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
         }
 
-        let nextDate, eventKey, eventRef;
-        let currentOverrideKey = null;
-        let eventListenerAttached = false;
-        let firstLoad = true;
-        let prevTotal = 0;
-        let prevItems = {};
-        let latestEventData = { items:{}, notes:{}, rsvps:{} };
-        let currentCategory = null;
-        let isSubmittingRSVP = false;
-        let isSubmittingItem = false;
-        let isSubmittingChange = false;
-
-        /* ---- RSVP identity helpers ---- */
-        function myRsvpKey() { return 'myRsvp:' + eventKey; }
-        function myRsvpIdKey() { return 'myRsvpId:' + eventKey; }
-        function myRsvpNameKey() { return 'myRsvpName:' + eventKey; }
-        function getMyRsvp() { const r = safeLSGet(myRsvpKey()); return r ? parseInt(r) : 0; }
-        function getMyRsvpId() { return safeLSGet(myRsvpIdKey()); }
-        function getMyRsvpName() { return safeLSGet(myRsvpNameKey()) || ''; }
-
-        function setMyRsvp(n) {
-            if (n > 0) safeLSSet(myRsvpKey(), String(n));
-            else {
-                safeLSRemove(myRsvpKey());
-                safeLSRemove(myRsvpIdKey());
-                safeLSRemove(myRsvpNameKey());
-            }
-            refreshMyRsvpLine();
-        }
-
-        function refreshMyRsvpLine() {
-            const line = document.getElementById('my-rsvp-line');
-            const text = document.getElementById('my-rsvp-text');
-            const mainBtn = document.getElementById('rsvp-main-btn');
-            if (!line || !text) return;
-            const n = getMyRsvp();
-            const name = getMyRsvpName();
-            if (n > 0) {
-                let msg = n === 1 ? "You're down for 1" : `You're down for ${n}`;
-                if (name) msg += ` (${name})`;
-                text.innerText = msg;
-                line.hidden = false;
-                if (mainBtn) mainBtn.innerText = 'Add to My RSVP';
-            } else {
-                line.hidden = true;
-                if (mainBtn) mainBtn.innerText = "I'm Attending";
-            }
-        }
+        var nextDate, eventKey, eventRef;
+        var currentOverrideKey = null;
+        var eventListenerAttached = false;
+        var firstLoad = true;
+        var prevTotal = 0;
+        var prevItems = {};
+        var latestEventData = { items:{}, notes:{}, rsvps:{} };
+        var currentCategory = null;
+        var isSubmittingRSVP = false;
+        var isSubmittingItem = false;
+        var isSubmittingChange = false;
+        var cancelEditingId = null;
+        var adminLatestData = { items:{}, notes:{}, rsvps:{} };
 
         function setActiveEvent(date) {
             if (eventRef && eventListenerAttached) {
@@ -849,24 +826,20 @@
             prevItems = {};
             currentCategory = null;
 
-            // Bug fix: re-add skeleton class on date change
-            const countEl = document.getElementById('live-count');
-            if (countEl) {
-                countEl.classList.add('skeleton');
-                countEl.innerHTML = '&nbsp;&nbsp;&nbsp;';
-            }
+            var countEl = document.getElementById('live-count');
+            if (countEl) { countEl.classList.add('skeleton'); countEl.innerHTML = '&nbsp;&nbsp;&nbsp;'; }
 
             document.getElementById('next-date').innerText = formatDate(date);
             eventRef.on('value', handleEventSnapshot);
             eventListenerAttached = true;
         }
 
-        const configRef = db.ref('open-house/_config/nextDateOverride');
-        configRef.on('value', (snap) => {
-            const overrideKey = snap.val();
+        var configRef = db.ref('open-house/_config/nextDateOverride');
+        configRef.on('value', function(snap) {
+            var overrideKey = snap.val();
             currentOverrideKey = overrideKey || null;
-            const target = getNextOpenHouseDate(overrideKey);
-            const newKey = getEventKey(target);
+            var target = getNextOpenHouseDate(overrideKey);
+            var newKey = getEventKey(target);
             if (newKey !== eventKey) setActiveEvent(target);
             refreshAdminOverrideStatus();
         });
@@ -875,28 +848,28 @@
 
         // ---------- Theme toggle ----------
         (function() {
-            const toggle = document.getElementById('theme-toggle');
+            var toggle = document.getElementById('theme-toggle');
             if (!toggle) return;
-            const meta = document.querySelector('meta[name="theme-color"]');
-            const line1 = document.getElementById('theme-toggle-line-1');
+            var meta = document.querySelector('meta[name="theme-color"]');
+            var line1 = document.getElementById('theme-toggle-line-1');
             function updateToggleLabel() {
                 if (!line1) return;
-                const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-                const target = isLight ? 'Dark' : 'Light';
+                var isLight = document.documentElement.getAttribute('data-theme') === 'light';
+                var target = isLight ? 'Dark' : 'Light';
                 if (line1.innerText === target) return;
                 line1.classList.add('swapping');
-                setTimeout(() => { line1.innerText = target; line1.classList.remove('swapping'); }, 150);
+                setTimeout(function() { line1.innerText = target; line1.classList.remove('swapping'); }, 150);
             }
             if (line1) {
                 line1.innerText = document.documentElement.getAttribute('data-theme') === 'light' ? 'Dark' : 'Light';
             }
-            toggle.addEventListener('click', () => {
+            toggle.addEventListener('click', function() {
                 tap();
-                const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-                const next = isLight ? 'dark' : 'light';
+                var isLight = document.documentElement.getAttribute('data-theme') === 'light';
+                var next = isLight ? 'dark' : 'light';
                 document.body.classList.add('theme-transitioning');
                 clearTimeout(window._themeTransTimer);
-                window._themeTransTimer = setTimeout(() => document.body.classList.remove('theme-transitioning'), 550);
+                window._themeTransTimer = setTimeout(function() { document.body.classList.remove('theme-transitioning'); }, 550);
                 if (next === 'light') {
                     document.documentElement.setAttribute('data-theme', 'light');
                     if (meta) meta.setAttribute('content', '#e8ecf0');
@@ -907,27 +880,27 @@
                 safeLSSet('schaefer-theme', next);
                 updateToggleLabel();
                 toggle.classList.remove('toggled'); void toggle.offsetWidth; toggle.classList.add('toggled');
-                setTimeout(() => toggle.classList.remove('toggled'), 600);
+                setTimeout(function() { toggle.classList.remove('toggled'); }, 600);
             });
-            let lastY = window.scrollY, ticking = false;
+            var lastY = window.scrollY, ticking = false;
             function updateScrollVisibility() {
                 ticking = false;
                 if (document.body.classList.contains('modal-open')) return;
-                const y = window.scrollY;
+                var y = window.scrollY;
                 if (y < 80) toggle.classList.remove('scroll-hidden');
                 else if (y > lastY) toggle.classList.add('scroll-hidden');
                 else if (lastY - y > 4) toggle.classList.remove('scroll-hidden');
                 lastY = y;
             }
-            window.addEventListener('scroll', () => { if (!ticking) { requestAnimationFrame(updateScrollVisibility); ticking = true; } }, { passive: true });
+            window.addEventListener('scroll', function() { if (!ticking) { requestAnimationFrame(updateScrollVisibility); ticking = true; } }, { passive: true });
         })();
 
         // ---------- Mouse parallax ----------
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const isTouch = matchMedia('(hover: none)').matches;
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var isTouch = matchMedia('(hover: none)').matches;
         if (!prefersReducedMotion && !isTouch) {
-            let targetX = 0, targetY = 0, currentX = 0, currentY = 0;
-            window.addEventListener('mousemove', (e) => {
+            var targetX = 0, targetY = 0, currentX = 0, currentY = 0;
+            window.addEventListener('mousemove', function(e) {
                 targetX = (e.clientX / window.innerWidth - 0.5) * 2;
                 targetY = (e.clientY / window.innerHeight - 0.5) * 2;
             });
@@ -942,74 +915,73 @@
 
         // ---------- Magnetic hover ----------
         if (!prefersReducedMotion && !isTouch) {
-            document.querySelectorAll('.btn-magnet').forEach(btn => {
-                btn.addEventListener('mousemove', (e) => {
-                    const r = btn.getBoundingClientRect();
-                    btn.style.transform = `translate(${(e.clientX-r.left-r.width/2)*0.1}px, ${(e.clientY-r.top-r.height/2)*0.15}px) translateY(-2px)`;
+            document.querySelectorAll('.btn-magnet').forEach(function(btn) {
+                btn.addEventListener('mousemove', function(e) {
+                    var r = btn.getBoundingClientRect();
+                    btn.style.transform = 'translate(' + (e.clientX-r.left-r.width/2)*0.1 + 'px, ' + ((e.clientY-r.top-r.height/2)*0.15) + 'px) translateY(-2px)';
                 });
-                btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+                btn.addEventListener('mouseleave', function() { btn.style.transform = ''; });
             });
         }
 
         // ---------- Calendar ----------
         function getEventTimes() {
-            const s = new Date(nextDate); s.setHours(12,15,0,0);
-            const e = new Date(nextDate); e.setHours(18,0,0,0);
+            var s = new Date(nextDate); s.setHours(12,15,0,0);
+            var e = new Date(nextDate); e.setHours(18,0,0,0);
             return { start: s, end: e };
         }
         function formatCalDate(d) {
-            const p = n => String(n).padStart(2,'0');
-            return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}T${p(d.getHours())}${p(d.getMinutes())}00`;
+            var p = function(n) { return String(n).padStart(2,'0'); };
+            return d.getFullYear() + p(d.getMonth()+1) + p(d.getDate()) + 'T' + p(d.getHours()) + p(d.getMinutes()) + '00';
         }
-        const eventDescription = "Come on over! No agenda, come and go as you please. Burgers and hot dogs provided. Our backyard pool, hot tub, and movie room are open. Park at the neighborhood pool lot - short walk to 6629 Penfield Street.";
-        const eventLocation = "6629 Penfield Street, Wake Forest, NC 27587";
+        var eventDescription = "Come on over! No agenda, come and go as you please. Burgers and hot dogs provided. Our backyard pool, hot tub, and movie room are open. Park at the neighborhood pool lot - short walk to 6629 Penfield Street.";
+        var eventLocation = "6629 Penfield Street, Wake Forest, NC 27587";
 
         function addToGoogleCal() {
             tap();
-            const { start, end } = getEventTimes();
-            window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Schaefer Open House')}&dates=${formatCalDate(start)}/${formatCalDate(end)}&details=${encodeURIComponent(eventDescription)}&location=${encodeURIComponent(eventLocation)}`, '_blank', 'noopener');
+            var times = getEventTimes();
+            window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent('Schaefer Open House') + '&dates=' + formatCalDate(times.start) + '/' + formatCalDate(times.end) + '&details=' + encodeURIComponent(eventDescription) + '&location=' + encodeURIComponent(eventLocation), '_blank', 'noopener');
         }
         function downloadICS() {
             tap();
-            const { start, end } = getEventTimes();
-            const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Schaefer Open House//EN','BEGIN:VEVENT',
-                `UID:open-house-${eventKey}@schaefer`,`DTSTAMP:${formatCalDate(new Date())}`,
-                `DTSTART:${formatCalDate(start)}`,`DTEND:${formatCalDate(end)}`,
-                'SUMMARY:Schaefer Open House',`DESCRIPTION:${eventDescription.replace(/\n/g,'\\n')}`,
-                `LOCATION:${eventLocation}`,'END:VEVENT','END:VCALENDAR'].join('\r\n');
-            const blob = new Blob([ics], { type:'text/calendar' });
-            const link = document.createElement('a');
-            const url = URL.createObjectURL(blob);
-            link.href = url; link.download = `schaefer-open-house-${eventKey}.ics`;
+            var times = getEventTimes();
+            var ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Schaefer Open House//EN','BEGIN:VEVENT',
+                'UID:open-house-' + eventKey + '@schaefer','DTSTAMP:' + formatCalDate(new Date()),
+                'DTSTART:' + formatCalDate(times.start),'DTEND:' + formatCalDate(times.end),
+                'SUMMARY:Schaefer Open House','DESCRIPTION:' + eventDescription.replace(/\n/g,'\\n'),
+                'LOCATION:' + eventLocation,'END:VEVENT','END:VCALENDAR'].join('\r\n');
+            var blob = new Blob([ics], { type:'text/calendar' });
+            var link = document.createElement('a');
+            var url = URL.createObjectURL(blob);
+            link.href = url; link.download = 'schaefer-open-house-' + eventKey + '.ics';
             document.body.appendChild(link); link.click(); document.body.removeChild(link);
-            setTimeout(() => URL.revokeObjectURL(url), 1000);
+            setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
         }
 
         // ---------- Confetti ----------
         function fireConfetti() {
             if (prefersReducedMotion) return;
-            const colors = ['#e2ebf5','#c8d4e3','#9aabc0','#5b9dd9','#7ab4e8'];
-            const container = document.createElement('div');
+            var colors = ['#e2ebf5','#c8d4e3','#9aabc0','#5b9dd9','#7ab4e8'];
+            var container = document.createElement('div');
             container.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;';
             document.body.appendChild(container);
-            for (let i = 0; i < 60; i++) {
-                const p = document.createElement('div');
-                const sz = 6+Math.random()*6, sx=40+Math.random()*20, dr=(Math.random()-0.5)*60;
-                const rs=60+Math.random()*30, rot=Math.random()*720-360, dur=1400+Math.random()*800, del=Math.random()*150;
-                const c = colors[Math.floor(Math.random()*colors.length)];
-                p.style.cssText = `position:absolute;left:${sx}vw;bottom:10vh;width:${sz}px;height:${sz*0.4}px;background:${c};border-radius:1px;opacity:0;transform:translate(0,0) rotate(0deg);transition:transform ${dur}ms cubic-bezier(0.2,0.8,0.4,1),opacity ${dur}ms ease-out;box-shadow:0 0 4px ${c};`;
+            for (var i = 0; i < 60; i++) {
+                var p = document.createElement('div');
+                var sz = 6+Math.random()*6, sx=40+Math.random()*20, dr=(Math.random()-0.5)*60;
+                var rs=60+Math.random()*30, rot=Math.random()*720-360, dur=1400+Math.random()*800, del=Math.random()*150;
+                var c = colors[Math.floor(Math.random()*colors.length)];
+                p.style.cssText = 'position:absolute;left:'+sx+'vw;bottom:10vh;width:'+sz+'px;height:'+(sz*0.4)+'px;background:'+c+';border-radius:1px;opacity:0;transform:translate(0,0) rotate(0deg);transition:transform '+dur+'ms cubic-bezier(0.2,0.8,0.4,1),opacity '+dur+'ms ease-out;box-shadow:0 0 4px '+c+';';
                 container.appendChild(p);
-                setTimeout(() => { p.style.opacity='1'; p.style.transform=`translate(${dr}vw, -${rs}vh) rotate(${rot}deg)`; }, del);
-                setTimeout(() => { p.style.opacity='0'; }, del+dur-300);
+                (function(p,del,dr,rs,rot,dur){ setTimeout(function() { p.style.opacity='1'; p.style.transform='translate('+dr+'vw, -'+rs+'vh) rotate('+rot+'deg)'; }, del); setTimeout(function() { p.style.opacity='0'; }, del+dur-300); })(p,del,dr,rs,rot,dur);
             }
-            setTimeout(() => container.remove(), 2500);
+            setTimeout(function() { container.remove(); }, 2500);
         }
 
         // ---------- Modals ----------
-        let openModalCount = 0;
+        var openModalCount = 0;
         function openModal(id) {
-            const modal = document.getElementById(id);
-            const content = modal.querySelector('.modal-content');
+            var modal = document.getElementById(id);
+            var content = modal.querySelector('.modal-content');
             content.classList.remove('dragging','dragging-release');
             content.style.removeProperty('--drag-y'); content.style.removeProperty('--drag-scale'); content.style.removeProperty('--drag-opacity');
             modal._dragState = null;
@@ -1021,13 +993,13 @@
             attachModalSwipe(modal, content);
         }
         function closeModal(id) {
-            const modal = document.getElementById(id);
+            var modal = document.getElementById(id);
             if (!modal.classList.contains('show')) return;
-            const content = modal.querySelector('.modal-content');
+            var content = modal.querySelector('.modal-content');
             content.classList.remove('dragging');
             modal.classList.add('closing'); modal.classList.remove('show');
-            let done = false;
-            const onEnd = () => { if (done) return; done=true; modal.style.display='none'; modal.classList.remove('closing'); content.style.animation=''; content.removeEventListener('animationend', onEnd); };
+            var done = false;
+            var onEnd = function() { if (done) return; done=true; modal.style.display='none'; modal.classList.remove('closing'); content.style.animation=''; content.removeEventListener('animationend', onEnd); };
             content.addEventListener('animationend', onEnd);
             setTimeout(onEnd, 400);
             openModalCount = Math.max(0, openModalCount - 1);
@@ -1037,97 +1009,97 @@
         function attachModalSwipe(modal, content) {
             if (content._swipeAttached) return;
             content._swipeAttached = true;
-            let startY=0, curY=0, dragging=false, fromTop=false;
-            content.addEventListener('touchstart', (e) => { if (content.scrollTop > 0) return; fromTop=true; startY=curY=e.touches[0].clientY; dragging=false; }, { passive:true });
-            content.addEventListener('touchmove', (e) => {
+            var startY=0, curY=0, dragging=false, fromTop=false;
+            content.addEventListener('touchstart', function(e) { if (content.scrollTop > 0) return; fromTop=true; startY=curY=e.touches[0].clientY; dragging=false; }, { passive:true });
+            content.addEventListener('touchmove', function(e) {
                 if (!fromTop) return;
                 curY = e.touches[0].clientY;
-                const dy = curY - startY;
+                var dy = curY - startY;
                 if (dy < 4) return;
                 if (!dragging && dy > 8) { dragging=true; content.classList.add('dragging'); content.classList.remove('dragging-release'); }
                 if (dragging) {
-                    const r = dy<200 ? dy : 200+(dy-200)*0.35;
-                    content.style.setProperty('--drag-y', `${r}px`);
+                    var r = dy<200 ? dy : 200+(dy-200)*0.35;
+                    content.style.setProperty('--drag-y', r + 'px');
                     content.style.setProperty('--drag-scale', Math.max(0.85,1-r/1400).toFixed(3));
                     content.style.setProperty('--drag-opacity', Math.max(0.4,1-r/500).toFixed(3));
                     e.preventDefault();
                 }
             }, { passive:false });
-            const end = () => {
+            var end = function() {
                 if (!dragging) { fromTop=false; return; }
                 dragging=false; fromTop=false;
-                const dy = curY - startY;
+                var dy = curY - startY;
                 content.classList.remove('dragging'); content.classList.add('dragging-release');
                 if (dy > 100) {
-                    content.style.setProperty('--drag-y', `${window.innerHeight}px`);
+                    content.style.setProperty('--drag-y', window.innerHeight + 'px');
                     content.style.setProperty('--drag-opacity', '0');
-                    setTimeout(() => closeModal(modal.id), 200);
+                    setTimeout(function() { closeModal(modal.id); }, 200);
                 } else {
                     tap(6);
                     content.style.setProperty('--drag-y','0px'); content.style.setProperty('--drag-scale','1'); content.style.setProperty('--drag-opacity','1');
-                    setTimeout(() => { content.classList.remove('dragging-release'); content.style.removeProperty('--drag-y'); content.style.removeProperty('--drag-scale'); content.style.removeProperty('--drag-opacity'); }, 500);
+                    setTimeout(function() { content.classList.remove('dragging-release'); content.style.removeProperty('--drag-y'); content.style.removeProperty('--drag-scale'); content.style.removeProperty('--drag-opacity'); }, 500);
                 }
             };
             content.addEventListener('touchend', end, { passive:true });
             content.addEventListener('touchcancel', end, { passive:true });
         }
 
-        document.querySelectorAll('.modal').forEach(m => { m.addEventListener('click', (e) => { if (e.target === m) closeModal(m.id); }); });
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') document.querySelectorAll('.modal.show').forEach(m => closeModal(m.id)); });
+        document.querySelectorAll('.modal').forEach(function(m) { m.addEventListener('click', function(e) { if (e.target === m) closeModal(m.id); }); });
+        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') document.querySelectorAll('.modal.show').forEach(function(m) { closeModal(m.id); }); });
 
         function openShareModal() {
-            document.getElementById('qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(window.location.href)}`;
+            document.getElementById('qr-img').src = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(window.location.href);
             if (navigator.share) document.getElementById('native-share-btn').style.display = 'flex';
             openModal('shareModal');
         }
         function copyLink() {
-            const url = window.location.href;
+            var url = window.location.href;
             if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(url).then(() => showToast("Link Copied! ✓"), () => fallbackCopy(url));
+                navigator.clipboard.writeText(url).then(function() { showToast("Link Copied! \u2713"); }, function() { fallbackCopy(url); });
             } else fallbackCopy(url);
         }
         function fallbackCopy(text) {
-            try { const ta=document.createElement('textarea'); ta.value=text; ta.style.cssText='position:fixed;opacity:0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast("Link Copied! ✓"); }
-            catch(e) { showToast("Couldn't copy — try long-pressing the URL"); }
+            try { var ta=document.createElement('textarea'); ta.value=text; ta.style.cssText='position:fixed;opacity:0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast("Link Copied! \u2713"); }
+            catch(e) { showToast("Couldn't copy \u2014 try long-pressing the URL"); }
         }
         function nativeShare() {
             if (!navigator.share) return; tap();
-            navigator.share({ title:'Schaefer Open House', text:`You're invited to the Schaefer Open House on ${formatDate(nextDate)}!`, url:window.location.href }).catch(()=>{});
+            navigator.share({ title:'Schaefer Open House', text:'You\'re invited to the Schaefer Open House on ' + formatDate(nextDate) + '!', url:window.location.href }).catch(function(){});
         }
-        function showToast(msg) { const t=document.getElementById("toast"); t.innerText=msg; t.className="show"; setTimeout(()=>{t.className="";},3000); }
+        function showToast(msg) { var t=document.getElementById("toast"); t.innerText=msg; t.className="show"; setTimeout(function(){t.className="";},3000); }
 
         // ---------- Grids ----------
         function buildGrid(containerId, min, max) {
-            const c = document.getElementById(containerId); c.innerHTML = '';
-            for (let i = min; i <= max; i++) {
-                const b = document.createElement('button');
+            var c = document.getElementById(containerId); c.innerHTML = '';
+            for (var i = min; i <= max; i++) {
+                var b = document.createElement('button');
                 b.className = 'g-btn'; b.type = 'button'; b.dataset.val = i; b.innerText = i;
-                b.setAttribute('aria-label', i === 0 ? 'Cancel (0 people)' : `${i} ${i===1?'person':'people'}`);
-                b.onclick = function() { tap(); c.querySelectorAll('.g-btn').forEach(x=>{x.classList.remove('active');x.setAttribute('aria-pressed','false');}); this.classList.add('active'); this.setAttribute('aria-pressed','true'); };
+                b.setAttribute('aria-label', i === 0 ? 'Cancel (0 people)' : i + ' ' + (i===1?'person':'people'));
+                b.onclick = function() { tap(); this.parentNode.querySelectorAll('.g-btn').forEach(function(x){x.classList.remove('active');x.setAttribute('aria-pressed','false');}); this.classList.add('active'); this.setAttribute('aria-pressed','true'); };
                 c.appendChild(b);
             }
         }
         buildGrid('num-grid', 1, 15);
-        buildGrid('cancel-original-grid', 1, 15);
-        buildGrid('cancel-new-grid', 0, 15);
 
         function animateCount(el, from, to, duration) {
             duration = duration || 700;
-            const start = performance.now();
-            const ease = t => 1 - Math.pow(1-t, 3);
+            var start = performance.now();
+            var ease = function(t) { return 1 - Math.pow(1-t, 3); };
             function step(now) {
-                const t = Math.min(1, (now-start)/duration);
+                var t = Math.min(1, (now-start)/duration);
                 el.innerText = Math.round(from + (to-from) * ease(t));
                 if (t < 1) requestAnimationFrame(step); else el.innerText = to;
             }
             requestAnimationFrame(step);
         }
 
+        function escapeHtml(str) { var d=document.createElement('div'); d.textContent=str; return d.innerHTML; }
+
         // ---------- Event snapshot handler ----------
         function handleEventSnapshot(snap) {
-            const data = snap.val() || { total:0, items:{} };
-            const newTotal = data.total || 0;
-            const countEl = document.getElementById('live-count');
+            var data = snap.val() || { total:0, items:{} };
+            var newTotal = data.total || 0;
+            var countEl = document.getElementById('live-count');
 
             if (firstLoad) {
                 countEl.classList.remove('skeleton');
@@ -1139,37 +1111,33 @@
             }
             prevTotal = newTotal;
 
-            const items = data.items || {};
-            const notes = data.notes || {};
-            const rsvps = data.rsvps || {};
-            latestEventData = { items, notes, rsvps };
+            var items = data.items || {};
+            var notes = data.notes || {};
+            var rsvps = data.rsvps || {};
+            latestEventData = { items: items, notes: notes, rsvps: rsvps };
 
-            const tally = document.getElementById('tally-container');
-            tally.innerHTML = CATEGORY_KEYS.map(k => {
-                const count = items[k] || 0;
-                const bumped = (prevItems[k]||0) !== count ? ' bumped' : '';
-                const has = count > 0 ? ' has-items' : '';
-                return `<button class="badge${has}${bumped}" data-key="${k}" type="button" aria-label="${CATEGORY_LABELS[k]}: ${count}">
-                    <span class="badge-count">${count}</span><span class="badge-label">${CATEGORY_LABELS[k]}</span>
-                </button>`;
+            var tally = document.getElementById('tally-container');
+            tally.innerHTML = CATEGORY_KEYS.map(function(k) {
+                var count = items[k] || 0;
+                var bumped = (prevItems[k]||0) !== count ? ' bumped' : '';
+                var has = count > 0 ? ' has-items' : '';
+                return '<button class="badge' + has + bumped + '" data-key="' + k + '" type="button" aria-label="' + CATEGORY_LABELS[k] + ': ' + count + '">' +
+                    '<span class="badge-count">' + count + '</span><span class="badge-label">' + CATEGORY_LABELS[k] + '</span>' +
+                '</button>';
             }).join('');
-            tally.querySelectorAll('.badge').forEach(b => { b.onclick = () => openCategoryModal(b.dataset.key, b); });
-            prevItems = { ...items };
+            tally.querySelectorAll('.badge').forEach(function(b) { b.onclick = function() { openCategoryModal(b.dataset.key, b); }; });
+            prevItems = {};
+            CATEGORY_KEYS.forEach(function(k) { prevItems[k] = items[k] || 0; });
 
             if (currentCategory && document.getElementById('categoryModal').classList.contains('show')) renderCategoryModal(currentCategory);
-
-            // Re-render guest list if it's open
             if (document.getElementById('guestListModal').classList.contains('show')) renderGuestList();
-
-            if (newTotal === 0 && getMyRsvp() > 0) setMyRsvp(0);
-            else if (getMyRsvp() > newTotal) setMyRsvp(newTotal);
-            else refreshMyRsvpLine();
+            if (document.getElementById('cancelModal').classList.contains('show') && !cancelEditingId) renderCancelPartyList();
         }
 
-        // ---------- Guest List (Census) ----------
+        // ---------- Guest List ----------
         function getInitials(name) {
             if (!name) return '?';
-            const words = name.trim().replace(/^the\s+/i, '').split(/\s+/).filter(Boolean);
+            var words = name.trim().replace(/^the\s+/i, '').split(/\s+/).filter(Boolean);
             if (words.length === 0) return '?';
             if (words.length === 1) return words[0].substring(0, 2).toUpperCase();
             return (words[0][0] + words[words.length-1][0]).toUpperCase();
@@ -1177,13 +1145,13 @@
 
         function relativeTime(ts) {
             if (!ts) return '';
-            const diff = Math.floor((Date.now() - ts) / 1000);
+            var diff = Math.floor((Date.now() - ts) / 1000);
             if (diff < 60) return 'just now';
-            if (diff < 3600) { const m = Math.floor(diff/60); return `${m} min ago`; }
-            if (diff < 86400) { const h = Math.floor(diff/3600); return `${h}h ago`; }
-            const d = Math.floor(diff/86400);
+            if (diff < 3600) { var m = Math.floor(diff/60); return m + ' min ago'; }
+            if (diff < 86400) { var h = Math.floor(diff/3600); return h + 'h ago'; }
+            var d = Math.floor(diff/86400);
             if (d === 1) return 'yesterday';
-            if (d < 7) return `${d}d ago`;
+            if (d < 7) return d + 'd ago';
             return new Date(ts).toLocaleDateString('en-US', { month:'short', day:'numeric' });
         }
 
@@ -1194,185 +1162,150 @@
         }
 
         function renderGuestList() {
-            const body = document.getElementById('gl-body');
-            const rsvps = latestEventData.rsvps || {};
-            const total = prevTotal;
-            const myId = getMyRsvpId();
+            var body = document.getElementById('gl-body');
+            var rsvps = latestEventData.rsvps || {};
+            var total = prevTotal;
 
-            const entries = Object.entries(rsvps)
-                .map(([id, val]) => ({ id, name: val.name || '', count: val.count || 0, ts: val.ts || 0 }))
-                .filter(e => e.count > 0)
-                .sort((a, b) => b.ts - a.ts);
+            var entries = Object.entries(rsvps)
+                .map(function(pair) { return { id: pair[0], name: pair[1].name || '', count: pair[1].count || 0, ts: pair[1].ts || 0 }; })
+                .filter(function(e) { return e.count > 0; })
+                .sort(function(a, b) { return b.ts - a.ts; });
 
-            const namedTotal = entries.reduce((s, e) => s + e.count, 0);
-            const anonymous = Math.max(0, total - namedTotal);
+            var namedTotal = entries.reduce(function(s, e) { return s + e.count; }, 0);
+            var anonymous = Math.max(0, total - namedTotal);
 
-            // Summary banner
-            let html = `<div class="gl-summary">
-                <div class="gl-summary-count">${total}</div>
-                <div class="gl-summary-label">${total === 1 ? 'guest attending' : 'guests attending'}</div>
-                ${entries.length > 0 ? `<div class="gl-summary-meta">${entries.length} ${entries.length === 1 ? 'party' : 'parties'} signed up</div>` : ''}
-            </div>`;
+            var html = '<div class="gl-summary">' +
+                '<div class="gl-summary-count">' + total + '</div>' +
+                '<div class="gl-summary-label">' + (total === 1 ? 'guest attending' : 'guests attending') + '</div>' +
+                (entries.length > 0 ? '<div class="gl-summary-meta">' + entries.length + ' ' + (entries.length === 1 ? 'party' : 'parties') + ' signed up</div>' : '') +
+            '</div>';
 
             if (entries.length === 0 && anonymous === 0) {
-                html += `<div class="gl-empty">
-                    <span class="gl-empty-icon" aria-hidden="true">👋</span>
-                    <div class="gl-empty-title">No one has RSVP'd yet</div>
-                    <div class="gl-empty-sub">Be the first to let everyone know you're coming!</div>
-                    <button class="btn btn-main" onclick="closeModal('guestListModal'); openRSVPModal();" style="margin-top:4px;">RSVP Now</button>
-                </div>`;
+                html += '<div class="gl-empty">' +
+                    '<span class="gl-empty-icon" aria-hidden="true">\ud83d\udc4b</span>' +
+                    '<div class="gl-empty-title">No one has RSVP\'d yet</div>' +
+                    '<div class="gl-empty-sub">Be the first to let everyone know you\'re coming!</div>' +
+                    '<button class="btn btn-main" onclick="closeModal(\'guestListModal\'); openRSVPModal();" style="margin-top:4px;">RSVP Now</button>' +
+                '</div>';
             } else {
-                if (entries.length > 0) html += `<span class="gl-newest-label">Guest List</span>`;
-                html += `<ul class="gl-list">`;
+                if (entries.length > 0) html += '<span class="gl-newest-label">Guest List</span>';
+                html += '<ul class="gl-list">';
 
-                entries.forEach(e => {
-                    const isMe = myId && e.id === myId;
-                    const initials = e.name ? getInitials(e.name) : '?';
-                    const avatarClass = e.name ? 'gl-avatar' : 'gl-avatar anon';
-                    const entryClass = isMe ? 'gl-entry is-me' : 'gl-entry';
-                    const nameHtml = e.name
-                        ? `<span class="gl-name">${escapeHtml(e.name)}</span>`
-                        : `<span class="gl-name gl-name-anon">Anonymous guest</span>`;
-                    const metaParts = [];
-                    if (isMe) metaParts.push('<span class="gl-you">You</span>');
-                    if (e.ts) {
-                        if (metaParts.length) metaParts.push('<span class="gl-dot"></span>');
-                        metaParts.push(relativeTime(e.ts));
-                    }
+                entries.forEach(function(e) {
+                    var initials = e.name ? getInitials(e.name) : '?';
+                    var avatarClass = e.name ? 'gl-avatar' : 'gl-avatar anon';
+                    var nameHtml = e.name
+                        ? '<span class="gl-name">' + escapeHtml(e.name) + '</span>'
+                        : '<span class="gl-name gl-name-anon">Anonymous guest</span>';
+                    var metaParts = [];
+                    if (e.ts) metaParts.push(relativeTime(e.ts));
 
-                    html += `<li class="${entryClass}">
-                        <span class="${avatarClass}">${initials}</span>
-                        <span class="gl-info">${nameHtml}<span class="gl-meta">${metaParts.join('')}</span></span>
-                        <span class="gl-count">${e.count}</span>
-                    </li>`;
+                    html += '<li class="gl-entry">' +
+                        '<span class="' + avatarClass + '">' + initials + '</span>' +
+                        '<span class="gl-info">' + nameHtml + '<span class="gl-meta">' + metaParts.join('') + '</span></span>' +
+                        '<span class="gl-count">' + e.count + '</span>' +
+                    '</li>';
                 });
 
                 if (anonymous > 0) {
-                    html += `<li class="gl-entry gl-anon-entry">
-                        <span class="gl-avatar anon">+</span>
-                        <span class="gl-info">
-                            <span class="gl-name gl-name-anon">${anonymous} more ${anonymous === 1 ? 'guest' : 'guests'}</span>
-                            <span class="gl-meta">RSVP'd without a name</span>
-                        </span>
-                        <span class="gl-count">${anonymous}</span>
-                    </li>`;
+                    html += '<li class="gl-entry gl-anon-entry">' +
+                        '<span class="gl-avatar anon">+</span>' +
+                        '<span class="gl-info">' +
+                            '<span class="gl-name gl-name-anon">' + anonymous + ' more ' + (anonymous === 1 ? 'guest' : 'guests') + '</span>' +
+                            '<span class="gl-meta">RSVP\'d without a name</span>' +
+                        '</span>' +
+                        '<span class="gl-count">' + anonymous + '</span>' +
+                    '</li>';
                 }
 
-                html += `</ul>`;
+                html += '</ul>';
             }
 
             body.innerHTML = html;
         }
 
-        // ---------- RSVP ----------
+        // ---------- RSVP (simplified, no localStorage) ----------
         function openRSVPModal() {
-            // Pre-fill name from localStorage
-            const nameInput = document.getElementById('rsvp-name-input');
-            if (nameInput) nameInput.value = getMyRsvpName();
-            // Clear grid selection
-            document.querySelectorAll('#num-grid .g-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
+            var nameInput = document.getElementById('rsvp-name-input');
+            if (nameInput) nameInput.value = '';
+            document.querySelectorAll('#num-grid .g-btn').forEach(function(b) { b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
             openModal('rsvpModal');
         }
 
         function submitRSVP() {
             if (isSubmittingRSVP) return;
-            const active = document.querySelector('#num-grid .g-btn.active');
+            var active = document.querySelector('#num-grid .g-btn.active');
             if (!active) { showToast("Pick a number first"); return; }
-            const count = parseInt(active.dataset.val);
-            const nameInput = document.getElementById('rsvp-name-input');
-            const name = nameInput ? nameInput.value.trim().slice(0, 60) : '';
+            var count = parseInt(active.dataset.val);
+            var nameInput = document.getElementById('rsvp-name-input');
+            var name = nameInput ? nameInput.value.trim().slice(0, 60) : '';
 
             isSubmittingRSVP = true;
-            const btn = document.getElementById('rsvp-confirm-btn');
+            var btn = document.getElementById('rsvp-confirm-btn');
             if (btn) { btn.disabled = true; btn.setAttribute('aria-busy', 'true'); }
 
-            // Update the total
-            eventRef.child('total').transaction(c => (c || 0) + count).then(() => {
-                // Create an RSVP entry
-                const rsvpData = { count, ts: firebase.database.ServerValue.TIMESTAMP };
-                if (name) rsvpData.name = name;
+            var rsvpData = { count: count, ts: firebase.database.ServerValue.TIMESTAMP };
+            if (name) rsvpData.name = name;
+            var newRef = eventRef.child('rsvps').push();
 
-                const existingId = getMyRsvpId();
-                let rsvpPromise;
-
-                if (existingId) {
-                    // User already has an entry — update it by adding to their count
-                    rsvpPromise = eventRef.child('rsvps/' + existingId).transaction(current => {
-                        if (!current) return rsvpData;
-                        return {
-                            name: name || current.name || '',
-                            count: (current.count || 0) + count,
-                            ts: firebase.database.ServerValue.TIMESTAMP
-                        };
-                    });
-                } else {
-                    // New entry
-                    const newRef = eventRef.child('rsvps').push();
-                    rsvpPromise = newRef.set(rsvpData).then(() => {
-                        safeLSSet(myRsvpIdKey(), newRef.key);
-                    });
-                }
-
-                return rsvpPromise.then(() => {
-                    setMyRsvp(getMyRsvp() + count);
-                    if (name) safeLSSet(myRsvpNameKey(), name);
-                    active.classList.remove('active'); active.setAttribute('aria-pressed','false');
-                    if (nameInput) nameInput.value = '';
-                    closeModal('rsvpModal');
-                    tap([10,50,20]);
-                    fireConfetti();
-                    showToast("See you there! ✓");
-                });
-            }).catch(err => {
+            Promise.all([
+                eventRef.child('total').transaction(function(c) { return (c || 0) + count; }),
+                newRef.set(rsvpData)
+            ]).then(function() {
+                active.classList.remove('active'); active.setAttribute('aria-pressed','false');
+                if (nameInput) nameInput.value = '';
+                closeModal('rsvpModal');
+                tap([10,50,20]);
+                fireConfetti();
+                showToast("See you there! \u2713");
+            }).catch(function(err) {
                 console.error(err);
                 showToast("Something went wrong. Try again.");
-            }).finally(() => {
+            }).finally(function() {
                 isSubmittingRSVP = false;
                 if (btn) { btn.disabled = false; btn.removeAttribute('aria-busy'); }
             });
         }
 
         // ---------- Food items ----------
-        function escapeHtml(str) { const d=document.createElement('div'); d.textContent=str; return d.innerHTML; }
-
         function openCategoryModal(category, sourceEl) {
             currentCategory = category;
             renderCategoryModal(category);
             if (prefersReducedMotion || !sourceEl) { openModal('categoryModal'); return; }
-            const sr = sourceEl.getBoundingClientRect();
-            const clone = sourceEl.cloneNode(true);
+            var sr = sourceEl.getBoundingClientRect();
+            var clone = sourceEl.cloneNode(true);
             clone.classList.add('expanding');
             clone.style.left=sr.left+'px'; clone.style.top=sr.top+'px'; clone.style.width=sr.width+'px'; clone.style.height=sr.height+'px'; clone.style.margin='0';
             document.body.appendChild(clone);
             sourceEl.style.opacity = '0';
-            const titleEl = document.getElementById('category-modal-title');
+            var titleEl = document.getElementById('category-modal-title');
             titleEl.style.opacity = '0';
             openModal('categoryModal');
-            requestAnimationFrame(() => { requestAnimationFrame(() => {
-                const tr = titleEl.getBoundingClientRect();
+            requestAnimationFrame(function() { requestAnimationFrame(function() {
+                var tr = titleEl.getBoundingClientRect();
                 clone.style.left = (tr.left+tr.width/2-sr.width/2)+'px'; clone.style.top = tr.top+'px';
                 clone.style.opacity = '0'; clone.style.transform = 'scale(1.4)';
-                setTimeout(() => { clone.remove(); titleEl.style.transition='opacity 0.3s ease-out'; titleEl.style.opacity='1'; sourceEl.style.opacity=''; setTimeout(()=>titleEl.style.transition='',350); }, 550);
+                setTimeout(function() { clone.remove(); titleEl.style.transition='opacity 0.3s ease-out'; titleEl.style.opacity='1'; sourceEl.style.opacity=''; setTimeout(function(){titleEl.style.transition='';},350); }, 550);
             }); });
         }
 
         function renderCategoryModal(category) {
-            const items = latestEventData.items || {};
-            const notes = (latestEventData.notes || {})[category] || {};
-            const count = items[category] || 0;
+            var items = latestEventData.items || {};
+            var notes = (latestEventData.notes || {})[category] || {};
+            var count = items[category] || 0;
             document.getElementById('category-modal-title').innerText = CATEGORY_LABELS[category];
-            document.getElementById('category-summary').innerHTML = `
-                <span class="category-summary-label">${count===0 ? 'Nothing yet — be the first!' : (count===1 ? '1 person bringing' : count+' people bringing')}</span>
-                <span class="category-summary-count">${count}</span>`;
-            const noteValues = Object.values(notes).map(n=>n&&n.text).filter(Boolean);
-            const unspecified = Math.max(0, count - noteValues.length);
-            const list = document.getElementById('category-notes-list');
+            document.getElementById('category-summary').innerHTML =
+                '<span class="category-summary-label">' + (count===0 ? 'Nothing yet \u2014 be the first!' : (count===1 ? '1 person bringing' : count+' people bringing')) + '</span>' +
+                '<span class="category-summary-count">' + count + '</span>';
+            var noteValues = Object.values(notes).map(function(n){return n&&n.text;}).filter(Boolean);
+            var unspecified = Math.max(0, count - noteValues.length);
+            var list = document.getElementById('category-notes-list');
             if (noteValues.length === 0 && unspecified === 0) {
-                list.innerHTML = `<div class="category-notes-empty">Tap &ldquo;Add what you're bringing&rdquo; below to start the list.</div>`;
+                list.innerHTML = '<div class="category-notes-empty">Tap "Add what you\'re bringing" below to start the list.</div>';
             } else {
-                const itemsHtml = noteValues.map(t => `<li>${escapeHtml(t)}</li>`).join('');
-                const unspecHtml = unspecified > 0
-                    ? `<li class="category-notes-unspecified"><span class="unspec-count">+${unspecified}</span><span class="unspec-text">${unspecified===1?'person bringing something':'people bringing something'} <span class="unspec-sub">(didn't say what)</span></span></li>` : '';
+                var itemsHtml = noteValues.map(function(t) { return '<li>' + escapeHtml(t) + '</li>'; }).join('');
+                var unspecHtml = unspecified > 0
+                    ? '<li class="category-notes-unspecified"><span class="unspec-count">+' + unspecified + '</span><span class="unspec-text">' + (unspecified===1?'person bringing something':'people bringing something') + ' <span class="unspec-sub">(didn\'t say what)</span></span></li>' : '';
                 list.innerHTML = itemsHtml + unspecHtml;
             }
         }
@@ -1380,56 +1313,56 @@
         function closeModalAndOpenBring() {
             closeModal('categoryModal');
             if (currentCategory) {
-                const btn = document.querySelector(`#item-grid .item-btn[data-item="${currentCategory}"]`);
+                var btn = document.querySelector('#item-grid .item-btn[data-item="' + currentCategory + '"]');
                 if (btn && !btn.classList.contains('active')) { btn.classList.add('active'); refreshCategoryNoteInputs(); }
             }
-            setTimeout(() => openModal('bringModal'), 150);
+            setTimeout(function() { openModal('bringModal'); }, 150);
         }
 
         function refreshCategoryNoteInputs() {
-            const container = document.getElementById('category-notes-container');
-            const active = Array.from(document.querySelectorAll('#item-grid .item-btn.active')).map(b=>b.dataset.item);
-            const existing = {};
-            container.querySelectorAll('input[data-cat]').forEach(i => { existing[i.dataset.cat] = i.value; });
+            var container = document.getElementById('category-notes-container');
+            var active = Array.from(document.querySelectorAll('#item-grid .item-btn.active')).map(function(b){return b.dataset.item;});
+            var existing = {};
+            container.querySelectorAll('input[data-cat]').forEach(function(i) { existing[i.dataset.cat] = i.value; });
             container.innerHTML = '';
             if (active.length === 0) return;
-            const banner = document.createElement('div');
+            var banner = document.createElement('div');
             banner.className = 'notes-prompt-banner';
-            banner.innerHTML = `<span class="notes-prompt-icon" aria-hidden="true">📝</span><span class="notes-prompt-text"><span class="notes-prompt-title">Want to share what you're bringing?</span><span class="notes-prompt-sub">Optional — helps others coordinate and avoid duplicates</span></span>`;
+            banner.innerHTML = '<span class="notes-prompt-icon" aria-hidden="true">\ud83d\udcdd</span><span class="notes-prompt-text"><span class="notes-prompt-title">Want to share what you\'re bringing?</span><span class="notes-prompt-sub">Optional \u2014 helps others coordinate and avoid duplicates</span></span>';
             container.appendChild(banner);
-            active.forEach(cat => {
-                const wrap = document.createElement('div'); wrap.className = 'category-note-wrap';
-                const label = document.createElement('label'); label.className = 'category-note-label'; label.htmlFor = `note-input-${cat}`;
-                label.innerHTML = `<span class="category-note-label-emoji" aria-hidden="true">${CATEGORY_EMOJI[cat]}</span><span>${CATEGORY_LABELS[cat]}</span><span class="category-note-label-optional">(optional)</span>`;
-                const input = document.createElement('input');
-                input.type='text'; input.className='category-note-input'; input.id=`note-input-${cat}`; input.dataset.cat=cat;
+            active.forEach(function(cat) {
+                var wrap = document.createElement('div'); wrap.className = 'category-note-wrap';
+                var label = document.createElement('label'); label.className = 'category-note-label'; label.htmlFor = 'note-input-' + cat;
+                label.innerHTML = '<span class="category-note-label-emoji" aria-hidden="true">' + CATEGORY_EMOJI[cat] + '</span><span>' + CATEGORY_LABELS[cat] + '</span><span class="category-note-label-optional">(optional)</span>';
+                var input = document.createElement('input');
+                input.type='text'; input.className='category-note-input'; input.id='note-input-'+cat; input.dataset.cat=cat;
                 input.placeholder = CATEGORY_PLACEHOLDERS[cat]; input.maxLength = 80;
                 if (existing[cat]) input.value = existing[cat];
                 wrap.appendChild(label); wrap.appendChild(input); container.appendChild(wrap);
             });
         }
 
-        document.querySelectorAll('#item-grid .item-btn').forEach(btn => {
+        document.querySelectorAll('#item-grid .item-btn').forEach(function(btn) {
             btn.type = 'button';
             btn.onclick = function() { tap(); this.classList.toggle('active'); this.setAttribute('aria-pressed', this.classList.contains('active')?'true':'false'); refreshCategoryNoteInputs(); };
         });
 
         function submitItem() {
             if (isSubmittingItem) return;
-            const activeButtons = document.querySelectorAll('#item-grid .item-btn.active');
+            var activeButtons = document.querySelectorAll('#item-grid .item-btn.active');
             if (activeButtons.length === 0) { showToast("Pick at least one item"); return; }
-            const notesByCat = {};
-            document.querySelectorAll('#category-notes-container input[data-cat]').forEach(i => { const t=i.value.trim(); if(t) notesByCat[i.dataset.cat]=t.slice(0,80); });
+            var notesByCat = {};
+            document.querySelectorAll('#category-notes-container input[data-cat]').forEach(function(i) { var t=i.value.trim(); if(t) notesByCat[i.dataset.cat]=t.slice(0,80); });
 
             isSubmittingItem = true;
-            const btn = document.getElementById('bring-confirm-btn');
+            var btn = document.getElementById('bring-confirm-btn');
             if (btn) { btn.disabled = true; btn.setAttribute('aria-busy', 'true'); }
 
             tap([10,30,10]);
-            const promises = [];
-            activeButtons.forEach(b => {
-                const item = b.dataset.item;
-                promises.push(eventRef.child('items/' + item).transaction(c => (c||0)+1));
+            var promises = [];
+            activeButtons.forEach(function(b) {
+                var item = b.dataset.item;
+                promises.push(eventRef.child('items/' + item).transaction(function(c) { return (c||0)+1; }));
                 b.classList.remove('active'); b.setAttribute('aria-pressed','false');
                 if (notesByCat[item]) {
                     promises.push(eventRef.child('notes/' + item).push({ text: notesByCat[item], ts: firebase.database.ServerValue.TIMESTAMP }));
@@ -1437,167 +1370,159 @@
             });
             document.getElementById('category-notes-container').innerHTML = '';
 
-            Promise.all(promises).then(() => {
+            Promise.all(promises).then(function() {
                 closeModal('bringModal');
-                showToast(activeButtons.length === 1 ? "Thanks for bringing it! ✓" : `Thanks for bringing ${activeButtons.length} things! ✓`);
-            }).catch(err => {
+                showToast(activeButtons.length === 1 ? "Thanks for bringing it! \u2713" : "Thanks for bringing " + activeButtons.length + " things! \u2713");
+            }).catch(function(err) {
                 console.error(err);
                 showToast("Something went wrong. Try again.");
-            }).finally(() => {
+            }).finally(function() {
                 isSubmittingItem = false;
                 if (btn) { btn.disabled = false; btn.removeAttribute('aria-busy'); }
             });
         }
 
-        // ---------- Cancel / Change ----------
+        // ---------- Cancel / Change (NEW: party-list based) ----------
         function openCancelModal() {
-            const myCount = getMyRsvp();
-            const myId = getMyRsvpId();
-
-            // If user has a keyed entry, skip step 1 and go directly to editing
-            if (myId && myCount > 0) {
-                document.getElementById('cancel-step-1').style.display = 'none';
-                document.getElementById('cancel-step-2').style.display = 'block';
-                // Pre-select current count in the new grid
-                document.querySelectorAll('#cancel-new-grid .g-btn').forEach(b => {
-                    b.classList.remove('active'); b.setAttribute('aria-pressed','false');
-                    if (parseInt(b.dataset.val) === myCount) { b.classList.add('active'); b.setAttribute('aria-pressed','true'); }
-                });
-                // Pre-fill name
-                const nameInput = document.getElementById('cancel-name-input');
-                if (nameInput) nameInput.value = getMyRsvpName();
-                // Store original for the diff calc
-                document.getElementById('cancel-step-2').dataset.originalCount = myCount;
-                openModal('cancelModal');
-                return;
-            }
-
-            // Legacy flow: 2-step
-            document.getElementById('cancel-step-1').style.display = 'block';
-            document.getElementById('cancel-step-2').style.display = 'none';
-            document.querySelectorAll('#cancel-original-grid .g-btn, #cancel-new-grid .g-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
-            document.getElementById('cancel-step-2').dataset.originalCount = '';
-
-            const hint = document.getElementById('rsvp-known-hint');
-            if (myCount > 0 && myCount <= 15) {
-                const btn = document.querySelector(`#cancel-original-grid .g-btn[data-val="${myCount}"]`);
-                if (btn) { btn.classList.add('active'); btn.setAttribute('aria-pressed','true'); }
-                if (hint) { hint.style.display = 'block'; hint.innerText = `We have you down for ${myCount}. Confirm or change below.`; }
-            } else if (hint) { hint.style.display = 'none'; }
+            cancelEditingId = null;
+            document.getElementById('cancel-party-list').style.display = 'block';
+            document.getElementById('cancel-edit-view').style.display = 'none';
+            renderCancelPartyList();
             openModal('cancelModal');
         }
 
-        function goToCancelStep2() {
-            const active = document.querySelector('#cancel-original-grid .g-btn.active');
-            if (!active) { showToast("Pick a number first"); return; }
-            tap();
-            document.getElementById('cancel-step-1').style.display = 'none';
-            document.getElementById('cancel-step-2').style.display = 'block';
-            document.getElementById('cancel-step-2').dataset.originalCount = active.dataset.val;
-            // Pre-fill name
-            const nameInput = document.getElementById('cancel-name-input');
-            if (nameInput) nameInput.value = getMyRsvpName();
+        function renderCancelPartyList() {
+            var container = document.getElementById('cancel-parties-container');
+            var rsvps = latestEventData.rsvps || {};
+            var entries = Object.entries(rsvps)
+                .map(function(pair) { return { id: pair[0], name: pair[1].name || '', count: pair[1].count || 0, ts: pair[1].ts || 0 }; })
+                .filter(function(e) { return e.count > 0; })
+                .sort(function(a, b) { return b.ts - a.ts; });
+
+            if (entries.length === 0) {
+                container.innerHTML = '<div class="gl-empty">' +
+                    '<span class="gl-empty-icon" aria-hidden="true">\ud83d\udc4b</span>' +
+                    '<div class="gl-empty-title">No RSVPs to manage</div>' +
+                    '<div class="gl-empty-sub">RSVP first, then come back here to make changes.</div>' +
+                '</div>';
+                return;
+            }
+
+            container.innerHTML = entries.map(function(e) {
+                var initials = e.name ? getInitials(e.name) : '?';
+                var avatarClass = e.name ? 'gl-avatar' : 'gl-avatar anon';
+                var displayName = e.name ? escapeHtml(e.name) : 'Anonymous guest';
+                return '<button class="cancel-party-item" type="button" onclick="selectPartyToEdit(\'' + e.id + '\')">' +
+                    '<span class="' + avatarClass + '">' + initials + '</span>' +
+                    '<span class="gl-info">' +
+                        '<span class="gl-name">' + displayName + '</span>' +
+                        '<span class="gl-meta">' + e.count + ' ' + (e.count === 1 ? 'guest' : 'guests') + '</span>' +
+                    '</span>' +
+                    '<span class="stat-box-arrow" aria-hidden="true">\u203a</span>' +
+                '</button>';
+            }).join('');
         }
 
-        function submitChange() {
-            if (isSubmittingChange) return;
-            const updated = document.querySelector('#cancel-new-grid .g-btn.active');
-            if (!updated) { showToast("Pick a number first"); return; }
+        function selectPartyToEdit(rsvpId) {
+            var rsvps = latestEventData.rsvps || {};
+            var entry = rsvps[rsvpId];
+            if (!entry) { showToast("Party not found"); return; }
 
-            const step2 = document.getElementById('cancel-step-2');
-            const storedOriginal = step2.dataset.originalCount;
-            let originalCount;
+            cancelEditingId = rsvpId;
+            tap();
+            document.getElementById('cancel-party-list').style.display = 'none';
+            document.getElementById('cancel-edit-view').style.display = 'block';
 
-            if (storedOriginal) {
-                originalCount = parseInt(storedOriginal);
-            } else {
-                const origBtn = document.querySelector('#cancel-original-grid .g-btn.active');
-                if (!origBtn) { showToast("Pick a number first"); return; }
-                originalCount = parseInt(origBtn.dataset.val);
-            }
+            var name = entry.name || '';
+            var count = entry.count || 0;
 
-            const newCount = parseInt(updated.dataset.val);
-            const diff = newCount - originalCount;
-            const nameInput = document.getElementById('cancel-name-input');
-            const name = nameInput ? nameInput.value.trim().slice(0, 60) : '';
-            const myId = getMyRsvpId();
+            document.getElementById('cancel-edit-name-display').innerText = name || 'Anonymous guest';
+            document.getElementById('cancel-edit-name').value = name;
+
+            buildGrid('cancel-edit-grid', 0, 15);
+            var gridBtn = document.querySelector('#cancel-edit-grid .g-btn[data-val="' + count + '"]');
+            if (gridBtn) { gridBtn.classList.add('active'); gridBtn.setAttribute('aria-pressed', 'true'); }
+        }
+
+        function backToPartyList() {
+            cancelEditingId = null;
+            document.getElementById('cancel-edit-view').style.display = 'none';
+            document.getElementById('cancel-party-list').style.display = 'block';
+            renderCancelPartyList();
+        }
+
+        function submitPartyEdit() {
+            if (!cancelEditingId || isSubmittingChange) return;
+            var active = document.querySelector('#cancel-edit-grid .g-btn.active');
+            if (!active) { showToast("Pick a number first"); return; }
+
+            var newCount = parseInt(active.dataset.val);
+            var nameInput = document.getElementById('cancel-edit-name');
+            var name = nameInput ? nameInput.value.trim().slice(0, 60) : '';
+
+            var rsvps = latestEventData.rsvps || {};
+            var current = rsvps[cancelEditingId];
+            if (!current) { showToast("Party not found"); return; }
+
+            var oldCount = current.count || 0;
+            var diff = newCount - oldCount;
 
             isSubmittingChange = true;
-            const btn = document.getElementById('change-confirm-btn');
+            var btn = document.getElementById('cancel-edit-confirm');
             if (btn) { btn.disabled = true; btn.setAttribute('aria-busy', 'true'); }
 
-            const totalPromise = eventRef.child('total').transaction(c => Math.max(0, (c||0) + diff));
+            var promises = [
+                eventRef.child('total').transaction(function(c) { return Math.max(0, (c || 0) + diff); })
+            ];
 
-            let rsvpPromise;
-            if (myId) {
-                if (newCount === 0) {
-                    // Delete their entry
-                    rsvpPromise = eventRef.child('rsvps/' + myId).remove();
-                } else {
-                    // Update entry
-                    const updateData = { count: newCount, ts: firebase.database.ServerValue.TIMESTAMP };
-                    if (name) updateData.name = name;
-                    else updateData.name = getMyRsvpName() || '';
-                    rsvpPromise = eventRef.child('rsvps/' + myId).set(updateData);
-                }
+            if (newCount === 0) {
+                promises.push(eventRef.child('rsvps/' + cancelEditingId).remove());
             } else {
-                // Legacy user with no key — create an entry if newCount > 0
-                if (newCount > 0) {
-                    const rsvpData = { count: newCount, ts: firebase.database.ServerValue.TIMESTAMP };
-                    if (name) rsvpData.name = name;
-                    const newRef = eventRef.child('rsvps').push();
-                    rsvpPromise = newRef.set(rsvpData).then(() => {
-                        safeLSSet(myRsvpIdKey(), newRef.key);
-                        if (name) safeLSSet(myRsvpNameKey(), name);
-                    });
-                } else {
-                    rsvpPromise = Promise.resolve();
-                }
+                var updateData = { count: newCount, ts: firebase.database.ServerValue.TIMESTAMP, name: name };
+                promises.push(eventRef.child('rsvps/' + cancelEditingId).set(updateData));
             }
 
-            Promise.all([totalPromise, rsvpPromise]).then(() => {
-                setMyRsvp(Math.max(0, getMyRsvp() + diff));
-                if (name && newCount > 0) safeLSSet(myRsvpNameKey(), name);
+            Promise.all(promises).then(function() {
                 closeModal('cancelModal');
                 tap([10,30,10]);
                 if (newCount === 0) showToast("RSVP cancelled");
-                else if (diff < 0) showToast("RSVP updated ✓");
-                else if (diff > 0) showToast("More the merrier! ✓");
-                else showToast("Updated ✓");
-            }).catch(err => {
+                else if (diff < 0) showToast("RSVP updated \u2713");
+                else if (diff > 0) showToast("More the merrier! \u2713");
+                else showToast("Updated \u2713");
+            }).catch(function(err) {
                 console.error(err);
                 showToast("Something went wrong. Try again.");
-            }).finally(() => {
+            }).finally(function() {
                 isSubmittingChange = false;
                 if (btn) { btn.disabled = false; btn.removeAttribute('aria-busy'); }
             });
         }
 
         // ============================================================
-        // ADMIN MODE
+        // ADMIN MODE (ENHANCED with full CRUD)
         // ============================================================
         function isAdminUrl() { return new URLSearchParams(window.location.search).get('admin') === '1'; }
 
         function buildAdminEventList() {
-            const select = document.getElementById('admin-event-select');
+            var select = document.getElementById('admin-event-select');
             select.innerHTML = '';
-            const today = new Date(); today.setHours(0,0,0,0);
-            const events = [];
-            for (let i = 0; i < 27; i++) {
-                const d = new Date(SERIES_START); d.setDate(SERIES_START.getDate() + i*14); events.push(d);
+            var today = new Date(); today.setHours(0,0,0,0);
+            var events = [];
+            for (var i = 0; i < 27; i++) {
+                var d = new Date(SERIES_START); d.setDate(SERIES_START.getDate() + i*14); events.push(d);
             }
             if (currentOverrideKey) {
-                const od = parseDateKey(currentOverrideKey);
-                if (od && !events.some(d => getEventKey(d) === currentOverrideKey)) { events.push(od); events.sort((a,b) => a-b); }
+                var od = parseDateKey(currentOverrideKey);
+                if (od && !events.some(function(d) { return getEventKey(d) === currentOverrideKey; })) { events.push(od); events.sort(function(a,b) { return a-b; }); }
             }
-            let nextIdx = events.findIndex(d => getEventKey(d) === eventKey);
-            if (nextIdx === -1) nextIdx = events.findIndex(d => d >= today);
+            var nextIdx = events.findIndex(function(d) { return getEventKey(d) === eventKey; });
+            if (nextIdx === -1) nextIdx = events.findIndex(function(d) { return d >= today; });
             if (nextIdx === -1) nextIdx = events.length - 1;
-            events.forEach((d, idx) => {
-                const opt = document.createElement('option');
-                const key = getEventKey(d);
+            events.forEach(function(d, idx) {
+                var opt = document.createElement('option');
+                var key = getEventKey(d);
                 opt.value = key;
-                let label = formatDate(d);
+                var label = formatDate(d);
                 if (d < today) label += ' (past)'; else if (idx === nextIdx) label += ' (next)';
                 if (key === currentOverrideKey) label += ' [override]';
                 opt.innerText = label;
@@ -1608,106 +1533,252 @@
             loadAdminEventState();
         }
 
-        let adminEventListener = null, adminEventListenerCallback = null;
+        var adminEventListener = null, adminEventListenerCallback = null;
 
         function loadAdminEventState() {
             if (adminEventListener && adminEventListenerCallback) adminEventListener.off('value', adminEventListenerCallback);
-            const key = document.getElementById('admin-event-select').value;
+            var key = document.getElementById('admin-event-select').value;
             adminEventListener = db.ref('open-house/' + key);
-            adminEventListenerCallback = (snap) => {
-                const data = snap.val() || { total:0, items:{} };
-                const items = data.items || {};
-                const allNotes = data.notes || {};
-                const rsvps = data.rsvps || {};
-                const itemList = CATEGORY_KEYS.filter(k=>items[k]).map(k=>`${k}: ${items[k]}`).join(', ') || 'none';
-                const noteBlocks = CATEGORY_KEYS.map(k => {
-                    const nv = Object.values(allNotes[k]||{}).map(n=>n&&n.text).filter(Boolean);
-                    return nv.length ? `<div style="margin-top:6px;"><strong>${CATEGORY_LABELS[k]}:</strong> <span style="color:var(--text-main);">${nv.map(t=>escapeHtml(t)).join(' · ')}</span></div>` : '';
-                }).filter(Boolean).join('');
+            adminEventListenerCallback = function(snap) {
+                var data = snap.val() || { total:0, items:{} };
+                var items = data.items || {};
+                var allNotes = data.notes || {};
+                var rsvps = data.rsvps || {};
+                adminLatestData = { items: items, notes: allNotes, rsvps: rsvps };
 
-                const rsvpEntries = Object.values(rsvps).filter(r => r && r.count > 0);
-                const rsvpBlock = rsvpEntries.length > 0
-                    ? `<div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--border);"><strong style="display:block; margin-bottom:4px;">RSVPs (${rsvpEntries.length} entries)</strong>${rsvpEntries.map(r => `<div style="color:var(--text-main);">${r.name ? escapeHtml(r.name) : '<em>Anonymous</em>'}: ${r.count}</div>`).join('')}</div>` : '';
-
-                document.getElementById('admin-current-state').innerHTML = `
-                    <div><strong>Guest count:</strong> ${data.total || 0}</div>
-                    <div><strong>Food pledged:</strong> ${itemList}</div>
-                    ${noteBlocks ? '<div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--border);"><strong style="display:block; margin-bottom:4px;">Notes by category</strong>' + noteBlocks + '</div>' : ''}
-                    ${rsvpBlock}`;
-                const inp = document.getElementById('admin-set-total-input');
+                // Summary state
+                var itemList = CATEGORY_KEYS.filter(function(k){return items[k];}).map(function(k){return k+': '+items[k];}).join(', ') || 'none';
+                document.getElementById('admin-current-state').innerHTML =
+                    '<div><strong>Guest count:</strong> ' + (data.total || 0) + '</div>' +
+                    '<div><strong>Food pledged:</strong> ' + itemList + '</div>';
+                var inp = document.getElementById('admin-set-total-input');
                 if (inp && document.activeElement !== inp) inp.value = data.total || 0;
+
+                adminRenderParties();
+                adminRenderFood();
             };
             adminEventListener.on('value', adminEventListenerCallback);
         }
 
+        function adminRenderParties() {
+            var container = document.getElementById('admin-parties-list');
+            if (!container) return;
+            var rsvps = adminLatestData.rsvps || {};
+            var entries = Object.entries(rsvps)
+                .map(function(pair) { return { id: pair[0], name: pair[1].name || '', count: pair[1].count || 0, ts: pair[1].ts || 0 }; })
+                .filter(function(e) { return e.count > 0; })
+                .sort(function(a, b) { return b.ts - a.ts; });
+
+            if (entries.length === 0) {
+                container.innerHTML = '<div style="color:var(--text-dim);font-size:0.85rem;padding:8px 0;">No parties yet.</div>';
+                return;
+            }
+
+            container.innerHTML = entries.map(function(e) {
+                var displayName = e.name ? escapeHtml(e.name) : '<em style="color:var(--text-dim)">Anonymous</em>';
+                return '<div class="admin-party-row">' +
+                    '<div class="admin-party-info"><div class="admin-party-name">' + displayName + '</div></div>' +
+                    '<span class="admin-party-count">' + e.count + '</span>' +
+                    '<button class="admin-sm-btn" onclick="adminEditParty(\'' + e.id + '\')">Edit</button>' +
+                    '<button class="admin-sm-btn del" onclick="adminDeleteParty(\'' + e.id + '\',\'' + escapeHtml((e.name||'Anonymous').replace(/'/g,"\\'")) + '\',' + e.count + ')">\u00d7</button>' +
+                '</div>';
+            }).join('');
+        }
+
+        function adminAddParty() {
+            var nameInput = document.getElementById('admin-add-party-name');
+            var countInput = document.getElementById('admin-add-party-count');
+            var name = nameInput.value.trim().slice(0, 60);
+            var count = parseInt(countInput.value);
+            if (!name) { showToast("Enter a party name"); return; }
+            if (isNaN(count) || count < 1) { showToast("Enter a count (1+)"); return; }
+
+            var key = document.getElementById('admin-event-select').value;
+            var rsvpData = { name: name, count: count, ts: firebase.database.ServerValue.TIMESTAMP };
+            var newRef = db.ref('open-house/' + key + '/rsvps').push();
+
+            Promise.all([
+                newRef.set(rsvpData),
+                db.ref('open-house/' + key + '/total').transaction(function(c) { return (c || 0) + count; })
+            ]).then(function() {
+                nameInput.value = ''; countInput.value = '';
+                tap([10,30,10]); showToast("Party added \u2713");
+            }).catch(function(err) { console.error(err); showToast("Failed to add party"); });
+        }
+
+        function adminEditParty(rsvpId) {
+            var rsvps = adminLatestData.rsvps || {};
+            var entry = rsvps[rsvpId];
+            if (!entry) return;
+            var key = document.getElementById('admin-event-select').value;
+
+            var newName = prompt("Party name:", entry.name || '');
+            if (newName === null) return;
+            var newCount = parseInt(prompt("Number attending:", entry.count || 0));
+            if (isNaN(newCount) || newCount < 0) { showToast("Invalid count"); return; }
+
+            var oldCount = entry.count || 0;
+            var diff = newCount - oldCount;
+
+            var promises = [
+                db.ref('open-house/' + key + '/total').transaction(function(c) { return Math.max(0, (c || 0) + diff); })
+            ];
+
+            if (newCount === 0) {
+                promises.push(db.ref('open-house/' + key + '/rsvps/' + rsvpId).remove());
+            } else {
+                promises.push(db.ref('open-house/' + key + '/rsvps/' + rsvpId).set({
+                    name: newName.trim().slice(0, 60), count: newCount, ts: firebase.database.ServerValue.TIMESTAMP
+                }));
+            }
+
+            Promise.all(promises).then(function() {
+                tap([10,30,10]);
+                showToast(newCount === 0 ? "Party removed \u2713" : "Party updated \u2713");
+            }).catch(function(err) { console.error(err); showToast("Update failed"); });
+        }
+
+        function adminDeleteParty(rsvpId, name, count) {
+            if (!confirm('Delete "' + name + '" (' + count + ' guests)?')) return;
+            var key = document.getElementById('admin-event-select').value;
+            Promise.all([
+                db.ref('open-house/' + key + '/rsvps/' + rsvpId).remove(),
+                db.ref('open-house/' + key + '/total').transaction(function(c) { return Math.max(0, (c || 0) - count); })
+            ]).then(function() {
+                tap([10,30,10]); showToast("Party deleted \u2713");
+            }).catch(function(err) { console.error(err); showToast("Delete failed"); });
+        }
+
+        function adminRenderFood() {
+            var container = document.getElementById('admin-food-list');
+            if (!container) return;
+            var items = adminLatestData.items || {};
+            var notes = adminLatestData.notes || {};
+
+            container.innerHTML = CATEGORY_KEYS.map(function(cat) {
+                var count = items[cat] || 0;
+                var catNotes = notes[cat] || {};
+                var noteEntries = Object.entries(catNotes).filter(function(pair) { return pair[1] && pair[1].text; });
+
+                var notesHtml = noteEntries.length > 0
+                    ? noteEntries.map(function(pair) {
+                        return '<div class="admin-note-row">' +
+                            '<span class="note-text">' + escapeHtml(pair[1].text) + '</span>' +
+                            '<button class="admin-note-del" onclick="adminDeleteNote(\'' + cat + '\',\'' + pair[0] + '\')" title="Delete">\u00d7</button>' +
+                        '</div>';
+                    }).join('')
+                    : '<div style="color:var(--text-faint);font-size:0.8rem;padding:4px 0;">No notes</div>';
+
+                return '<div style="margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border);">' +
+                    '<div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;font-weight:600;font-size:0.88rem;color:var(--text-main);">' + CATEGORY_EMOJI[cat] + ' ' + CATEGORY_LABELS[cat] + '</div>' +
+                    '<div class="admin-inline-row" style="margin-bottom:10px;">' +
+                        '<input type="number" class="admin-input" id="admin-food-count-' + cat + '" value="' + count + '" min="0" style="margin-bottom:0;flex:0 0 80px;" />' +
+                        '<button class="btn btn-success" onclick="adminSetFoodCount(\'' + cat + '\')" style="margin-bottom:0;padding:0 14px;">Set</button>' +
+                    '</div>' +
+                    notesHtml +
+                    '<div class="admin-inline-row" style="margin-top:8px;">' +
+                        '<input type="text" class="admin-input" id="admin-food-note-' + cat + '" placeholder="Add a note..." maxlength="80" style="margin-bottom:0;" />' +
+                        '<button class="btn btn-outline" onclick="adminAddNote(\'' + cat + '\')" style="margin-bottom:0;padding:0 14px;">Add</button>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+        }
+
+        function adminSetFoodCount(cat) {
+            var input = document.getElementById('admin-food-count-' + cat);
+            var count = parseInt(input.value);
+            if (isNaN(count) || count < 0) { showToast("Enter a valid number"); return; }
+            var key = document.getElementById('admin-event-select').value;
+            db.ref('open-house/' + key + '/items/' + cat).set(count).then(function() {
+                tap([10,30,10]); showToast(CATEGORY_LABELS[cat] + " updated \u2713");
+            }).catch(function(err) { console.error(err); showToast("Update failed"); });
+        }
+
+        function adminAddNote(cat) {
+            var input = document.getElementById('admin-food-note-' + cat);
+            var text = input.value.trim().slice(0, 80);
+            if (!text) { showToast("Enter a note"); return; }
+            var key = document.getElementById('admin-event-select').value;
+            db.ref('open-house/' + key + '/notes/' + cat).push({ text: text, ts: firebase.database.ServerValue.TIMESTAMP }).then(function() {
+                input.value = ''; tap([10,30,10]); showToast("Note added \u2713");
+            }).catch(function(err) { console.error(err); showToast("Add failed"); });
+        }
+
+        function adminDeleteNote(cat, noteId) {
+            var key = document.getElementById('admin-event-select').value;
+            db.ref('open-house/' + key + '/notes/' + cat + '/' + noteId).remove().then(function() {
+                tap(); showToast("Note removed \u2713");
+            }).catch(function(err) { console.error(err); showToast("Delete failed"); });
+        }
+
         function refreshAdminOverrideStatus() {
-            const statusEl = document.getElementById('admin-override-status');
-            const clearBtn = document.getElementById('admin-clear-override-btn');
-            const dateInput = document.getElementById('admin-next-date-input');
+            var statusEl = document.getElementById('admin-override-status');
+            var clearBtn = document.getElementById('admin-clear-override-btn');
+            var dateInput = document.getElementById('admin-next-date-input');
             if (!statusEl) return;
-            const biweekly = getBiweeklyNextDate();
+            var biweekly = getBiweeklyNextDate();
             if (currentOverrideKey) {
-                const od = parseDateKey(currentOverrideKey);
+                var od = parseDateKey(currentOverrideKey);
                 statusEl.classList.add('active');
-                statusEl.innerHTML = `Override active: <strong>${formatDate(od)}</strong>. Biweekly default would be <strong>${formatDate(biweekly)}</strong>.`;
+                statusEl.innerHTML = 'Override active: <strong>' + formatDate(od) + '</strong>. Biweekly default would be <strong>' + formatDate(biweekly) + '</strong>.';
                 if (clearBtn) clearBtn.style.display = '';
                 if (dateInput && document.activeElement !== dateInput) dateInput.value = currentOverrideKey;
             } else {
                 statusEl.classList.remove('active');
-                statusEl.innerHTML = `Using biweekly default: <strong>${formatDate(biweekly)}</strong>. Set a date above to override.`;
+                statusEl.innerHTML = 'Using biweekly default: <strong>' + formatDate(biweekly) + '</strong>. Set a date above to override.';
                 if (clearBtn) clearBtn.style.display = 'none';
                 if (dateInput && document.activeElement !== dateInput) dateInput.value = getEventKey(biweekly);
             }
             if (document.getElementById('adminModal').classList.contains('show')) {
-                const sel = document.getElementById('admin-event-select');
+                var sel = document.getElementById('admin-event-select');
                 if (sel && sel.options.length > 0) buildAdminEventList();
             }
         }
 
         function saveNextDateOverride() {
-            const v = document.getElementById('admin-next-date-input').value;
+            var v = document.getElementById('admin-next-date-input').value;
             if (!v) { showToast("Pick a date first"); return; }
-            const p = parseDateKey(v);
-            const today = new Date(); today.setHours(0,0,0,0);
+            var p = parseDateKey(v);
+            var today = new Date(); today.setHours(0,0,0,0);
             if (!p) { showToast("Invalid date"); return; }
             if (p < today && !confirm("That date is in the past. Save anyway?")) return;
-            db.ref('open-house/_config/nextDateOverride').set(v).then(() => { tap([10,30,10]); showToast("Next date saved ✓"); }).catch(err => { console.error(err); showToast("Save failed"); });
+            db.ref('open-house/_config/nextDateOverride').set(v).then(function() { tap([10,30,10]); showToast("Next date saved \u2713"); }).catch(function(err) { console.error(err); showToast("Save failed"); });
         }
         function clearNextDateOverride() {
             if (!confirm("Clear the manual date override and revert to the biweekly schedule?")) return;
-            db.ref('open-house/_config/nextDateOverride').remove().then(() => { tap(); showToast("Reverted to biweekly ✓"); }).catch(err => { console.error(err); showToast("Clear failed"); });
+            db.ref('open-house/_config/nextDateOverride').remove().then(function() { tap(); showToast("Reverted to biweekly \u2713"); }).catch(function(err) { console.error(err); showToast("Clear failed"); });
         }
         function setExactGuestCount() {
-            const key = document.getElementById('admin-event-select').value;
-            const n = parseInt(document.getElementById('admin-set-total-input').value, 10);
+            var key = document.getElementById('admin-event-select').value;
+            var n = parseInt(document.getElementById('admin-set-total-input').value, 10);
             if (isNaN(n) || n < 0) { showToast("Enter a number (0 or higher)"); return; }
-            if (!confirm(`Set guest count for ${key} to ${n}?`)) return;
-            db.ref('open-house/' + key + '/total').set(n).then(() => { tap([10,30,10]); showToast("Guest count updated ✓"); }).catch(err => { console.error(err); showToast("Update failed"); });
+            if (!confirm('Set guest count for ' + key + ' to ' + n + '?')) return;
+            db.ref('open-house/' + key + '/total').set(n).then(function() { tap([10,30,10]); showToast("Guest count updated \u2713"); }).catch(function(err) { console.error(err); showToast("Update failed"); });
         }
         function exitAdmin() {
             if (adminEventListener && adminEventListenerCallback) { adminEventListener.off('value', adminEventListenerCallback); adminEventListener=null; adminEventListenerCallback=null; }
             closeModal('adminModal');
         }
         function confirmReset(scope) {
-            const key = document.getElementById('admin-event-select').value;
-            let label, action;
+            var key = document.getElementById('admin-event-select').value;
+            var label, action;
             if (scope === 'items') {
-                label = `Reset ALL food selections for ${key}?`;
-                action = () => Promise.all([db.ref('open-house/'+key+'/items').remove(), db.ref('open-house/'+key+'/notes').remove()]);
+                label = 'Reset ALL food selections for ' + key + '?';
+                action = function() { return Promise.all([db.ref('open-house/'+key+'/items').remove(), db.ref('open-house/'+key+'/notes').remove()]); };
             } else if (scope === 'total') {
-                label = `Reset guest count to 0 for ${key}?`;
-                action = () => Promise.all([db.ref('open-house/'+key+'/total').set(0), db.ref('open-house/'+key+'/rsvps').remove()]);
+                label = 'Reset guest count to 0 for ' + key + '?';
+                action = function() { return Promise.all([db.ref('open-house/'+key+'/total').set(0), db.ref('open-house/'+key+'/rsvps').remove()]); };
             } else {
-                label = `Reset EVERYTHING for ${key}? Guest count AND food selections.`;
-                action = () => db.ref('open-house/' + key).remove();
+                label = 'Reset EVERYTHING for ' + key + '? Guest count AND food selections.';
+                action = function() { return db.ref('open-house/' + key).remove(); };
             }
             if (confirm(label + '\n\nThis cannot be undone.')) {
-                action().then(() => { tap([20,40,20]); showToast("Reset complete ✓"); }).catch(err => { console.error(err); showToast("Reset failed"); });
+                action().then(function() { tap([20,40,20]); showToast("Reset complete \u2713"); }).catch(function(err) { console.error(err); showToast("Reset failed"); });
             }
         }
 
         if (isAdminUrl()) {
-            setTimeout(() => { buildAdminEventList(); refreshAdminOverrideStatus(); openModal('adminModal'); }, 300);
+            setTimeout(function() { buildAdminEventList(); refreshAdminOverrideStatus(); openModal('adminModal'); }, 300);
         }
 
         // Global exports
@@ -1721,8 +1792,9 @@
         window.submitRSVP = submitRSVP;
         window.submitItem = submitItem;
         window.openCancelModal = openCancelModal;
-        window.goToCancelStep2 = goToCancelStep2;
-        window.submitChange = submitChange;
+        window.submitPartyEdit = submitPartyEdit;
+        window.selectPartyToEdit = selectPartyToEdit;
+        window.backToPartyList = backToPartyList;
         window.confirmReset = confirmReset;
         window.exitAdmin = exitAdmin;
         window.openCategoryModal = openCategoryModal;
@@ -1732,6 +1804,12 @@
         window.setExactGuestCount = setExactGuestCount;
         window.openGuestListModal = openGuestListModal;
         window.openRSVPModal = openRSVPModal;
+        window.adminAddParty = adminAddParty;
+        window.adminEditParty = adminEditParty;
+        window.adminDeleteParty = adminDeleteParty;
+        window.adminSetFoodCount = adminSetFoodCount;
+        window.adminAddNote = adminAddNote;
+        window.adminDeleteNote = adminDeleteNote;
     });
     </script>
 </body>
