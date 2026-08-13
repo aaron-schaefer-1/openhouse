@@ -319,6 +319,36 @@
         .switch-row[aria-pressed="true"] .switch-track { background:linear-gradient(165deg,var(--blue-bright),var(--blue-deep));border-color:var(--blue-bright);box-shadow:inset 0 1px 3px rgba(0,0,0,0.2),0 0 14px -3px var(--blue-glow); }
         .switch-row[aria-pressed="true"] .switch-knob { transform:translateX(19px);background:#fff; }
 
+        .host-card { display:flex;align-items:center;gap:13px;padding:14px 16px;background:linear-gradient(165deg,var(--glass-2) 0%,var(--glass-1) 100%);border:1px solid var(--border);border-radius:14px;margin-bottom:10px;box-shadow:inset 0 1px 0 var(--spec-top);transition:border-color 0.3s var(--flow),background 0.3s var(--flow); }
+        .host-card:last-child { margin-bottom:0; }
+        .host-card:hover { border-color:var(--border-bright);background:linear-gradient(165deg,var(--glass-3) 0%,var(--glass-2) 100%); }
+        .host-avatar { width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:600;font-size:0.95rem;flex-shrink:0;color:var(--bg-deep);background:linear-gradient(135deg,var(--silver-bright) 0%,var(--silver-mid) 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,0.35),inset 0 -1px 0 rgba(0,0,0,0.1),0 2px 6px rgba(0,0,0,0.2);text-transform:uppercase;letter-spacing:-0.5px; }
+        [data-theme="light"] .host-avatar { color:#fff;background:linear-gradient(135deg,var(--silver) 0%,var(--blue) 100%); }
+        .host-info { flex:1;min-width:0;display:flex;flex-direction:column;gap:3px; }
+        .host-name { font-size:0.98rem;font-weight:600;color:var(--text-main);line-height:1.25;overflow:hidden;text-overflow:ellipsis; }
+        .host-phone { font-size:0.9rem;color:var(--blue-bright);text-decoration:none;font-weight:500;letter-spacing:0.2px;transition:color 0.25s; }
+        .host-phone:hover { color:var(--silver-bright);text-decoration:underline;text-underline-offset:3px; }
+        [data-theme="light"] .host-phone { color:var(--blue-deep); }
+        .host-nophone { font-size:0.82rem;color:var(--text-faint);font-style:italic; }
+        .host-empty { text-align:center;padding:26px 18px;color:var(--text-dim);font-size:0.92rem;line-height:1.5;background:var(--glass-1);border:1px dashed var(--border-bright);border-radius:14px; }
+
+        .admin-host-row { display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:11px 12px;background:var(--glass-1);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;transition:border-color 0.3s,background 0.3s; }
+        .admin-host-row.live { border-color:rgba(91,157,217,0.42);background:linear-gradient(165deg,rgba(91,157,217,0.07),var(--glass-1)); }
+        .admin-host-row.editing { flex-wrap:wrap;border-color:var(--blue);background:linear-gradient(165deg,rgba(91,157,217,0.08),var(--glass-1)); }
+        .admin-host-row.editing .admin-input { margin-bottom:0;flex:1 1 100%; }
+        .admin-host-info { flex:1 1 130px;min-width:0; }
+        .admin-host-name { font-weight:600;color:var(--text-main);font-size:0.9rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+        .admin-host-phone { font-size:0.78rem;color:var(--text-faint);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+        .admin-host-actions { display:flex;gap:6px;flex-shrink:0;margin-left:auto; }
+        .admin-pill { padding:7px 11px;border-radius:8px;border:1px solid var(--border);background:var(--glass-1);color:var(--text-dim);font-family:inherit;font-size:0.72rem;font-weight:700;cursor:pointer;transition:all 0.25s var(--flow);white-space:nowrap;flex-shrink:0;letter-spacing:0.3px; }
+        .admin-pill:hover { border-color:var(--border-bright);color:var(--text-main);background:var(--glass-2); }
+        .admin-pill[aria-pressed="true"] { background:linear-gradient(165deg,var(--blue-bright),var(--blue) 60%,var(--blue-deep));border-color:var(--blue-bright);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,0.25),0 3px 10px -4px var(--blue-glow); }
+        .admin-pill[aria-pressed="true"]:hover { color:#fff; }
+        .admin-slot-count { font-size:0.78rem;color:var(--text-faint);margin:-4px 2px 12px 2px;display:block; }
+        .admin-slot-count strong { color:var(--text-main);font-weight:700; }
+        .admin-slot-count.full strong { color:var(--blue-bright); }
+        [data-theme="light"] .admin-slot-count.full strong { color:var(--blue-deep); }
+
         .admin-party-row { display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--glass-1);border:1px solid var(--border);border-radius:12px;margin-bottom:8px; }
         .admin-party-info { flex:1;min-width:0; }
         .admin-party-name { font-weight:600;color:var(--text-main);font-size:0.9rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
@@ -573,13 +603,15 @@
         <div class="modal-grabber" aria-hidden="true"></div>
         <button class="close-modal" onclick="closeModal('contactModal')" aria-label="Close">&#10005;</button>
         <span class="section-label" id="contactModalTitle">Hosts</span>
-        <div style="margin-bottom:20px;">
-            <p style="margin: 0; font-weight: 600;">Aaron Schaefer</p>
-            <a href="tel:8658502173" style="color: var(--blue-bright); text-decoration: none;">865-850-2173</a>
-        </div>
-        <div>
-            <p style="margin: 0; font-weight: 600;">Candice Schaefer</p>
-            <a href="tel:9195454378" style="color: var(--blue-bright); text-decoration: none;">919-545-4378</a>
+        <div id="hosts-list">
+            <div class="host-card">
+                <span class="host-avatar">AS</span>
+                <span class="host-info"><span class="host-name">Aaron Schaefer</span><a class="host-phone" href="tel:8658502173">865-850-2173</a></span>
+            </div>
+            <div class="host-card">
+                <span class="host-avatar">CS</span>
+                <span class="host-info"><span class="host-name">Candice Schaefer</span><a class="host-phone" href="tel:9195454378">919-545-4378</a></span>
+            </div>
         </div>
     </div></div>
 
@@ -811,6 +843,23 @@
             </details>
 
             <details class="admin-block">
+                <summary>&#128222; Contact Hosts</summary>
+                <div class="admin-block-body">
+                    <span class="admin-slot-count" id="admin-host-slots">Loading&#8230;</span>
+                    <div id="admin-hosts-list"></div>
+                    <div style="border-top:1px solid var(--border);padding-top:12px;margin-top:12px;">
+                        <label class="admin-label">Add a host</label>
+                        <span class="admin-hint">Added hosts stay on this list. Turn on up to three to show them on the invite.</span>
+                        <input type="text" id="admin-add-host-name" class="admin-input" placeholder="Name" maxlength="50" />
+                        <div class="admin-inline-row">
+                            <input type="tel" id="admin-add-host-phone" class="admin-input" placeholder="Phone (optional)" maxlength="30" />
+                            <button class="btn btn-success" onclick="adminAddHost()">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <details class="admin-block">
                 <summary>&#128101; Guest List</summary>
                 <div class="admin-block-body">
                     <label for="admin-event-select" class="admin-label">Event date</label>
@@ -902,6 +951,12 @@
 
         var SERIES_START = new Date(2026, 4, 24);
 
+        var MAX_LIVE_HOSTS = 3;
+        var DEFAULT_HOSTS = [
+            { name: 'Aaron Schaefer', phone: '865-850-2173' },
+            { name: 'Candice Schaefer', phone: '919-545-4378' }
+        ];
+
         var DEFAULTS = {
             title: 'Schaefer Open House',
             food: 'burgers and hot dogs',
@@ -972,6 +1027,42 @@
             var s = parseHM(CFG.startTime, DEFAULTS.startTime), e = parseHM(CFG.endTime, DEFAULTS.endTime);
             var sameHalf = meridiem(s.h) === meridiem(e.h);
             return fmtClock(s, !sameHalf) + ' \u2013 ' + fmtClock(e, true);
+        }
+
+        function toIdList(v) {
+            if (!v) return [];
+            if (Array.isArray(v)) return v.filter(function(x) { return typeof x === 'string' && x; });
+            if (typeof v === 'object') {
+                return Object.keys(v).sort(function(a, b) { return Number(a) - Number(b); })
+                    .map(function(k) { return v[k]; })
+                    .filter(function(x) { return typeof x === 'string' && x; });
+            }
+            return [];
+        }
+
+        // Roster of everyone ever added, oldest first.
+        function hostRoster() {
+            var raw = CFG.hosts || {};
+            return Object.keys(raw).map(function(id) {
+                var h = raw[id] || {};
+                return { id: id, name: String(h.name || '').trim(), phone: String(h.phone || '').trim(), ts: h.ts || 0 };
+            }).filter(function(h) { return h.name; })
+              .sort(function(a, b) { return a.ts - b.ts; });
+        }
+
+        // The subset showing on the invite, in the order they were switched on.
+        function liveHosts() {
+            var roster = hostRoster();
+            if (!roster.length) return CFG.hostsSeeded ? [] : DEFAULT_HOSTS.slice(0, MAX_LIVE_HOSTS);
+            var byId = {};
+            roster.forEach(function(h) { byId[h.id] = h; });
+            var chosen = CFG.activeHosts.map(function(id) { return byId[id]; }).filter(Boolean);
+            return chosen.slice(0, MAX_LIVE_HOSTS);
+        }
+
+        function telHref(phone) {
+            var cleaned = String(phone || '').replace(/[^\d+]/g, '');
+            return cleaned.length >= 4 ? 'tel:' + cleaned : '';
         }
 
         function buildMapsUrl(dest, travelmode) {
@@ -1055,7 +1146,54 @@
                     if (walkLabel) walkLabel.textContent = 'Walking Directions to ' + shortAddress(CFG.homeAddress);
                 }
             }
+            renderHosts();
             renderDateBlock();
+        }
+
+        function renderHosts() {
+            var container = document.getElementById('hosts-list');
+            if (!container) return;
+            var hosts = liveHosts();
+            container.innerHTML = '';
+
+            if (!hosts.length) {
+                container.innerHTML = '<div class="host-empty">No host contact listed right now. Come on by anyway.</div>';
+                return;
+            }
+
+            hosts.forEach(function(h) {
+                var card = document.createElement('div');
+                card.className = 'host-card';
+
+                var avatar = document.createElement('span');
+                avatar.className = 'host-avatar';
+                avatar.textContent = getInitials(h.name);
+
+                var info = document.createElement('span');
+                info.className = 'host-info';
+                var name = document.createElement('span');
+                name.className = 'host-name';
+                name.textContent = h.name;
+                info.appendChild(name);
+
+                var href = telHref(h.phone);
+                if (href) {
+                    var link = document.createElement('a');
+                    link.className = 'host-phone';
+                    link.href = href;
+                    link.textContent = h.phone;
+                    info.appendChild(link);
+                } else if (h.phone) {
+                    var plain = document.createElement('span');
+                    plain.className = 'host-nophone';
+                    plain.textContent = h.phone;
+                    info.appendChild(plain);
+                }
+
+                card.appendChild(avatar);
+                card.appendChild(info);
+                container.appendChild(card);
+            });
         }
 
         function renderDateBlock() {
@@ -1090,7 +1228,10 @@
                 parkingName: pickStr(raw.parkingName, DEFAULTS.parkingName),
                 parkingDest: pickStr(raw.parkingDest, DEFAULTS.parkingDest),
                 arrivalNote: typeof raw.arrivalNote === 'string' ? raw.arrivalNote.trim() : '',
-                showWalking: raw.showWalking !== false
+                showWalking: raw.showWalking !== false,
+                hosts: (raw.hosts && typeof raw.hosts === 'object') ? raw.hosts : {},
+                activeHosts: toIdList(raw.activeHosts),
+                hostsSeeded: raw.hostsSeeded === true
             };
             currentOverrideKey = raw.nextDateOverride || null;
             var target = getNextOpenHouseDate(currentOverrideKey);
@@ -1099,6 +1240,8 @@
             applyConfig();
             refreshAdminOverrideStatus();
             populateAdminConfigInputs();
+            maybeSeedHosts();
+            adminRenderHosts();
         });
 
         function setActiveEvent(date) {
@@ -1974,6 +2117,169 @@
             if (parkInput && parkPrev) parkInput.addEventListener('input', function() { parkPrev.textContent = parkInput.value || CFG.parkingName; });
         }
 
+        var hostSeedAttempted = false;
+        var adminEditingHostId = null;
+
+        // First time the host panel is used we lift the two existing hosts into the
+        // roster so the pick list starts populated instead of empty.
+        function maybeSeedHosts() {
+            if (!isAdminUrl() || hostSeedAttempted) return;
+            if (CFG.hostsSeeded || Object.keys(CFG.hosts).length) return;
+            hostSeedAttempted = true;
+            var updates = {}, ids = [], base = Date.now();
+            DEFAULT_HOSTS.forEach(function(h, i) {
+                var key = db.ref('open-house/_config/hosts').push().key;
+                ids.push(key);
+                updates['hosts/' + key] = { name: h.name, phone: h.phone, ts: base + i };
+            });
+            updates.activeHosts = ids;
+            updates.hostsSeeded = true;
+            db.ref('open-house/_config').update(updates).catch(function(err) { console.error(err); });
+        }
+
+        function adminRenderHosts() {
+            if (!isAdminUrl()) return;
+            var container = document.getElementById('admin-hosts-list');
+            var slots = document.getElementById('admin-host-slots');
+            if (!container) return;
+
+            var roster = hostRoster();
+            var active = CFG.activeHosts;
+            var liveCount = active.filter(function(id) {
+                return roster.some(function(h) { return h.id === id; });
+            }).length;
+
+            if (slots) {
+                slots.classList.toggle('full', liveCount >= MAX_LIVE_HOSTS);
+                slots.innerHTML = '<strong>' + liveCount + ' of ' + MAX_LIVE_HOSTS + '</strong> showing on the invite' +
+                    (liveCount >= MAX_LIVE_HOSTS ? '. Turn one off to swap someone in.' : '.');
+            }
+
+            container.innerHTML = '';
+            if (!roster.length) {
+                container.innerHTML = '<div class="admin-empty-line">No hosts on the list yet. Add one below.</div>';
+                return;
+            }
+
+            roster.forEach(function(h) {
+                var isLive = active.indexOf(h.id) > -1;
+                var row = document.createElement('div');
+                row.className = 'admin-host-row' + (isLive ? ' live' : '');
+
+                if (adminEditingHostId === h.id) {
+                    row.classList.add('editing');
+                    var nameIn = document.createElement('input');
+                    nameIn.type = 'text'; nameIn.className = 'admin-input'; nameIn.maxLength = 50;
+                    nameIn.value = h.name; nameIn.placeholder = 'Name';
+                    var phoneIn = document.createElement('input');
+                    phoneIn.type = 'tel'; phoneIn.className = 'admin-input'; phoneIn.maxLength = 30;
+                    phoneIn.value = h.phone; phoneIn.placeholder = 'Phone (optional)';
+                    var actions = document.createElement('div');
+                    actions.className = 'admin-host-actions';
+                    var saveBtn = document.createElement('button');
+                    saveBtn.className = 'admin-sm-btn save'; saveBtn.type = 'button'; saveBtn.textContent = 'Save';
+                    saveBtn.addEventListener('click', function() { adminSaveHost(h.id, nameIn.value, phoneIn.value, h.ts); });
+                    var cancelBtn = document.createElement('button');
+                    cancelBtn.className = 'admin-sm-btn'; cancelBtn.type = 'button'; cancelBtn.textContent = 'Cancel';
+                    cancelBtn.addEventListener('click', function() { adminEditingHostId = null; adminRenderHosts(); });
+                    actions.appendChild(saveBtn); actions.appendChild(cancelBtn);
+                    row.appendChild(nameIn); row.appendChild(phoneIn); row.appendChild(actions);
+                    container.appendChild(row);
+                    setTimeout(function() { nameIn.focus(); }, 30);
+                    return;
+                }
+
+                var info = document.createElement('div');
+                info.className = 'admin-host-info';
+                var nameDiv = document.createElement('div');
+                nameDiv.className = 'admin-host-name'; nameDiv.textContent = h.name;
+                info.appendChild(nameDiv);
+                var phoneDiv = document.createElement('div');
+                phoneDiv.className = 'admin-host-phone';
+                phoneDiv.textContent = h.phone || 'No phone';
+                info.appendChild(phoneDiv);
+
+                var actions2 = document.createElement('div');
+                actions2.className = 'admin-host-actions';
+
+                var pill = document.createElement('button');
+                pill.className = 'admin-pill'; pill.type = 'button';
+                pill.setAttribute('aria-pressed', isLive ? 'true' : 'false');
+                pill.textContent = isLive ? 'Showing' : 'Show';
+                pill.setAttribute('aria-label', (isLive ? 'Stop showing ' : 'Show ') + h.name + ' on the invite');
+                pill.addEventListener('click', function() { adminToggleHost(h.id); });
+
+                var editBtn = document.createElement('button');
+                editBtn.className = 'admin-sm-btn'; editBtn.type = 'button'; editBtn.textContent = 'Edit';
+                editBtn.addEventListener('click', function() { adminEditingHostId = h.id; adminRenderHosts(); });
+
+                var delBtn = document.createElement('button');
+                delBtn.className = 'admin-sm-btn del'; delBtn.type = 'button'; delBtn.textContent = '\u00d7';
+                delBtn.setAttribute('aria-label', 'Remove ' + h.name + ' from the host list');
+                delBtn.addEventListener('click', function() { adminDeleteHost(h.id, h.name); });
+
+                actions2.appendChild(pill); actions2.appendChild(editBtn); actions2.appendChild(delBtn);
+                row.appendChild(info); row.appendChild(actions2);
+                container.appendChild(row);
+            });
+        }
+
+        function adminAddHost() {
+            var nameInput = document.getElementById('admin-add-host-name');
+            var phoneInput = document.getElementById('admin-add-host-phone');
+            var name = nameInput.value.trim().slice(0, 50);
+            var phone = phoneInput.value.trim().slice(0, 30);
+            if (!name) { showToast("Enter a name"); return; }
+
+            var key = db.ref('open-house/_config/hosts').push().key;
+            var updates = {};
+            updates['hosts/' + key] = { name: name, phone: phone, ts: Date.now() };
+            // Fill an open slot automatically; otherwise the host waits on the list.
+            var liveNow = CFG.activeHosts.filter(function(id) { return CFG.hosts[id]; });
+            var autoShow = liveNow.length < MAX_LIVE_HOSTS;
+            if (autoShow) updates.activeHosts = liveNow.concat([key]);
+            updates.hostsSeeded = true;
+
+            db.ref('open-house/_config').update(updates).then(function() {
+                nameInput.value = ''; phoneInput.value = '';
+                tap([10,30,10]);
+                showToast(autoShow ? "Host added and showing \u2713" : "Host added to the list \u2713");
+            }).catch(function(err) { console.error(err); showToast("That didn't save. Try again."); });
+        }
+
+        function adminSaveHost(id, name, phone, ts) {
+            var trimmed = String(name || '').trim().slice(0, 50);
+            if (!trimmed) { showToast("A host needs a name"); return; }
+            adminEditingHostId = null;
+            db.ref('open-house/_config/hosts/' + id)
+                .set({ name: trimmed, phone: String(phone || '').trim().slice(0, 30), ts: ts || Date.now() })
+                .then(function() { tap([10,30,10]); showToast("Host updated \u2713"); })
+                .catch(function(err) { console.error(err); showToast("That didn't save. Try again."); });
+        }
+
+        function adminDeleteHost(id, name) {
+            if (!confirm('Remove "' + name + '" from the host list?')) return;
+            adminEditingHostId = null;
+            var updates = {};
+            updates['hosts/' + id] = null;
+            updates.activeHosts = CFG.activeHosts.filter(function(x) { return x !== id && CFG.hosts[x]; });
+            db.ref('open-house/_config').update(updates)
+                .then(function() { tap([10,30,10]); showToast("Host removed \u2713"); })
+                .catch(function(err) { console.error(err); showToast("That didn't save. Try again."); });
+        }
+
+        function adminToggleHost(id) {
+            var live = CFG.activeHosts.filter(function(x) { return x !== id && CFG.hosts[x]; });
+            var turningOn = CFG.activeHosts.indexOf(id) === -1;
+            if (turningOn && live.length >= MAX_LIVE_HOSTS) {
+                showToast("Up to " + MAX_LIVE_HOSTS + " hosts at a time. Turn one off first.");
+                return;
+            }
+            tap();
+            db.ref('open-house/_config/activeHosts').set(turningOn ? live.concat([id]) : live)
+                .catch(function(err) { console.error(err); showToast("That didn't save. Try again."); });
+        }
+
         var lastBuiltOverrideKey = '__none__';
         function buildAdminEventList(force) {
             var select = document.getElementById('admin-event-select');
@@ -2346,6 +2652,7 @@
         window.saveTitleAndFood = saveTitleAndFood;
         window.saveTimes = saveTimes;
         window.saveLocation = saveLocation;
+        window.adminAddHost = adminAddHost;
     });
     </script>
 </body>
